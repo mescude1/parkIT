@@ -1,2 +1,2 @@
-# campusparking
-App for valet parking on campus and beyond
+# ParkIt
+App for valet parking
