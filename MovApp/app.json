@@ -5,7 +5,7 @@
     "description": "Campus Parking - Tu Espacio Tu Parqueo",
     "primaryColor": "#223577",
     "version": "1.0.0",
-    "sdkVersion": "53.0.0",
+    "sdkVersion": "54.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "splash": {
@@ -16,7 +16,9 @@
     "updates": {
       "fallbackToCacheTimeout": 0
     },
-    "assetBundlePatterns": ["**/*"],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "ios": {
       "supportsTablet": true
     },
@@ -35,6 +37,9 @@
         "projectId": "056b3869-1d03-4bb1-a4a5-9ebc1f031330"
       }
     },
-    "owner": "latincrow81"
+    "owner": "latincrow81",
+    "plugins": [
+      "expo-localization"
+    ]
   }
 }

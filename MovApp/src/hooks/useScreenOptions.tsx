@@ -3,10 +3,9 @@ import { TouchableOpacity } from "react-native";
 import {
   StackHeaderTitleProps,
   CardStyleInterpolators,
+  StackNavigationOptions,
 } from "@react-navigation/stack";
-import { useNavigation } from "@react-navigation/core";
-import { DrawerActions } from "@react-navigation/native";
-import { StackHeaderOptions } from "@react-navigation/stack/lib/typescript/src/types";
+import { useNavigation, DrawerActions } from "@react-navigation/native";
 
 import { useData } from "./useData";
 import { useTranslation } from "./useTranslation";
@@ -61,7 +60,7 @@ export default () => {
         </TouchableOpacity>
       </Block>
     ),
-  } as StackHeaderOptions;
+  } as StackNavigationOptions;
 
   const options = {
     stack: menu,

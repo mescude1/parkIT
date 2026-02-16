@@ -5,7 +5,6 @@ import {
   useDrawerStatus,
   createDrawerNavigator,
   DrawerContentComponentProps,
-  DrawerContent as DrawerCon,
   DrawerContentScrollView,
 } from "@react-navigation/drawer";
 
@@ -18,7 +17,8 @@ const Drawer = createDrawerNavigator();
 /* drawer menu screens navigation */
 const ScreensStack = () => {
   const { colors } = useTheme();
-  const isDrawerOpen = useDrawerStatus();
+  const drawerStatus = useDrawerStatus();
+  const isDrawerOpen = drawerStatus === "open";
   const animation = useRef(new Animated.Value(0)).current;
 
   const scale = animation.interpolate({
@@ -63,9 +63,7 @@ const ScreensStack = () => {
 };
 
 /* custom drawer menu */
-const DrawerContentObj = (
-  props: DrawerContentComponentProps<DrawerContent>
-) => {
+const DrawerContentObj = (props: DrawerContentComponentProps) => {
   const { navigation } = props;
   const { t } = useTranslation();
   const [active, setActive] = useState("Home");
@@ -179,15 +177,17 @@ export default () => {
   return (
     <Block gradient={gradients.light}>
       <Drawer.Navigator
-        drawerType="slide"
-        overlayColor="transparent"
-        sceneContainerStyle={{ backgroundColor: "transparent" }}
         drawerContent={(props) => <DrawerContentObj {...props} />}
-        drawerStyle={{
-          flex: 1,
-          width: "60%",
-          borderRightWidth: 0,
-          backgroundColor: "transparent",
+        screenOptions={{
+          drawerType: "slide",
+          overlayColor: "transparent",
+          sceneContainerStyle: { backgroundColor: "transparent" },
+          drawerStyle: {
+            flex: 1,
+            width: "60%",
+            borderRightWidth: 0,
+            backgroundColor: "transparent",
+          },
         }}
       >
         <Drawer.Screen name="Screens" component={ScreensStack} />
