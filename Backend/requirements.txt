@@ -9,3 +9,8 @@ Flask-Migrate
 flask-login
 flask-wtf
 geopy
+
+# Linting & code quality
+flake8>=7.0.0
+flake8-bugbear>=24.0.0
+isort>=5.13.0
