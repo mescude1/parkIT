@@ -1,7 +1,6 @@
-
 services:
   db:
-    image: postgres:latest
+    image: postgres:16
     container_name: campusparkdb
     restart: always
     environment:
@@ -12,21 +11,29 @@ services:
       - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U campusparking"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
 
   web:
     build: .
     container_name: campusparking
     restart: always
     depends_on:
-      - db
+      db:
+        condition: service_healthy
     environment:
-      DATABASE_URL: "postgresql://campusparking:superdupersecret12345@127.0.0.1:5432/campusparking"
+      DATABASE_URL: "postgresql://campusparking:superdupersecret12345@db:5432/campusparking"
       FLASK_ENV: "development"
+      FLASK_APP: "wsgi.py"
+      PYTHONPATH: "/Backend"
     ports:
       - "5000:5000"
     volumes:
       - .:/Backend
-    command: [ "flask", "run" ]
+    command: ["flask", "run", "--host=0.0.0.0"]
 
 volumes:
   postgres_data:

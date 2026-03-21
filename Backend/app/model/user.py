@@ -53,11 +53,13 @@ class User(UserMixin, db.Model):
     type = db.Column(db.String, nullable=False)
     profile_img = db.Column(db.String, nullable=False)
     id_img = db.Column(db.String, nullable=False)
+    student_card_img = db.Column(db.String, nullable=True)   # Carnet de estudiante o empleado
     driver_license_img = db.Column(db.String, nullable=False)
-    contract = db.Column(db.String, nullable=False)
+    contract = db.Column(db.String, nullable=True)
     vehicle_type = db.Column(db.String, nullable=False)
     created_at = db.Column(db.DateTime, nullable=False)
     is_deleted = db.Column(db.Boolean, nullable=False)
+    is_verified = db.Column(db.Boolean, nullable=False, default=False)  # Verificacion de identidad
     username = db.Column(db.String, nullable=False, unique=True)
     _password_hash = db.Column(db.String)
 
@@ -87,9 +89,11 @@ class User(UserMixin, db.Model):
             'type': self.type,
             'profile_img': self.profile_img,
             'id_img': self.id_img,
+            'student_card_img': self.student_card_img,
             'driver_license_img': self.driver_license_img,
             'contract': self.contract,
             'vehicle_type': self.vehicle_type,
             'created_at': self.created_at,
-            'is_deleted': self.is_deleted
+            'is_deleted': self.is_deleted,
+            'is_verified': self.is_verified,
         }
