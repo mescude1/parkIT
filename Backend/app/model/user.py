@@ -6,7 +6,12 @@ from sqlalchemy.ext.hybrid import hybrid_property
 
 
 class User(UserMixin, db.Model):
-    """Represents a user entity in the database."""
+    """Represents a user entity in the database.
+
+    Tipos de usuario:
+        - valet:   conductor que provee el servicio. Requiere id_img, driver_license_img, valet_code.
+        - cliente: propietario del vehiculo. Requiere id_img, institutional_email.
+    """
 
     __tablename__ = 'users'
 
@@ -15,17 +20,18 @@ class User(UserMixin, db.Model):
     last_name = db.Column(db.String, nullable=False)
     email = db.Column(db.String, nullable=False)
     cellphone = db.Column(db.String, nullable=False)
-    type = db.Column(db.String, nullable=False)
-    profile_img = db.Column(db.String, nullable=False)
-    id_img = db.Column(db.String, nullable=False)
-    student_card_img = db.Column(db.String, nullable=True)    # Carnet de estudiante o empleado
-    driver_license_img = db.Column(db.String, nullable=False)
+    type = db.Column(db.String, nullable=False)               # 'valet' | 'cliente'
+    profile_img = db.Column(db.String, nullable=True)
+    id_img = db.Column(db.String, nullable=True)              # Cedula — requerida para ambos tipos
+    driver_license_img = db.Column(db.String, nullable=True)  # Licencia — solo valets
     contract = db.Column(db.String, nullable=True)
-    vehicle_type = db.Column(db.String, nullable=False)
+    vehicle_type = db.Column(db.String, nullable=True)        # Solo valets
     created_at = db.Column(db.DateTime, nullable=False)
     is_deleted = db.Column(db.Boolean, nullable=False)
-    is_verified = db.Column(db.Boolean, nullable=False, default=False)   # Verificacion de identidad
-    valet_code = db.Column(db.String, nullable=True, unique=True)        # Codigo unico del valet (ej: VAL-00123)
+    is_verified = db.Column(db.Boolean, nullable=False, default=False)
+    valet_code = db.Column(db.String, nullable=True, unique=True)           # Solo valets: VAL-00123
+    institutional_email = db.Column(db.String, nullable=True, unique=True)  # Solo clientes
+    institutional_email_verified = db.Column(db.Boolean, nullable=True, default=False)
     username = db.Column(db.String, nullable=False, unique=True)
     _password_hash = db.Column(db.String)
 
@@ -51,7 +57,6 @@ class User(UserMixin, db.Model):
             'type': self.type,
             'profile_img': self.profile_img,
             'id_img': self.id_img,
-            'student_card_img': self.student_card_img,
             'driver_license_img': self.driver_license_img,
             'contract': self.contract,
             'vehicle_type': self.vehicle_type,
@@ -59,4 +64,6 @@ class User(UserMixin, db.Model):
             'is_deleted': self.is_deleted,
             'is_verified': self.is_verified,
             'valet_code': self.valet_code,
+            'institutional_email': self.institutional_email,
+            'institutional_email_verified': self.institutional_email_verified,
         }
