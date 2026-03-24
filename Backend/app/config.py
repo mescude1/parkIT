@@ -1,6 +1,5 @@
 """This module contains class whose instances will be used to
-load the settings according to the running environment. """
-
+load the settings according to the running environment."""
 
 import os
 
@@ -8,44 +7,35 @@ from dotenv import load_dotenv
 
 
 class Default():
-    """Class containing the default settings for all environments.
+    """Class containing the default settings for all environments."""
 
-    Constants:
-        SQLALCHEMY_TRACK_MODIFICATIONS (boolean): signals to get notified
-        before and after changes are committed to the database.
-    """
     DEBUG = False
     TESTING = False
     JWT_BLACKLIST_ENABLED = True
     JWT_BLACKLIST_TOKEN_CHECKS = ['access', 'refresh']
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
+    # Flask-Mail: configuracion base
+    MAIL_SERVER = 'smtp.gmail.com'
+    MAIL_PORT = 587
+    MAIL_USE_TLS = True
+    MAIL_USE_SSL = False
+
 
 class Production(Default):
-    """Class containing the settings of the production environment .
-
-    It load some values from the environment to be used in the internal Flask config.
-
-    Constants:
-        SECRET_KEY (str): The application secret key used to encrypt your cookies.
-        SQLALCHEMY_DATABASE_URI (str): URI for the database source.
-    """
+    """Class containing the settings of the production environment."""
 
     SECRET_KEY = b'p\xa84r!\xb0\x16@"\x840#8n9\xb4'
     JWT_SECRET_KEY = b'p\xa84r!\xb0\x16@"\x840#8n9\xb4'
     SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL')
 
+    MAIL_USERNAME = os.environ.get('MAIL_USERNAME')
+    MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD')
+    MAIL_DEFAULT_SENDER = os.environ.get('MAIL_USERNAME')
+
 
 class Development(Default):
-    """Class containing the settings of the development environment.
-
-    It uses the dotenv library to load some values from the .env file to environment.
-    After that, these values are load from the environment to be use in the internal Flask config.
-
-    Constants:
-        SECRET_KEY (str): The application secret key used to encrypt your cookies.
-        SQLALCHEMY_DATABASE_URI (str): URI for the database source.
-    """
+    """Class containing the settings of the development environment."""
 
     load_dotenv()  # loading .env
 
@@ -53,3 +43,11 @@ class Development(Default):
     SECRET_KEY = 'dev'
     JWT_SECRET_KEY = 'dev'
     SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL')
+
+    # Credenciales de Gmail para desarrollo — cargar desde .env
+    # Agregar al archivo .env:
+    #   MAIL_USERNAME=tucorreo@gmail.com
+    #   MAIL_PASSWORD=tu_app_password_de_gmail
+    MAIL_USERNAME = os.environ.get('MAIL_USERNAME')
+    MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD')
+    MAIL_DEFAULT_SENDER = os.environ.get('MAIL_USERNAME')
