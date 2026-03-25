@@ -16,6 +16,7 @@ import os
 
 from flask import Flask
 from flask_jwt_extended import JWTManager, get_jwt
+from flask_cors import CORS
 
 blacklisted_tokens = set()  # Simple in-memory storage (use Redis or DB in production)
 
@@ -37,6 +38,7 @@ def create_app(test_config: dict = {}) -> Flask:
 
     load_config(app, test_config)
 
+    CORS(app)
     init_instance_folder(app)
     init_database(app)
     init_blueprints(app)
@@ -105,11 +107,13 @@ def init_blueprints(app: Flask) -> None:
     register_handler(app)
 
     # error Handlers
+    from .blueprint import index, autho, profile
     from .blueprint import index, autho, account
     from .blueprint.register import bp_register
     from .blueprint.valet import bp_valet
     app.register_blueprint(index.bp)
     app.register_blueprint(autho.bp)
+    app.register_blueprint(profile.bp_profile)
     app.register_blueprint(bp_register)
     app.register_blueprint(bp_valet)
 

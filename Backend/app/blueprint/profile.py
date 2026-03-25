@@ -1,6 +1,7 @@
+from datetime import datetime
+
 from flask import Blueprint, request, jsonify, abort, Response, make_response
 from flask_jwt_extended import jwt_required, get_jwt_identity, create_access_token
-from werkzeug.security import generate_password_hash
 from app.database import db
 from app.model import User
 
@@ -31,22 +32,25 @@ def register() -> Response:
     username = data.get('username')
     password = data.get('password')
 
-    if username and password:
-        new_user = User()
-        new_user.username = username
-        new_user.password_hash = password
+    if not (username and password):
+        return jsonify({'status': 'error', 'message': 'username and password are required'}), 400
 
-        new_user.name = data.get("name")
-        new_user.last_name = data.get("last_name")
-        new_user.email = data.get("email")
-        new_user.cellphone = data.get("cellphone")
-        new_user.type = data.get("type")
-        new_user.profile_img = data.get("profile_img")
-        new_user.id_img = data.get("id_img")
-        new_user.driver_license_img = data.get("driver_license_img")
-        new_user.contract = data.get("contract")
-        new_user.vehicle_type = data.get("vehicle_type")
-        new_user.is_deleted = False  # Default to False
+    new_user = User()
+    new_user.username = username
+    new_user.password_hash = password
+
+    new_user.name = data.get("name")
+    new_user.last_name = data.get("last_name")
+    new_user.email = data.get("email")
+    new_user.cellphone = data.get("cellphone")
+    new_user.type = data.get("type")
+    new_user.profile_img = data.get("profile_img")
+    new_user.id_img = data.get("id_img")
+    new_user.driver_license_img = data.get("driver_license_img")
+    new_user.contract = data.get("contract")
+    new_user.vehicle_type = data.get("vehicle_type")
+    new_user.is_deleted = False
+    new_user.created_at = datetime.utcnow()
 
     # Guardar en la base de datos
     db.session.add(new_user)
@@ -67,7 +71,7 @@ def get_profile() -> Response:
     if not user:
         return jsonify({'status': 'error', 'message': 'User not found'}), 404
 
-    return make_response(jsonify({'status': 'success', 'message': 'Profile data', 'user': user.to_dict}), 200)
+    return make_response(jsonify({'status': 'success', 'message': 'Profile data', 'user': user.to_dict()}), 200)
 
 @bp_profile.route('/edit-profile', methods=['POST'])
 @jwt_required()
@@ -92,8 +96,7 @@ def edit_profile() -> Response:
 
     for key, value in data.items():
         if key == "password":
-            # Hashear la nueva contraseña antes de guardarla
-            user._password_hash = generate_password_hash(value)
+            user.password_hash = value
         elif key in editable_fields:
             setattr(user, key, value)
 

@@ -1,15 +1,15 @@
 # /backend/Dockerfile
 
-FROM python:3.9-bookworm
+FROM python:3.13-slim-bookworm
 
 WORKDIR /Backend
 
 COPY requirements.txt requirements.txt
-RUN apt update
-RUN apt install libpq-dev python3-dev gcc -y
+RUN apt update && apt install -y libpq-dev python3-dev gcc && rm -rf /var/lib/apt/lists/*
 RUN pip install -r requirements.txt
-RUN pip install flask-login
 
 COPY . .
 
-CMD ["flask", "db", "migrate"]
+ENV FLASK_APP=wsgi.py
+
+CMD ["flask", "run", "--host=0.0.0.0"]

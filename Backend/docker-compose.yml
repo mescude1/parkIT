@@ -1,33 +1,34 @@
+
 services:
   db:
-    image: postgres:16
-    container_name: campusparkdb
+    image: postgres:17
+    container_name: parkitdb
     restart: always
     environment:
-      POSTGRES_USER: campusparking
+      POSTGRES_USER: parkit
       POSTGRES_PASSWORD: superdupersecret12345
-      POSTGRES_DB: campusparking
+      POSTGRES_DB: parkit
     ports:
       - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U campusparking"]
+      test: ["CMD-SHELL", "pg_isready -U parkit"]
       interval: 5s
       timeout: 5s
       retries: 5
 
   web:
     build: .
-    container_name: campusparking
+    container_name: parkit
     restart: always
     depends_on:
       db:
         condition: service_healthy
     environment:
-      DATABASE_URL: "postgresql://campusparking:superdupersecret12345@db:5432/campusparking"
-      FLASK_ENV: "development"
+      DATABASE_URL: "postgresql://parkit:superdupersecret12345@db:5432/parkit"
       FLASK_APP: "wsgi.py"
+      FLASK_ENV: "development"
       PYTHONPATH: "/Backend"
     ports:
       - "5000:5000"

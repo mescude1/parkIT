@@ -1,11 +1,12 @@
 """The model layer."""
 from app.model.user import User
 from app.model.vehicle import Vehicle
+from app.model.user_location import UserLocation
 from app.model.service import Service
 from app.model.contract_metadata import ContractMetadata
 from app.model.media_metadata import MediaMetadata
 
-__all__ = ["Model", "User", "Vehicle", "Service", "ContractMetadata", "MediaMetadata"]
+__all__ = ["Model", "User", "Vehicle", "UserLocation", "Service", "ContractMetadata", "MediaMetadata"]
 
 """This module define all models (persistent objects - PO) of application. Each model
 is a subclasses of the Base class (base declarative) from app.model.database module.
