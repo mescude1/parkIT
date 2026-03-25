@@ -104,6 +104,8 @@ def app(request):
     def teardown():
         drop_db()
         init_db()
+        from app.database import engine
+        engine.dispose()
         ctx.pop()
 
     init_db()

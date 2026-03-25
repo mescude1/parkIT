@@ -24,7 +24,14 @@ def init(app: Flask) -> None:
     """
 
     global Base, engine, db_session
-    engine = create_engine(app.config['SQLALCHEMY_DATABASE_URI'])
+    if engine is not None:
+        engine.dispose()
+
+    if app.testing:
+        from sqlalchemy.pool import NullPool
+        engine = create_engine(app.config['SQLALCHEMY_DATABASE_URI'], poolclass=NullPool)
+    else:
+        engine = create_engine(app.config['SQLALCHEMY_DATABASE_URI'])
     Base = db.Model
 
     # creating a new session
