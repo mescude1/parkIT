@@ -25,6 +25,7 @@ def init(app: Flask) -> None:
 
     global Base, engine, db_session
     engine = create_engine(app.config['SQLALCHEMY_DATABASE_URI'])
+    Base = db.Model
 
     # creating a new session
     db_session = scoped_session(sessionmaker(autocommit=False,

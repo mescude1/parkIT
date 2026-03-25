@@ -46,7 +46,7 @@ def create_app(test_config: dict = {}) -> Flask:
     init_jwt(app)
 
     app.config['JWT_BLACKLIST_ENABLED'] = True
-    app.config['JWT_BLACKLIST_TOKEN_CHECKS'] = ["access"]
+    app.config['JWT_BLACKLIST_TOKEN_CHECKS'] = ["access", "refresh"]
 
 
     return app
@@ -60,14 +60,15 @@ def load_config(app: Flask, test_config) -> None:
         test_config (dict):
     """
 
-    if os.environ.get('FLASK_ENV') == 'development' or test_config.get("FLASK_ENV") == 'development':
-        app.config.from_object('Backend.app.config.Development')
+    env = test_config.get('FLASK_ENV') or os.environ.get('FLASK_ENV', 'production')
 
-    elif test_config.get('TESTING'):
-        app.config.from_mapping(test_config)
-
+    if env == 'development':
+        app.config.from_object('app.config.Development')
     else:
         app.config.from_object('app.config.Production')
+
+    if test_config:
+        app.config.from_mapping(test_config)
 
 
 def init_instance_folder(app: Flask) -> None:

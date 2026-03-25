@@ -3,9 +3,15 @@ it creates fixtures to get an applicationinstance and simulates interactions ove
 """
 
 
+import collections
+import collections.abc
 import os
 import pytest
 import dotenv
+
+# alchemy_mock uses collections.Mapping removed in Python 3.10+
+if not hasattr(collections, 'Mapping'):
+    collections.Mapping = collections.abc.Mapping
 
 from app import create_app
 
@@ -20,25 +26,48 @@ def init_db() -> None:
 
 
 def drop_db() -> None:
-    """Remove all table from database."""
+    """Truncate all tables, resetting data without dropping (avoids circular FK drop issues)."""
 
-    from app.database import Base, engine
-    Base.metadata.drop_all(bind=engine)
+    from app.database import engine
+    from sqlalchemy import text, inspect
+
+    with engine.connect() as conn:
+        table_names = inspect(engine).get_table_names()
+        if table_names:
+            conn.execute(text(
+                'TRUNCATE {} RESTART IDENTITY CASCADE'.format(
+                    ', '.join(f'"{t}"' for t in table_names)
+                )
+            ))
+            conn.commit()
 
 
 def create_test_user() -> None:
     """Creates test user."""
 
     from app.model import User
-    from werkzeug.security import generate_password_hash
     from app.database import db_session
+    from datetime import datetime
 
     user = db_session.query(User).filter_by(username='test').first()
 
     if not user:
         user = User()
         user.username = 'test'
-        user.password = generate_password_hash('test')
+        user.password_hash = 'test'
+        user.name = 'Test'
+        user.last_name = 'User'
+        user.email = 'test@test.com'
+        user.cellphone = '0000000000'
+        user.type = 'cliente'
+        user.profile_img = 'profile.jpg'
+        user.id_img = 'id.jpg'
+        user.driver_license_img = 'license.jpg'
+        user.contract = 'contract.pdf'
+        user.vehicle_type = 'car'
+        user.created_at = datetime.utcnow()
+        user.is_deleted = False
+        user.is_verified = False
 
         db_session.add(user)
         db_session.commit()

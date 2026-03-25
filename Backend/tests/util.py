@@ -22,10 +22,24 @@ def create_user(session):
     """
 
     from app.model.user import User
+    from datetime import datetime
 
     user = User()
     user.username = get_unique_username()
-    user.password = generate_password_hash("123")
+    user.password_hash = "123"
+    user.name = 'Test'
+    user.last_name = 'User'
+    user.email = 'test@test.com'
+    user.cellphone = '0000000000'
+    user.type = 'cliente'
+    user.profile_img = 'profile.jpg'
+    user.id_img = 'id.jpg'
+    user.driver_license_img = 'license.jpg'
+    user.contract = 'contract.pdf'
+    user.vehicle_type = 'car'
+    user.created_at = datetime.utcnow()
+    user.is_deleted = False
+    user.is_verified = False
 
     session.add(user)
     session.commit()
