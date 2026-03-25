@@ -33,7 +33,7 @@ class Service(db.Model):
     driver_id = db.Column(db.Integer, ForeignKey('users.id'), nullable=True)
     user_id = db.Column(db.Integer, ForeignKey('users.id'), nullable=True)
     vehicle_id = db.Column(db.Integer, ForeignKey('vehicles.id'), nullable=True)
-    contract_id = db.Column(db.Integer, ForeignKey('contracts.id'), nullable=True)
+    contract_id = db.Column(db.Integer, ForeignKey('contract_metadata.id'), nullable=True)
     parking_location = db.Column(db.Integer, ForeignKey('user_locations.id'), nullable=False)
     pickup_location = db.Column(db.Integer, ForeignKey('user_locations.id'), nullable=False)
     keys_location = db.Column(db.Integer, ForeignKey('user_locations.id'), nullable=False,)

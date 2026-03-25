@@ -83,16 +83,9 @@ const DrawerContentObj = (props: DrawerContentComponentProps) => {
   // screen list for Drawer menu
   const screens = [
     { name: t("screens.home"), to: "Home", icon: assets.home },
-    {
-      name: t("screens.components"),
-      to: "Components",
-      icon: assets.components,
-    },
     { name: t("screens.history"), to: "History", icon: assets.calendar },
     { name: t("screens.profile"), to: "Profile", icon: assets.profile },
-    { name: t("screens.settings"), to: "Settings", icon: assets.settings },
-    { name: t("screens.login"), to: "Login", icon: assets.settings },
-    { name: t("screens.register"), to: "Register", icon: assets.settings },
+    { name: t("screens.settings"), to: "Settings", icon: assets.settings }
   ];
 
   return (

@@ -6,7 +6,7 @@ from flask import (
     Blueprint, request, Response, make_response, jsonify, session
 )
 from app.model import User
-from flask_jwt_extended import create_access_token, get_jwt
+from flask_jwt_extended import create_access_token, get_jwt, jwt_required
 from app import blacklisted_tokens
 
 
@@ -44,8 +44,9 @@ def login() -> Response:
         }), 401)
 
 @bp.route('/logout', methods=('POST',))
+@jwt_required()
 def delete() -> Response:
     jti = get_jwt()["jti"]  # Get unique token identifier
     blacklisted_tokens.add(jti)
 
-    return make_response({}, 401)
+    return make_response(jsonify({'status': 'success', 'message': 'Logged out'}), 200)
