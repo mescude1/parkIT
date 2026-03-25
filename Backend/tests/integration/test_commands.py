@@ -1,7 +1,5 @@
 """Test for the line commands."""
 
-from werkzeug.security import check_password_hash
-
 from tests.util import get_unique_username
 
 
@@ -38,7 +36,7 @@ def test_function_of_add_user_command_with_data_well(session):
     from app.model import User
     user = session.query(User).filter_by(username=username).first()
     assert user
-    assert check_password_hash(user.password, password)
+    assert user.authenticate(password)
 
 
 def test_function_of_add_user_command_with_username_already_used(session):
@@ -49,7 +47,7 @@ def test_function_of_add_user_command_with_username_already_used(session):
     """
 
     from app.commands import add_user
-    
+
     username = 'test'
     password = 'there-will-be-no-user-with-this-password'
     add_user(username, password)
@@ -57,4 +55,4 @@ def test_function_of_add_user_command_with_username_already_used(session):
     from app.model import User
     user = session.query(User).filter_by(username=username).first()
     assert user
-    assert not check_password_hash(user.password, password)
+    assert not user.authenticate(password)

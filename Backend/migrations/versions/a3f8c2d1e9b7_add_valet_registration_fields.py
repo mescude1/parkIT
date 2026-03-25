@@ -1,7 +1,7 @@
 """add student_card_img and is_verified to users
 
 Revision ID: a3f8c2d1e9b7
-Revises: 692e5b81ade7
+Revises: 0001_initial
 Create Date: 2026-03-20 00:00:00.000000
 
 """
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 # revision identifiers, used by Alembic.
 revision = 'a3f8c2d1e9b7'
-down_revision = '692e5b81ade7'
+down_revision = '0001_initial'
 branch_labels = None
 depends_on = None
 

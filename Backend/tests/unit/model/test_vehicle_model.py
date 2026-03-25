@@ -2,10 +2,10 @@
 
 
 from alchemy_mock.mocking import UnifiedAlchemyMagicMock
-from ...util import get_unique_licence_plate
+from ...util import get_unique_license_plate
 
 def test_create_new_vehicle(app, session = UnifiedAlchemyMagicMock()):
-    licence_plate = get_unique_licence_plate()
+    licence_plate = get_unique_license_plate()
     owner_id = '123'
     from app.model.vehicle import Vehicle
 

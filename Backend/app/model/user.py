@@ -21,11 +21,11 @@ class User(UserMixin, db.Model):
     email = db.Column(db.String, nullable=False)
     cellphone = db.Column(db.String, nullable=False)
     type = db.Column(db.String, nullable=False)               # 'valet' | 'cliente'
-    profile_img = db.Column(db.String, nullable=True)
-    id_img = db.Column(db.String, nullable=True)              # Cedula — requerida para ambos tipos
-    driver_license_img = db.Column(db.String, nullable=True)  # Licencia — solo valets
-    contract = db.Column(db.String, nullable=True)
-    vehicle_type = db.Column(db.String, nullable=True)        # Solo valets
+    profile_img = db.Column(db.String, nullable=False)
+    id_img = db.Column(db.String, nullable=False)
+    driver_license_img = db.Column(db.String, nullable=False)
+    contract = db.Column(db.String, nullable=False)
+    vehicle_type = db.Column(db.String, nullable=False)
     created_at = db.Column(db.DateTime, nullable=False)
     is_deleted = db.Column(db.Boolean, nullable=False)
     is_verified = db.Column(db.Boolean, nullable=False, default=False)
