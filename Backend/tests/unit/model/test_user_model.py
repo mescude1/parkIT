@@ -4,11 +4,12 @@
 from alchemy_mock.mocking import UnifiedAlchemyMagicMock
 from ...util import get_unique_username
 
+
 def test_create_new_user(app):
     """
     GIVEN a User model
     WHEN a new User is created
-    THEN check the id, username, password, serialization and string representation
+    THEN check the username, password auth, serialization and string representation
     """
 
     username = get_unique_username()
@@ -17,12 +18,14 @@ def test_create_new_user(app):
     from app.model.user import User
 
     session = UnifiedAlchemyMagicMock()
-    user = User(username=username, password=password)
+    user = User()
+    user.username = username
+    user.password_hash = password
     session.add(user)
     session.commit()
 
     query = session.query(User).first()
     assert query.username == username
-    assert query.password == password
-    assert query.serialize() == {'id': str(user.id), 'username': username}
-    assert str(query) == '<User %r>' % (username)
+    assert query.authenticate(password)
+    assert query.to_dict()['username'] == username
+    assert str(query) == '<User %r>' % username

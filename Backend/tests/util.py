@@ -8,7 +8,6 @@ from flask_jwt_extended import (
     decode_token, create_access_token, create_refresh_token
 )
 from sqlalchemy import desc
-from werkzeug.security import generate_password_hash
 
 
 def create_user(session):
@@ -71,7 +70,6 @@ def get_unique_username():
     return 'user_{}'.format(get_unique_id())
 
 
-
 def get_unique_license_plate():
     """Creates a unique username string.
 
@@ -79,7 +77,7 @@ def get_unique_license_plate():
         a string containing a unique username string.
     """
 
-    return 'vehicle_{}'.format(get_unique_id(6))
+    return 'vehicle_{}'.format(get_unique_id())
 
 
 def get_unique_id():
@@ -95,7 +93,7 @@ def get_unique_id():
 
 
 def create_tokens(username):
-    """Create encoded token, a decode token and model token 
+    """Create encoded token, a decode token and model token
     for both access and refresh tokens.
 
     Parameters:
@@ -103,11 +101,11 @@ def create_tokens(username):
         username (str): the user that owns the token.
 
     Returns:
-        A dictionary with an encoded token, a decode token and model 
+        A dictionary with an encoded token, a decode token and model
         token for both access and refresh tokens.
     """
 
-    from app.model import Token, TokenRepository
+    from app.model import TokenRepository
 
     # access token
     access_tk_encoded = create_access_token(identity=username)

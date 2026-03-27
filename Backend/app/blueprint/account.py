@@ -129,7 +129,7 @@ def delete_account() -> Response:
 
     if user:
         user_repository.delete(user)
-        TokenRepository().revoke_all_tokens(user_identity)
+        # TokenRepository().revoke_all_tokens(user_identity)  # TODO: implement token revocation
         return make_response('', 201)
 
     abort(404)

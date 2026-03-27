@@ -1,91 +1,48 @@
 """It contains UserRepository class."""
 
-from werkzeug.security import generate_password_hash, check_password_hash
-
 from app.model.user import User
 from app.model.repository import Repository
 
 
 class UserRepository(Repository):
-    """It Contains specific method related to de User
-    model to do operation in the dabase.
-    """
+    """Contains specific methods related to the User model."""
 
     def __init__(self):
         Repository.__init__(self, User)
 
     def get_by_username(self, username: str) -> User:
-        """Retrive a users from database by its username.
-
-        Parameters:
-           username (str): The username of the user.
-
-        Returns:
-            User: User model object.
-        """
-
+        """Retrieve a user from the database by username."""
         return self.session.query(User).filter_by(username=username).first()
 
     def save(self, user: User) -> None:
-        """Saves a user in the database.
-
-        Parameters:
-           model (User): A user model object.
-        """
-
-        user.password = generate_password_hash(user.password)
+        """Saves a user in the database."""
         self.session.add(user)
         self.session.commit()
 
     def update(self, user: User) -> None:
-        """Update a existent user in the database.
-
-        Parameters:
-           model (object): A user model object.
-        """
-
-        user.password = generate_password_hash(user.password)
+        """Update an existing user in the database."""
         self.session.commit()
 
     def authenticate(self, username: str, password: str) -> bool:
-        """checks user authenticity by username and password.
-
-        Parameters:
-            username (str): The username of the user.
-            password (str): The password of the user.
-
-        Returns:
-            bool: A boolean indicating the user authenticity.
-        """
-
+        """Check user authenticity by username and password."""
         user = self.get_by_username(username)
-        if user and check_password_hash(user.password, password):
+        if user and user.authenticate(password):
             return user
-
         return False
 
     def is_invalid(self, user: User) -> list:
-        """Checks if a given model object is valid.
-
-        Parameters:
-            user (User): The User model object.
-            editing (bool): Indicates whether the validation is for an editing.
+        """Checks if a given user object is valid.
 
         Returns:
-            list: A list containing the fields errors.
-
+            list: A list containing field errors, empty if valid.
         """
-
         invalid = list()
 
         if not user.username:
             invalid.append({"username": "must be filled"})
 
-        if not user.password:
+        if not user._password_hash:
             invalid.append({"password": "must be filled"})
-
-        if user.password and len(user.password) < 3:
-            invalid.append({"password": "minimum length of 3 characters"})
 
         # verify if there is another user with the same username
         user_checking = self.get_by_username(user.username)
@@ -93,7 +50,6 @@ class UserRepository(Repository):
             if (not user.id) or (user.id != user_checking.id):
                 invalid.append({"username": "is already in use."})
 
-         # remove from the session if it is not valid
         if invalid:
             user.remove_session()
 

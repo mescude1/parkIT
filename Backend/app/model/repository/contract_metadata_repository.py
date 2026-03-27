@@ -3,6 +3,7 @@
 from app.model.contract_metadata import ContractMetadata
 from app.model.repository import Repository
 
+
 class ContractMetadataRepository(Repository):
     """It Contains specific method related to de User
     model to do operation in the database.

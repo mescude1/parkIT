@@ -7,6 +7,7 @@ from sqlalchemy import desc
 from app.database import db_session
 from app.model import Model
 
+
 class Repository(ABC):
     """This class implements the common methods used
     for all specific repositories classes. The subclasses

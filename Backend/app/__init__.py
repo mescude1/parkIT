@@ -15,13 +15,12 @@ to a previous configuration.
 import os
 
 from flask import Flask
-from flask_jwt_extended import JWTManager, get_jwt
 from flask_cors import CORS
 
 blacklisted_tokens = set()  # Simple in-memory storage (use Redis or DB in production)
 
 
-def create_app(test_config: dict = {}) -> Flask:
+def create_app(test_config: dict = None) -> Flask:
     """This function is responsible to create a Flask instance according
     a previous setting passed from environment. In that process, it also
     initializes the database source.
@@ -35,7 +34,6 @@ def create_app(test_config: dict = {}) -> Flask:
 
     app = Flask(__name__, instance_relative_config=True)
 
-
     load_config(app, test_config)
 
     CORS(app)
@@ -48,7 +46,6 @@ def create_app(test_config: dict = {}) -> Flask:
     app.config['JWT_BLACKLIST_ENABLED'] = True
     app.config['JWT_BLACKLIST_TOKEN_CHECKS'] = ["access", "refresh"]
 
-
     return app
 
 
@@ -60,6 +57,7 @@ def load_config(app: Flask, test_config) -> None:
         test_config (dict):
     """
 
+    test_config = test_config or {}
     env = test_config.get('FLASK_ENV') or os.environ.get('FLASK_ENV', 'production')
 
     if env == 'development':
@@ -107,9 +105,7 @@ def init_blueprints(app: Flask) -> None:
     from .blueprint.handlers import register_handler
     register_handler(app)
 
-    # error Handlers
     from .blueprint import index, autho, profile
-    from .blueprint import index, autho, account
     from .blueprint.register import bp_register
     from .blueprint.valet import bp_valet
     app.register_blueprint(index.bp)
@@ -118,13 +114,14 @@ def init_blueprints(app: Flask) -> None:
     app.register_blueprint(bp_register)
     app.register_blueprint(bp_valet)
 
+
 def init_commands(app):
     from .commands import register_commands
     register_commands(app)
 
 
 def init_jwt(app):
-    from flask_jwt_extended import (JWTManager)
+    from flask_jwt_extended import JWTManager
     jwt = JWTManager(app)
 
     @jwt.token_in_blocklist_loader

@@ -9,6 +9,7 @@ from app.database import db
 
 bp_valet = Blueprint('valet', __name__, url_prefix='/valet')
 
+
 @bp_valet.route('/request-service', methods=['POST'])
 # @jwt_required()
 def request_service():
@@ -53,6 +54,7 @@ def request_service():
         return jsonify({"message": "Drivers notified", "drivers": nearby_drivers}), 200
 
     return jsonify({"message": "No nearby drivers found"}), 200
+
 
 @bp_valet.route('/start-service', methods=['POST'])
 # @jwt_required()
@@ -110,11 +112,13 @@ def start_service():
         "fixed_price": fixed_price
     }), 201
 
+
 @bp_valet.route('/end-service', methods=['POST'])
 # @jwt_required()
 def end_service():
     data = request.json
     return jsonify({'status': 'success', 'message': 'Service ended', 'details': data}), 200
+
 
 @bp_valet.route('/cancel-service', methods=['POST'])
 # @jwt_required()
@@ -122,17 +126,20 @@ def cancel_service():
     data = request.json
     return jsonify({'status': 'success', 'message': 'Service canceled', 'details': data}), 200
 
+
 @bp_valet.route('/pre-service-photo', methods=['POST'])
 @jwt_required()
 def pre_service_photo():
     data = request.json
     return jsonify({'status': 'success', 'message': 'Pre-service photo uploaded', 'details': data}), 200
 
+
 @bp_valet.route('/post-service-photo', methods=['POST'])
 @jwt_required()
 def post_service_photo():
     data = request.json
     return jsonify({'status': 'success', 'message': 'Post-service photo uploaded', 'details': data}), 200
+
 
 @bp_valet.route('/key-photo', methods=['POST'])
 @jwt_required()

@@ -15,11 +15,12 @@ Base = None
 
 db = SQLAlchemy()
 
+
 def init(app: Flask) -> None:
     """This function initialize the SQLAlchemy ORM, providing a session
     and command line to create the tables in the database.
 
-    Parameters:    
+    Parameters:
         app (flask.app.Flask): The application instance.
     """
 
@@ -49,8 +50,7 @@ def init(app: Flask) -> None:
     app.teardown_appcontext(shutdown_session)
 
     # Using Flask-Migrate as the handler for database migration.
-    from .model import User
-    migrate = Migrate(app, db)
+    Migrate(app, db)
 
 
 def shutdown_session(exception=None) -> None:

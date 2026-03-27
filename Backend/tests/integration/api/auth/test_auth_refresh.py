@@ -9,7 +9,7 @@ def test_auth_refresh_a_valid_token_returning_200_status_code(client, session, a
     WHEN the '/auth/login' URL is requested (POST)
     THEN check the response is valid and for the created tokens
     """
-    
+
     response = client.post('/auth/refresh',
                            content_type='application/json',
                            headers=auth['refresh_token'])

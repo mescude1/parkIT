@@ -43,6 +43,7 @@ def login() -> Response:
             'data': '401 Unauthorized'
         }), 401)
 
+
 @bp.route('/logout', methods=('POST',))
 @jwt_required()
 def delete() -> Response:

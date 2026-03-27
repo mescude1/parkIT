@@ -7,6 +7,7 @@ from app.model import User
 
 bp_profile = Blueprint('profile', __name__, url_prefix='/profile')
 
+
 @bp_profile.route('/register', methods=('POST',))
 def register() -> Response:
     """Register a new user.
@@ -59,7 +60,10 @@ def register() -> Response:
     # Crear un token JWT para el usuario registrado
     access_token = create_access_token(identity=new_user.id)
 
-    return make_response(jsonify({'status': 'success', 'message': 'User registered', 'access_token': access_token}), 201)
+    return make_response(jsonify(
+        {'status': 'success', 'message': 'User registered', 'access_token': access_token}
+    ), 201)
+
 
 @bp_profile.route('/user-profile', methods=['GET'])
 @jwt_required()
@@ -72,6 +76,7 @@ def get_profile() -> Response:
         return jsonify({'status': 'error', 'message': 'User not found'}), 404
 
     return make_response(jsonify({'status': 'success', 'message': 'Profile data', 'user': user.to_dict()}), 200)
+
 
 @bp_profile.route('/edit-profile', methods=['POST'])
 @jwt_required()
@@ -102,6 +107,7 @@ def edit_profile() -> Response:
 
     db.session.commit()
     return make_response(jsonify({'status': 'success', 'message': 'Profile updated successfully'}), 200)
+
 
 @bp_profile.route('/generate-enrollment-contracts', methods=['POST'])
 @jwt_required()

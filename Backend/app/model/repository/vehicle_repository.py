@@ -3,6 +3,7 @@
 from app.model.vehicle import Vehicle
 from app.model.repository import Repository
 
+
 class VehicleRepository(Repository):
     """
     Manages operations related to vehicles in the database, providing methods for

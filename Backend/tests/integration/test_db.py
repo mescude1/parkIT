@@ -8,7 +8,7 @@ def test_sqlalchemy_base(app):
     """
     GIVEN a Flask application
     WHEN the app is initialized
-    THEN check SQLAlchemy initialization 
+    THEN check SQLAlchemy initialization
     """
 
     with app.app_context():
@@ -20,7 +20,7 @@ def test_session_is_open(app):
     """
     GIVEN a Flask application
     WHEN the app is initialized
-    THEN check for the SQLAlchemy session 
+    THEN check for the SQLAlchemy session
     """
 
     with app.app_context():

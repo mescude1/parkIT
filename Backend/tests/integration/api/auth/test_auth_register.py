@@ -27,7 +27,7 @@ def test_auth_register_without_data_returning_400_status_code(client):
     WHEN the '/auth/register' URL is requested (POST) without data
     THEN check the response HTTP 400 response
     """
-    
+
     response = client.post('/auth/register', content_type='application/json')
     assert response.status_code == 400
     assert response.json['status'] == 'fail'
@@ -42,7 +42,7 @@ def test_auth_register_without_request_content_type_returning_400_status_code(cl
     """
 
     response = client.post('/auth/register')
-    assert response.status_code == 400    
+    assert response.status_code == 400
     assert response.json['status'] == 'fail'
     assert response.json['message'] == 'bad request'
 
@@ -80,7 +80,7 @@ def test_auth_register_without_username_returning_400_status_code(client):
     assert {'username': 'must be filled'} in response.json['data']
     assert not {'password': 'must be filled'} in response.json['data']
 
- 
+
 def test_auth_register_without_password_returning_400_status_code(client):
     """
     GIVEN a Flask application
