@@ -6,6 +6,12 @@ from app.model.user_location import UserLocation
 from app.model.service import Service
 from app.model.contract_metadata import ContractMetadata
 from app.model.media_metadata import MediaMetadata
+from app.model.token_blacklist import TokenBlacklist
+from app.model.verification_code import VerificationCode
 from app.model.repository.user_repository import UserRepository
 
-__all__ = ["Model", "User", "Vehicle", "UserLocation", "Service", "ContractMetadata", "MediaMetadata", "UserRepository"]
+__all__ = [
+    "Model", "User", "Vehicle", "UserLocation", "Service",
+    "ContractMetadata", "MediaMetadata", "TokenBlacklist", "VerificationCode",
+    "UserRepository",
+]

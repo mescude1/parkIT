@@ -11,7 +11,7 @@ bp_valet = Blueprint('valet', __name__, url_prefix='/valet')
 
 
 @bp_valet.route('/request-service', methods=['POST'])
-# @jwt_required()
+@jwt_required()
 def request_service():
     """
        1️⃣ Update the logged-in user's location.
@@ -57,7 +57,7 @@ def request_service():
 
 
 @bp_valet.route('/start-service', methods=['POST'])
-# @jwt_required()
+@jwt_required()
 def start_service():
     """
        1️⃣ Get the logged-in user's location.
@@ -114,14 +114,14 @@ def start_service():
 
 
 @bp_valet.route('/end-service', methods=['POST'])
-# @jwt_required()
+@jwt_required()
 def end_service():
     data = request.json
     return jsonify({'status': 'success', 'message': 'Service ended', 'details': data}), 200
 
 
 @bp_valet.route('/cancel-service', methods=['POST'])
-# @jwt_required()
+@jwt_required()
 def cancel_service():
     data = request.json
     return jsonify({'status': 'success', 'message': 'Service canceled', 'details': data}), 200

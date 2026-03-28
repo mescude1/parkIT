@@ -5,3 +5,7 @@ export { default as Profile } from "./Profile";
 export { default as Register } from "./Register";
 export { default as Login } from "./Login";
 export { default as PastServicesList } from "./PastServicesList";
+export { default as EmailVerification } from "./EmailVerification";
+export { default as LookingForDriver } from "./LookingForDriver";
+export { default as Settings } from "./Settings";
+export { default as History } from "./History";

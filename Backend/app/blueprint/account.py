@@ -15,7 +15,7 @@ bp = Blueprint('account', __name__, url_prefix='/account')
 
 
 @bp.route('', methods=('GET',))
-@jwt_required
+@jwt_required()
 def get_account():
     """Retrieves the user account.
 
@@ -36,7 +36,7 @@ def get_account():
 
 
 @bp.route('', methods=('PUT',))
-@jwt_required
+@jwt_required()
 def update_account() -> Response:
     """Updates the user account.
 
@@ -75,7 +75,7 @@ def update_account() -> Response:
 
 
 @bp.route('', methods=('PATCH',))
-@jwt_required
+@jwt_required()
 def patch_account() -> Response:
     """Patches the user account.
 
@@ -115,7 +115,7 @@ def patch_account() -> Response:
 
 
 @bp.route('', methods=('DELETE',))
-@jwt_required
+@jwt_required()
 def delete_account() -> Response:
     """Deletes the user account.
 

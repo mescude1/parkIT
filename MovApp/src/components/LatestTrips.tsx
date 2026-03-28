@@ -3,13 +3,18 @@ import { useCallback, useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import Button from "../components/Button";
 
-const trips = [
+const FALLBACK_TRIPS = [
   { id: "1", driver: "Pablo Marin", price: "$8000", date: "2024-04-01" },
   { id: "2", driver: "Juan Restrepo", price: "$14500", date: "2024-03-25" },
   { id: "3", driver: "Carlos Lopez", price: "$17000", date: "2024-03-18" },
 ];
 
-const LatestTrips = () => {
+interface ILatestTripsProps {
+  trips?: Array<{ id: string; driver: string; price: string; date: string }>;
+}
+
+const LatestTrips = ({ trips: propTrips }: ILatestTripsProps) => {
+  const trips = propTrips ?? FALLBACK_TRIPS;
   const navigation = useNavigation();
   const [active, setActive] = useState<string | null>(null);
 

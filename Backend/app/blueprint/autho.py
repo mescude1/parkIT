@@ -6,8 +6,9 @@ from flask import (
     Blueprint, request, Response, make_response, jsonify, session
 )
 from app.model import User
+from app.model.token_blacklist import TokenBlacklist
+from app.database import db
 from flask_jwt_extended import create_access_token, get_jwt, jwt_required
-from app import blacklisted_tokens
 
 
 bp = Blueprint('autho', __name__, url_prefix='/autho')
@@ -47,7 +48,8 @@ def login() -> Response:
 @bp.route('/logout', methods=('POST',))
 @jwt_required()
 def delete() -> Response:
-    jti = get_jwt()["jti"]  # Get unique token identifier
-    blacklisted_tokens.add(jti)
+    jti = get_jwt()["jti"]
+    db.session.add(TokenBlacklist(jti=jti))
+    db.session.commit()
 
     return make_response(jsonify({'status': 'success', 'message': 'Logged out'}), 200)

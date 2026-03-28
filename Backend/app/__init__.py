@@ -17,9 +17,6 @@ import os
 from flask import Flask
 from flask_cors import CORS
 
-blacklisted_tokens = set()  # Simple in-memory storage (use Redis or DB in production)
-
-
 def create_app(test_config: dict = None) -> Flask:
     """This function is responsible to create a Flask instance according
     a previous setting passed from environment. In that process, it also
@@ -108,11 +105,19 @@ def init_blueprints(app: Flask) -> None:
     from .blueprint import index, autho, profile
     from .blueprint.register import bp_register
     from .blueprint.valet import bp_valet
+    from .blueprint.vehicles import bp_vehicles
+    from .blueprint.account import bp as bp_account
+    from .blueprint.display import bp_display
+    from .blueprint.verification import bp_verification
     app.register_blueprint(index.bp)
     app.register_blueprint(autho.bp)
     app.register_blueprint(profile.bp_profile)
     app.register_blueprint(bp_register)
     app.register_blueprint(bp_valet)
+    app.register_blueprint(bp_vehicles)
+    app.register_blueprint(bp_account)
+    app.register_blueprint(bp_display)
+    app.register_blueprint(bp_verification)
 
 
 def init_commands(app):
@@ -126,4 +131,5 @@ def init_jwt(app):
 
     @jwt.token_in_blocklist_loader
     def check_if_token_revoked(jwt_header, jwt_payload):
-        return jwt_payload["jti"] in blacklisted_tokens
+        from app.model.token_blacklist import TokenBlacklist
+        return TokenBlacklist.query.filter_by(jti=jwt_payload["jti"]).first() is not None

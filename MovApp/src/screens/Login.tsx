@@ -1,67 +1,42 @@
-import React, { useCallback, useEffect, useState } from "react";
-import { Linking, Platform } from "react-native";
+import React, { useCallback, useState } from "react";
+import { Alert, Platform } from "react-native";
 import { useNavigation } from "@react-navigation/core";
 
 import { useData, useTheme, useTranslation } from "../hooks/";
-import * as regex from "../constants/regex";
-import { Block, Button, Input, Image, Text, Checkbox } from "../components/";
+import { Block, Button, Input, Image, Text } from "../components/";
 
 const isAndroid = Platform.OS === "android";
 
 interface ILogin {
-  name: string;
-  email: string;
+  username: string;
   password: string;
-  agreed: boolean;
-}
-interface ILoginValidation {
-  name: boolean;
-  email: boolean;
-  password: boolean;
-  agreed: boolean;
 }
 
 const Login = () => {
-  const { isDark } = useData();
+  const { handleLogin, isLoading } = useData();
   const { t } = useTranslation();
   const navigation = useNavigation();
-  const [isValid, setIsValid] = useState<ILoginValidation>({
-    name: false,
-    email: false,
-    password: false,
-    agreed: false,
-  });
-  const [login, setLogin] = useState<ILogin>({
-    name: "",
-    email: "",
-    password: "",
-    agreed: false,
-  });
   const { assets, colors, gradients, sizes } = useTheme();
 
+  const [login, setLogin] = useState<ILogin>({ username: "", password: "" });
+
   const handleChange = useCallback(
-    (value) => {
+    (value: Partial<ILogin>) => {
       setLogin((state) => ({ ...state, ...value }));
     },
-    [setLogin]
+    []
   );
 
-  const handleSignUp = useCallback(() => {
-    if (!Object.values(isValid).includes(false)) {
-      /** send/save registering data */
-      console.log("handleSignUp", login);
+  const handleSignIn = useCallback(async () => {
+    if (!login.username || !login.password) return;
+    const result = await handleLogin(login.username, login.password);
+    if (!result.success) {
+      Alert.alert("Error", result.message ?? "Login failed");
     }
-  }, [isValid, login]);
+    // On success, isAuthenticated becomes true and App.tsx switches to Menu automatically
+  }, [login, handleLogin]);
 
-  useEffect(() => {
-    setIsValid((state) => ({
-      ...state,
-      name: regex.name.test(login.name),
-      email: regex.email.test(login.email),
-      password: regex.password.test(login.password),
-      agreed: login.agreed,
-    }));
-  }, [login, setIsValid]);
+  const isDisabled = !login.username || !login.password || isLoading;
 
   return (
     <Block safe marginTop={sizes.md}>
@@ -99,7 +74,8 @@ const Login = () => {
             </Text>
           </Image>
         </Block>
-        {/* register form */}
+
+        {/* login form */}
         <Block
           keyboard
           behavior={!isAndroid ? "padding" : "height"}
@@ -109,7 +85,7 @@ const Login = () => {
             flex={0}
             radius={sizes.sm}
             marginHorizontal="8%"
-            shadow={!isAndroid} // disabled shadow on Android due to blur overlay + elevation issue
+            shadow={!isAndroid}
           >
             <Block
               blur
@@ -124,81 +100,16 @@ const Login = () => {
               <Text p semibold center>
                 {t("register.subtitle")}
               </Text>
-              {/* social buttons */}
-              <Block row center justify="space-evenly" marginVertical={sizes.m}>
-                <Button outlined gray shadow={!isAndroid}>
-                  <Image
-                    source={assets.facebook}
-                    height={sizes.m}
-                    width={sizes.m}
-                    color={isDark ? colors.icon : undefined}
-                  />
-                </Button>
-                <Button outlined gray shadow={!isAndroid}>
-                  <Image
-                    source={assets.apple}
-                    height={sizes.m}
-                    width={sizes.m}
-                    color={isDark ? colors.icon : undefined}
-                  />
-                </Button>
-                <Button outlined gray shadow={!isAndroid}>
-                  <Image
-                    source={assets.google}
-                    height={sizes.m}
-                    width={sizes.m}
-                    color={isDark ? colors.icon : undefined}
-                  />
-                </Button>
-              </Block>
-              <Block
-                row
-                flex={0}
-                align="center"
-                justify="center"
-                marginBottom={sizes.sm}
-                paddingHorizontal={sizes.xxl}
-              >
-                <Block
-                  flex={0}
-                  height={1}
-                  width="50%"
-                  end={[1, 0]}
-                  start={[0, 1]}
-                  gradient={gradients.divider}
-                />
-                <Text center marginHorizontal={sizes.s}>
-                  {t("common.or")}
-                </Text>
-                <Block
-                  flex={0}
-                  height={1}
-                  width="50%"
-                  end={[0, 1]}
-                  start={[1, 0]}
-                  gradient={gradients.divider}
-                />
-              </Block>
+
               {/* form inputs */}
-              <Block paddingHorizontal={sizes.sm}>
+              <Block paddingHorizontal={sizes.sm} marginTop={sizes.m}>
                 <Input
                   autoCapitalize="none"
                   marginBottom={sizes.m}
-                  label={t("common.name")}
-                  placeholder={t("common.namePlaceholder")}
-                  success={Boolean(login.name && isValid.name)}
-                  danger={Boolean(login.name && !isValid.name)}
-                  onChangeText={(value) => handleChange({ name: value })}
-                />
-                <Input
-                  autoCapitalize="none"
-                  marginBottom={sizes.m}
-                  label={t("common.email")}
-                  keyboardType="email-address"
-                  placeholder={t("common.emailPlaceholder")}
-                  success={Boolean(login.email && isValid.email)}
-                  danger={Boolean(login.email && !isValid.email)}
-                  onChangeText={(value) => handleChange({ email: value })}
+                  label="Usuario"
+                  placeholder="Ingresa tu usuario"
+                  onChangeText={(value) => handleChange({ username: value })}
+                  success={Boolean(login.username)}
                 />
                 <Input
                   secureTextEntry
@@ -207,50 +118,32 @@ const Login = () => {
                   label={t("common.password")}
                   placeholder={t("common.passwordPlaceholder")}
                   onChangeText={(value) => handleChange({ password: value })}
-                  success={Boolean(login.password && isValid.password)}
-                  danger={Boolean(login.password && !isValid.password)}
+                  success={Boolean(login.password)}
                 />
               </Block>
-              {/* checkbox terms */}
-              <Block row flex={0} align="center" paddingHorizontal={sizes.sm}>
-                <Checkbox
-                  marginRight={sizes.sm}
-                  checked={login?.agreed}
-                  onPress={(value) => handleChange({ agreed: value })}
-                />
-                <Text paddingRight={sizes.s}>
-                  {t("common.agree")}
-                  <Text
-                    semibold
-                    onPress={() => {
-                      Linking.openURL("https://www.creative-tim.com/terms");
-                    }}
-                  >
-                    {t("common.terms")}
-                  </Text>
-                </Text>
-              </Block>
+
               <Button
-                onPress={handleSignUp}
+                onPress={handleSignIn}
                 marginVertical={sizes.s}
                 marginHorizontal={sizes.sm}
                 gradient={gradients.primary}
-                disabled={Object.values(isValid).includes(false)}
+                disabled={isDisabled}
               >
                 <Text bold white transform="uppercase">
-                  {t("common.signup")}
+                  {isLoading ? "Ingresando..." : t("common.signin")}
                 </Text>
               </Button>
+
               <Button
                 primary
                 outlined
                 shadow={!isAndroid}
                 marginVertical={sizes.s}
                 marginHorizontal={sizes.sm}
-                onPress={() => navigation.navigate("Pro")}
+                onPress={() => navigation.navigate("Register" as never)}
               >
                 <Text bold primary transform="uppercase">
-                  {t("common.signin")}
+                  {t("common.signup")}
                 </Text>
               </Button>
             </Block>

@@ -15,9 +15,9 @@ class Default():
     JWT_BLACKLIST_TOKEN_CHECKS = ['access', 'refresh']
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
-    # Flask-Mail: configuracion base
-    MAIL_SERVER = 'smtp.gmail.com'
-    MAIL_PORT = 587
+    # Flask-Mail: configuracion base (overrideable via env vars)
+    MAIL_SERVER = os.environ.get('MAIL_SERVER', 'smtp.gmail.com')
+    MAIL_PORT = int(os.environ.get('MAIL_PORT', 587))
     MAIL_USE_TLS = True
     MAIL_USE_SSL = False
 

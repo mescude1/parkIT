@@ -2,15 +2,31 @@ import React, { useEffect } from "react";
 import { Platform, StatusBar } from "react-native";
 import { useFonts } from "expo-font";
 import { NavigationContainer, DefaultTheme } from "@react-navigation/native";
+import { createStackNavigator } from "@react-navigation/stack";
 import * as SplashScreen from "expo-splash-screen";
+
 import Menu from "./Menu";
 import { useData, ThemeProvider, TranslationProvider } from "../hooks";
 import Login from "../screens/Login";
+import Register from "../screens/Register";
+import EmailVerification from "../screens/EmailVerification";
 
 // Keep the splash screen visible while we fetch resources
 SplashScreen.preventAutoHideAsync();
+
+const Auth = createStackNavigator();
+
+const AuthNavigator = () => (
+  <Auth.Navigator screenOptions={{ headerShown: false }}>
+    <Auth.Screen name="Login" component={Login} />
+    <Auth.Screen name="Register" component={Register} />
+    <Auth.Screen name="EmailVerification" component={EmailVerification} />
+  </Auth.Navigator>
+);
+
 export default () => {
-  const { isDark, theme, setTheme } = useData();
+  const { isDark, theme, setTheme, isAuthenticated, isInitializing } =
+    useData();
 
   /* set the status bar based on isDark constant */
   useEffect(() => {
@@ -30,14 +46,13 @@ export default () => {
     "OpenSans-Bold": theme.assets.OpenSansBold,
   });
 
-  if (fontsLoaded) {
-    const hideSplash = async () => {
-      await SplashScreen.hideAsync();
-    };
-    hideSplash();
-  }
+  useEffect(() => {
+    if (fontsLoaded && !isInitializing) {
+      SplashScreen.hideAsync();
+    }
+  }, [fontsLoaded, isInitializing]);
 
-  if (!fontsLoaded) {
+  if (!fontsLoaded || isInitializing) {
     return null;
   }
 
@@ -59,7 +74,7 @@ export default () => {
     <TranslationProvider>
       <ThemeProvider theme={theme} setTheme={setTheme}>
         <NavigationContainer theme={navigationTheme}>
-          <Menu />
+          {isAuthenticated ? <Menu /> : <AuthNavigator />}
         </NavigationContainer>
       </ThemeProvider>
     </TranslationProvider>

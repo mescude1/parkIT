@@ -112,7 +112,7 @@ def register_valet() -> Response:
         profile_img=data['profile_img'],
         id_img=data['id_img'],
         driver_license_img=data['driver_license_img'],
-        contract=None,
+        contract="",
         created_at=datetime.utcnow(),
         is_deleted=False,
         is_verified=is_verified,
@@ -260,9 +260,9 @@ def register_cliente() -> Response:
         type=CLIENT_USER_TYPE,
         profile_img=data['profile_img'],
         id_img=data['id_img'],
-        driver_license_img=None,
-        contract=None,
-        vehicle_type=None,
+        driver_license_img="",
+        contract="",
+        vehicle_type="",
         created_at=datetime.utcnow(),
         is_deleted=False,
         is_verified=True,                    # Cedula subida = verificado
@@ -275,11 +275,21 @@ def register_cliente() -> Response:
     db.session.commit()
 
     from app.blueprint.verification import send_verification_code
-    send_verification_code(new_cliente)
+    email_sent = True
+    try:
+        send_verification_code(new_cliente)
+    except Exception:
+        email_sent = False
+
+    message = (
+        'Cliente registrado. Se envio un codigo de verificacion a tu correo institucional.'
+        if email_sent else
+        'Cliente registrado. No se pudo enviar el correo de verificacion; usa /verification/resend-code para reintentarlo.'
+    )
 
     return make_response(jsonify({
         'status': 'success',
-        'message': 'Cliente registrado. Se envio un codigo de verificacion a tu correo institucional.',
+        'message': message,
         'data': new_cliente.to_dict()
     }), 201)
 

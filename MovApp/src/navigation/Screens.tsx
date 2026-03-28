@@ -9,6 +9,10 @@ import {
   Profile,
   Register,
   Login,
+  EmailVerification,
+  LookingForDriver,
+  Settings,
+  History,
 } from "../screens";
 import { useScreenOptions, useTranslation } from "../hooks";
 
@@ -31,9 +35,19 @@ export default () => {
         options={{ title: t("navigation.past_services_list") }}
       />
       <Stack.Screen
-        name="Perfil"
+        name="Profile"
         component={Profile}
         options={{ headerShown: false, title: t("navigation.profile") }}
+      />
+      <Stack.Screen
+        name="Settings"
+        component={Settings}
+        options={{ headerShown: false, title: t("screens.settings") }}
+      />
+      <Stack.Screen
+        name="History"
+        component={History}
+        options={{ headerShown: false, title: t("screens.history") }}
       />
       <Stack.Screen
         name="Register"
@@ -44,6 +58,16 @@ export default () => {
         name="Login"
         component={Login}
         options={{ headerShown: false, title: t("navigation.login") }}
+      />
+      <Stack.Screen
+        name="EmailVerification"
+        component={EmailVerification}
+        options={{ headerShown: false, title: "Verificar correo" }}
+      />
+      <Stack.Screen
+        name="LookingForDriver"
+        component={LookingForDriver}
+        options={{ headerShown: false, title: "Buscando conductor" }}
       />
     </Stack.Navigator>
   );

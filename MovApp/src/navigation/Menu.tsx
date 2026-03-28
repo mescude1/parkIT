@@ -71,9 +71,9 @@ const DrawerContentObj = (props: DrawerContentComponentProps) => {
   const labelColor = colors.text;
 
   const handleNavigation = useCallback(
-    (to: any) => {
+    (to: string) => {
       setActive(to);
-      navigation.navigate(to);
+      navigation.navigate("Screens" as never, { screen: to } as never);
     },
     [navigation, setActive]
   );

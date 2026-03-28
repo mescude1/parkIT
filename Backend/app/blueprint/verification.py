@@ -17,13 +17,9 @@ from flask_mail import Mail, Message
 
 from app.database import db
 from app.model.user import User
+from app.model.verification_code import VerificationCode
 
 bp_verification = Blueprint('verification', __name__, url_prefix='/verification')
-
-# Almacenamiento en memoria de codigos pendientes
-# Estructura: { user_id: { 'code': '123456', 'expires_at': datetime } }
-# En produccion reemplazar por Redis o tabla en BD
-_pending_codes: dict = {}
 
 CODE_EXPIRY_MINUTES = 15
 
@@ -40,10 +36,10 @@ def send_verification_code(user: User) -> None:
     code = ''.join(random.choices(string.digits, k=6))
     expires_at = datetime.utcnow() + timedelta(minutes=CODE_EXPIRY_MINUTES)
 
-    _pending_codes[user.id] = {
-        'code': code,
-        'expires_at': expires_at,
-    }
+    # Replace any existing pending code for this user
+    VerificationCode.query.filter_by(user_id=user.id).delete()
+    db.session.add(VerificationCode(user_id=user.id, code=code, expires_at=expires_at))
+    db.session.commit()
 
     mail = Mail(current_app)
 
@@ -105,7 +101,7 @@ def verify_email() -> Response:
             'message': 'El correo ya estaba verificado'
         }), 200)
 
-    pending = _pending_codes.get(user_id)
+    pending = VerificationCode.query.filter_by(user_id=user_id).first()
 
     if not pending:
         return make_response(jsonify({
@@ -113,14 +109,15 @@ def verify_email() -> Response:
             'message': 'No hay un codigo pendiente. Solicita uno nuevo.'
         }), 400)
 
-    if datetime.utcnow() > pending['expires_at']:
-        _pending_codes.pop(user_id, None)
+    if datetime.utcnow() > pending.expires_at:
+        db.session.delete(pending)
+        db.session.commit()
         return make_response(jsonify({
             'status': 'error',
             'message': 'El codigo expiro. Solicita uno nuevo.'
         }), 400)
 
-    if pending['code'] != code:
+    if pending.code != code:
         return make_response(jsonify({
             'status': 'error',
             'message': 'Codigo incorrecto'
@@ -128,8 +125,8 @@ def verify_email() -> Response:
 
     # Codigo correcto — marcar correo como verificado
     user.institutional_email_verified = True
+    db.session.delete(pending)
     db.session.commit()
-    _pending_codes.pop(user_id, None)
 
     return make_response(jsonify({
         'status': 'success',
@@ -179,7 +176,13 @@ def resend_code() -> Response:
             'message': 'El correo ya esta verificado'
         }), 400)
 
-    send_verification_code(user)
+    try:
+        send_verification_code(user)
+    except Exception:
+        return make_response(jsonify({
+            'status': 'error',
+            'message': 'No se pudo enviar el correo. Verifica la configuracion de email del servidor.'
+        }), 503)
 
     return make_response(jsonify({
         'status': 'success',

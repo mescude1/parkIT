@@ -1,13 +1,18 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { View, StyleSheet, Button, Alert } from "react-native";
 import MapView, { Marker } from "react-native-maps";
 import * as Location from "expo-location";
+import { useNavigation } from "@react-navigation/core";
+
+import { valetService } from "../services";
 
 const ServiceRequest = () => {
+  const navigation = useNavigation();
   const [location, setLocation] = useState<{
     latitude: number;
     longitude: number;
   } | null>(null);
+  const [isRequesting, setIsRequesting] = useState(false);
 
   useEffect(() => {
     (async () => {
@@ -28,9 +33,38 @@ const ServiceRequest = () => {
     })();
   }, []);
 
-  const handleRequestValet = () => {
-    Alert.alert("Valet solicitado", "Su conductor está en camino.");
-  };
+  const handleRequestValet = useCallback(async () => {
+    if (!location) {
+      Alert.alert(
+        "Ubicación no disponible",
+        "Espera a que se obtenga tu ubicación."
+      );
+      return;
+    }
+    setIsRequesting(true);
+    try {
+      const response = await valetService.requestService({
+        latitude: location.latitude,
+        longitude: location.longitude,
+      });
+      if (response.drivers && response.drivers.length > 0) {
+        (navigation as any).navigate("LookingForDriver", {
+          drivers: response.drivers,
+        });
+      } else {
+        Alert.alert(
+          "Sin conductores",
+          response.message ?? "No hay conductores cercanos en este momento."
+        );
+      }
+    } catch (error: unknown) {
+      const message =
+        error instanceof Error ? error.message : "No se pudo solicitar el servicio.";
+      Alert.alert("Error", message);
+    } finally {
+      setIsRequesting(false);
+    }
+  }, [location, navigation]);
 
   return (
     <View style={styles.container}>
@@ -50,9 +84,10 @@ const ServiceRequest = () => {
         <View style={styles.loading} />
       )}
       <Button
-        title="Solicitar Valet"
+        title={isRequesting ? "Buscando..." : "Solicitar Valet"}
         onPress={handleRequestValet}
         color="#000066"
+        disabled={isRequesting || !location}
       />
     </View>
   );
