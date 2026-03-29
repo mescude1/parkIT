@@ -9,7 +9,6 @@ import {
   IUseData,
   ITheme,
   IApiUser,
-  IStartServiceResponse,
 } from "../constants/types";
 
 import {
@@ -21,6 +20,9 @@ import {
 } from "../constants/mocks";
 import { light } from "../constants";
 import { authService } from "../services/authService";
+import { deviceTokenService } from "../services/deviceTokenService";
+import * as Notifications from "expo-notifications";
+import * as Device from "expo-device";
 
 export const DataContext = React.createContext({});
 
@@ -41,8 +43,7 @@ export const DataProvider = ({ children }: { children: React.ReactNode }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isInitializing, setIsInitializing] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
-  const [activeService, setActiveService] =
-    useState<IStartServiceResponse | null>(null);
+  const [activeService, setActiveService] = useState<null>(null);
 
   // get isDark mode from storage
   const getIsDark = useCallback(async () => {
@@ -117,6 +118,19 @@ export const DataProvider = ({ children }: { children: React.ReactNode }) => {
         setToken(access_token);
         setAuthUser(apiUser);
         setIsAuthenticated(true);
+        // Register Expo push token for this session
+        if (Device.isDevice) {
+          const { status } = await Notifications.getPermissionsAsync();
+          const finalStatus =
+            status === "granted"
+              ? status
+              : (await Notifications.requestPermissionsAsync()).status;
+          if (finalStatus === "granted") {
+            const pushToken = (await Notifications.getExpoPushTokenAsync()).data;
+            await deviceTokenService.register({ token: pushToken }).catch(() => {});
+            await Storage.setItem("push_token", pushToken);
+          }
+        }
         return { success: true };
       } catch (error: unknown) {
         const message =
@@ -136,8 +150,13 @@ export const DataProvider = ({ children }: { children: React.ReactNode }) => {
     } catch {
       // token may already be expired — ignore
     }
+    const pushToken = await Storage.getItem("push_token");
+    if (pushToken) {
+      await deviceTokenService.unregister({ token: pushToken }).catch(() => {});
+    }
     await Storage.removeItem("access_token");
     await Storage.removeItem("auth_user");
+    await Storage.removeItem("push_token");
     setToken(null);
     setAuthUser(null);
     setIsAuthenticated(false);

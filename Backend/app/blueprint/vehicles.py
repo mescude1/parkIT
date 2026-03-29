@@ -15,7 +15,7 @@ def new_vehicle():
         abort(400)
 
     data = request.get_json()
-    user_id = get_jwt_identity()
+    user_id = int(get_jwt_identity())
 
     # Lista de campos obligatorios
     required_fields = ["model", "brand", "license_plate", "year", "vehicle_img",
@@ -51,7 +51,7 @@ def new_vehicle():
 @jwt_required()
 def edit_vehicle(vehicle_id):
     """Editar un vehículo existente."""
-    user_id = get_jwt_identity()
+    user_id = int(get_jwt_identity())
     vehicle = Vehicle.query.filter_by(id=vehicle_id, owner=user_id).first()
 
     if not vehicle:
@@ -72,7 +72,7 @@ def edit_vehicle(vehicle_id):
 @jwt_required()
 def get_vehicle(vehicle_id):
     """Obtener detalles de un vehículo específico."""
-    user_id = get_jwt_identity()
+    user_id = int(get_jwt_identity())
     vehicle = Vehicle.query.filter_by(id=vehicle_id, owner=user_id).first()
 
     if not vehicle:
@@ -98,7 +98,7 @@ def get_vehicle(vehicle_id):
 @jwt_required()
 def get_all_vehicles():
     """Obtener todos los vehículos del usuario autenticado."""
-    user_id = get_jwt_identity()
+    user_id = int(get_jwt_identity())
     vehicles = Vehicle.query.filter_by(owner=user_id, is_deleted=False).all()
 
     # Crear una lista con los datos de los vehículos

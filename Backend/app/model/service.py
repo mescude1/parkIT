@@ -34,12 +34,12 @@ class Service(db.Model):
     user_id = db.Column(db.Integer, ForeignKey('users.id'), nullable=True)
     vehicle_id = db.Column(db.Integer, ForeignKey('vehicles.id'), nullable=True)
     contract_id = db.Column(db.Integer, ForeignKey('contract_metadata.id'), nullable=True)
-    parking_location = db.Column(db.Integer, ForeignKey('user_locations.id'), nullable=False)
-    pickup_location = db.Column(db.Integer, ForeignKey('user_locations.id'), nullable=False)
-    keys_location = db.Column(db.Integer, ForeignKey('user_locations.id'), nullable=False,)
-    is_finished = db.Column(db.Boolean, nullable=False)
+    parking_location = db.Column(db.Integer, ForeignKey('user_locations.id'), nullable=True)
+    pickup_location = db.Column(db.Integer, ForeignKey('user_locations.id'), nullable=True)
+    keys_location = db.Column(db.Integer, ForeignKey('user_locations.id'), nullable=True)
+    is_finished = db.Column(db.Boolean, nullable=True)
     created_at = db.Column(db.DateTime, nullable=False)
-    is_deleted = db.Column(db.Boolean, nullable=False)
+    is_deleted = db.Column(db.Boolean, nullable=True)
 
     def to_dict(self):
         return {

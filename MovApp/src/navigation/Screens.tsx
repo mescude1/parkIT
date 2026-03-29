@@ -13,6 +13,8 @@ import {
   LookingForDriver,
   Settings,
   History,
+  IncomingRequest,
+  ActiveService,
 } from "../screens";
 import { useScreenOptions, useTranslation } from "../hooks";
 
@@ -68,6 +70,16 @@ export default () => {
         name="LookingForDriver"
         component={LookingForDriver}
         options={{ headerShown: false, title: "Buscando conductor" }}
+      />
+      <Stack.Screen
+        name="IncomingRequest"
+        component={IncomingRequest}
+        options={{ headerShown: false, title: "Nueva solicitud" }}
+      />
+      <Stack.Screen
+        name="ActiveService"
+        component={ActiveService}
+        options={{ headerShown: false, title: "Servicio activo" }}
       />
     </Stack.Navigator>
   );

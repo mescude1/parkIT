@@ -6,7 +6,7 @@ export * from "./components";
 export * from "./theme";
 export * from "./api";
 
-import { IApiUser, IStartServiceResponse } from "./api";
+import { IApiUser } from "./api";
 
 export interface IUser {
   id: number | string;
@@ -98,8 +98,8 @@ export interface IUseData {
     password: string
   ) => Promise<{ success: boolean; message?: string }>;
   handleLogout: () => Promise<void>;
-  activeService: IStartServiceResponse | null;
-  setActiveService: (service: IStartServiceResponse | null) => void;
+  activeService: null;
+  setActiveService: (service: null) => void;
 }
 
 export interface ITranslate {

@@ -47,16 +47,11 @@ const ServiceRequest = () => {
         latitude: location.latitude,
         longitude: location.longitude,
       });
-      if (response.drivers && response.drivers.length > 0) {
-        (navigation as any).navigate("LookingForDriver", {
-          drivers: response.drivers,
-        });
-      } else {
-        Alert.alert(
-          "Sin conductores",
-          response.message ?? "No hay conductores cercanos en este momento."
-        );
-      }
+      (navigation as any).navigate("LookingForDriver", {
+        request_id: response.request_id,
+        latitude: location.latitude,
+        longitude: location.longitude,
+      });
     } catch (error: unknown) {
       const message =
         error instanceof Error ? error.message : "No se pudo solicitar el servicio.";

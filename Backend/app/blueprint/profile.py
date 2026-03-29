@@ -58,7 +58,7 @@ def register() -> Response:
     db.session.commit()
 
     # Crear un token JWT para el usuario registrado
-    access_token = create_access_token(identity=new_user.id)
+    access_token = create_access_token(identity=str(new_user.id))
 
     return make_response(jsonify(
         {'status': 'success', 'message': 'User registered', 'access_token': access_token}
@@ -69,7 +69,7 @@ def register() -> Response:
 @jwt_required()
 def get_profile() -> Response:
     """Obtener datos del perfil del usuario autenticado."""
-    user_id = get_jwt_identity()
+    user_id = int(get_jwt_identity())
     user = User.query.get(user_id)
 
     if not user:
@@ -82,7 +82,7 @@ def get_profile() -> Response:
 @jwt_required()
 def edit_profile() -> Response:
     """Actualizar todos los datos del perfil del usuario autenticado."""
-    user_id = get_jwt_identity()
+    user_id = int(get_jwt_identity())
     user = User.query.get(user_id)
 
     if not user:
@@ -113,7 +113,7 @@ def edit_profile() -> Response:
 @jwt_required()
 def generate_enrollment_contracts():
     """Generar contratos de inscripción para el usuario autenticado."""
-    user_id = get_jwt_identity()
+    user_id = int(get_jwt_identity())
     user = User.query.get(user_id)
 
     if not user:

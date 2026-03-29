@@ -2,8 +2,9 @@ import { apiClient } from "./apiClient";
 import {
   IRequestServiceRequest,
   IRequestServiceResponse,
-  IStartServiceRequest,
-  IStartServiceResponse,
+  IValetRequest,
+  IAcceptRequestResponse,
+  ILocationPoint,
   IServiceActionRequest,
   IServiceActionResponse,
   ITrip,
@@ -13,32 +14,36 @@ const PAGE_SIZE_DEFAULT = 10;
 
 export const valetService = {
   requestService: (body: IRequestServiceRequest) =>
-    apiClient.post<IRequestServiceResponse>("/valet/request-service", body),
+    apiClient.post<IRequestServiceResponse>("/valet/request", body),
 
-  startService: (body: IStartServiceRequest) =>
-    apiClient.post<IStartServiceResponse>("/valet/start-service", body),
+  getRequestStatus: (requestId: number) =>
+    apiClient.get<IValetRequest>(`/valet/request/${requestId}`),
+
+  cancelRequest: (requestId: number) =>
+    apiClient.post<{ message: string; request_id: number }>(
+      `/valet/request/${requestId}/cancel`,
+      {}
+    ),
+
+  acceptRequest: (requestId: number, body: IRequestServiceRequest) =>
+    apiClient.post<IAcceptRequestResponse>(
+      `/valet/request/${requestId}/accept`,
+      body
+    ),
+
+  updateLocation: (body: IRequestServiceRequest) =>
+    apiClient.post<{ message: string }>("/valet/location/update", body),
+
+  getLocation: (userId: number) =>
+    apiClient.get<ILocationPoint>(`/valet/location/${userId}`),
 
   endService: (body: IServiceActionRequest) =>
     apiClient.post<IServiceActionResponse>("/valet/end-service", body),
 
-  cancelService: (body: IServiceActionRequest) =>
-    apiClient.post<IServiceActionResponse>("/valet/cancel-service", body),
-
-  preServicePhoto: (body: { photo_url: string; service_id: number }) =>
-    apiClient.post<IServiceActionResponse>("/valet/pre-service-photo", body),
-
-  postServicePhoto: (body: { photo_url: string; service_id: number }) =>
-    apiClient.post<IServiceActionResponse>("/valet/post-service-photo", body),
-
-  keyPhoto: (body: { photo_url: string; service_id: number }) =>
-    apiClient.post<IServiceActionResponse>("/valet/key-photo", body),
-
-  // Stub — replace the commented line with the real endpoint when available
   fetchServiceHistory: (
     page: number,
     pageSize: number = PAGE_SIZE_DEFAULT
   ): Promise<ITrip[]> => {
-    // return apiClient.get<ITrip[]>(`/valet/history?page=${page}&size=${pageSize}`);
     return new Promise((resolve) => {
       setTimeout(() => {
         const trips = Array.from({ length: pageSize }, (_, index) => ({

@@ -30,7 +30,7 @@ def login() -> Response:
     user = User.query.filter(User.username == username).first()
     if user and user.authenticate(password):
         session['user_id'] = user.id
-        access_token = create_access_token(identity=user.id)
+        access_token = create_access_token(identity=str(user.id))
         return make_response(jsonify({
             'data': {
                 'user': user.to_dict(),

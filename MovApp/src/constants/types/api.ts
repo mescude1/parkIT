@@ -84,21 +84,37 @@ export interface IRequestServiceRequest {
 }
 
 export interface IRequestServiceResponse {
-  message: string;
-  drivers?: number[];
+  request_id: number;
+  status: string;
+  nearby_valets_notified: number;
 }
 
-export interface IStartServiceRequest {
-  target_user_id: number;
+export interface ILocationPoint {
+  id: number;
+  user_id: number;
+  latitude: number;
+  longitude: number;
+  timestamp: string;
+  type: string;
 }
 
-export interface IStartServiceResponse {
-  message: string;
+export interface IValetRequest {
+  id: number;
+  client_id: number;
+  latitude: number;
+  longitude: number;
+  status: "pending" | "accepted" | "cancelled" | "expired";
+  accepted_by: number | null;
+  service_id: number | null;
+  created_at: string;
+  valet_location?: ILocationPoint;
+}
+
+export interface IAcceptRequestResponse {
   service_id: number;
-  user_location: { latitude: number; longitude: number };
-  target_location: { latitude: number; longitude: number };
-  eta_minutes: number;
-  fixed_price: number;
+  request_id: number;
+  message: string;
+  client_location: ILocationPoint;
 }
 
 export interface IServiceActionRequest {
@@ -109,6 +125,10 @@ export interface IServiceActionResponse {
   status: string;
   message: string;
   details?: Record<string, unknown>;
+}
+
+export interface IDeviceTokenRequest {
+  token: string;
 }
 
 // Trip — used for history lists
