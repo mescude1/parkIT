@@ -15,13 +15,9 @@ to a previous configuration.
 import os
 
 from flask import Flask
-from flask_jwt_extended import JWTManager, get_jwt
 from flask_cors import CORS
 
-blacklisted_tokens = set()  # Simple in-memory storage (use Redis or DB in production)
-
-
-def create_app(test_config: dict = {}) -> Flask:
+def create_app(test_config: dict = None) -> Flask:
     """This function is responsible to create a Flask instance according
     a previous setting passed from environment. In that process, it also
     initializes the database source.
@@ -35,7 +31,6 @@ def create_app(test_config: dict = {}) -> Flask:
 
     app = Flask(__name__, instance_relative_config=True)
 
-
     load_config(app, test_config)
 
     CORS(app)
@@ -48,7 +43,6 @@ def create_app(test_config: dict = {}) -> Flask:
     app.config['JWT_BLACKLIST_ENABLED'] = True
     app.config['JWT_BLACKLIST_TOKEN_CHECKS'] = ["access", "refresh"]
 
-
     return app
 
 
@@ -60,6 +54,7 @@ def load_config(app: Flask, test_config) -> None:
         test_config (dict):
     """
 
+    test_config = test_config or {}
     env = test_config.get('FLASK_ENV') or os.environ.get('FLASK_ENV', 'production')
 
     if env == 'development':
@@ -107,16 +102,25 @@ def init_blueprints(app: Flask) -> None:
     from .blueprint.handlers import register_handler
     register_handler(app)
 
-    # error Handlers
     from .blueprint import index, autho, profile
-    from .blueprint import index, autho, account
     from .blueprint.register import bp_register
     from .blueprint.valet import bp_valet
+    from .blueprint.vehicles import bp_vehicles
+    from .blueprint.account import bp as bp_account
+    from .blueprint.display import bp_display
+    from .blueprint.verification import bp_verification
+    from .blueprint.device_token import bp_device_token
     app.register_blueprint(index.bp)
     app.register_blueprint(autho.bp)
     app.register_blueprint(profile.bp_profile)
     app.register_blueprint(bp_register)
     app.register_blueprint(bp_valet)
+    app.register_blueprint(bp_vehicles)
+    app.register_blueprint(bp_account)
+    app.register_blueprint(bp_display)
+    app.register_blueprint(bp_verification)
+    app.register_blueprint(bp_device_token)
+
 
 def init_commands(app):
     from .commands import register_commands
@@ -124,9 +128,10 @@ def init_commands(app):
 
 
 def init_jwt(app):
-    from flask_jwt_extended import (JWTManager)
+    from flask_jwt_extended import JWTManager
     jwt = JWTManager(app)
 
     @jwt.token_in_blocklist_loader
     def check_if_token_revoked(jwt_header, jwt_payload):
-        return jwt_payload["jti"] in blacklisted_tokens
+        from app.model.token_blacklist import TokenBlacklist
+        return TokenBlacklist.query.filter_by(jti=jwt_payload["jti"]).first() is not None

@@ -8,6 +8,7 @@ import {
   IUser,
   IUseData,
   ITheme,
+  IApiUser,
 } from "../constants/types";
 
 import {
@@ -18,6 +19,10 @@ import {
   ARTICLES,
 } from "../constants/mocks";
 import { light } from "../constants";
+import { authService } from "../services/authService";
+import { deviceTokenService } from "../services/deviceTokenService";
+import * as Notifications from "expo-notifications";
+import * as Device from "expo-device";
 
 export const DataContext = React.createContext({});
 
@@ -32,23 +37,37 @@ export const DataProvider = ({ children }: { children: React.ReactNode }) => {
   const [articles, setArticles] = useState<IArticle[]>(ARTICLES);
   const [article, setArticle] = useState<IArticle>({});
 
+  // Auth state
+  const [authUser, setAuthUser] = useState<IApiUser | null>(null);
+  const [token, setToken] = useState<string | null>(null);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isInitializing, setIsInitializing] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
+  const [activeService, setActiveService] = useState<null>(null);
+
   // get isDark mode from storage
   const getIsDark = useCallback(async () => {
-    // get preferance gtom storage
     const isDarkJSON = await Storage.getItem("isDark");
-
     if (isDarkJSON !== null) {
-      // set isDark / compare if has updated
       setIsDark(JSON.parse(isDarkJSON));
     }
   }, [setIsDark]);
 
+  // Restore persisted auth session on mount
+  const getStoredAuth = useCallback(async () => {
+    const storedToken = await Storage.getItem("access_token");
+    const storedUser = await Storage.getItem("auth_user");
+    if (storedToken && storedUser) {
+      setToken(storedToken);
+      setAuthUser(JSON.parse(storedUser));
+      setIsAuthenticated(true);
+    }
+  }, []);
+
   // handle isDark mode
   const handleIsDark = useCallback(
     (payload: boolean) => {
-      // set isDark / compare if has updated
       setIsDark(payload);
-      // save preferance to storage
       Storage.setItem("isDark", JSON.stringify(payload));
     },
     [setIsDark]
@@ -57,7 +76,6 @@ export const DataProvider = ({ children }: { children: React.ReactNode }) => {
   // handle users / profiles
   const handleUsers = useCallback(
     (payload: IUser[]) => {
-      // set users / compare if has updated
       if (JSON.stringify(payload) !== JSON.stringify(users)) {
         setUsers({ ...users, ...payload });
       }
@@ -68,7 +86,6 @@ export const DataProvider = ({ children }: { children: React.ReactNode }) => {
   // handle user
   const handleUser = useCallback(
     (payload: IUser) => {
-      // set user / compare if has updated
       if (JSON.stringify(payload) !== JSON.stringify(user)) {
         setUser(payload);
       }
@@ -79,7 +96,6 @@ export const DataProvider = ({ children }: { children: React.ReactNode }) => {
   // handle Article
   const handleArticle = useCallback(
     (payload: IArticle) => {
-      // set article / compare if has updated
       if (JSON.stringify(payload) !== JSON.stringify(article)) {
         setArticle(payload);
       }
@@ -87,10 +103,72 @@ export const DataProvider = ({ children }: { children: React.ReactNode }) => {
     [article, setArticle]
   );
 
-  // get initial data for: isDark & language
+  // Login — calls /autho/login, persists token + user, returns success flag
+  const handleLogin = useCallback(
+    async (
+      username: string,
+      password: string
+    ): Promise<{ success: boolean; message?: string }> => {
+      setIsLoading(true);
+      try {
+        const response = await authService.login({ username, password });
+        const { access_token, user: apiUser } = response.data;
+        await Storage.setItem("access_token", access_token);
+        await Storage.setItem("auth_user", JSON.stringify(apiUser));
+        setToken(access_token);
+        setAuthUser(apiUser);
+        setIsAuthenticated(true);
+        // Register Expo push token for this session
+        if (Device.isDevice) {
+          const { status } = await Notifications.getPermissionsAsync();
+          const finalStatus =
+            status === "granted"
+              ? status
+              : (await Notifications.requestPermissionsAsync()).status;
+          if (finalStatus === "granted") {
+            const pushToken = (await Notifications.getExpoPushTokenAsync()).data;
+            await deviceTokenService.register({ token: pushToken }).catch(() => {});
+            await Storage.setItem("push_token", pushToken);
+          }
+        }
+        return { success: true };
+      } catch (error: unknown) {
+        const message =
+          error instanceof Error ? error.message : "Login failed";
+        return { success: false, message };
+      } finally {
+        setIsLoading(false);
+      }
+    },
+    []
+  );
+
+  // Logout — blacklists token server-side, clears local state
+  const handleLogout = useCallback(async () => {
+    try {
+      await authService.logout();
+    } catch {
+      // token may already be expired — ignore
+    }
+    const pushToken = await Storage.getItem("push_token");
+    if (pushToken) {
+      await deviceTokenService.unregister({ token: pushToken }).catch(() => {});
+    }
+    await Storage.removeItem("access_token");
+    await Storage.removeItem("auth_user");
+    await Storage.removeItem("push_token");
+    setToken(null);
+    setAuthUser(null);
+    setIsAuthenticated(false);
+    setActiveService(null);
+  }, []);
+
+  // get initial data for: isDark & stored auth; hide splash after both resolve
   useEffect(() => {
-    getIsDark();
-  }, [getIsDark]);
+    Promise.all([getIsDark(), getStoredAuth()]).finally(() => {
+      setIsInitializing(false);
+    });
+  }, [getIsDark, getStoredAuth]);
 
   // change theme based on isDark updates
   useEffect(() => {
@@ -116,6 +194,16 @@ export const DataProvider = ({ children }: { children: React.ReactNode }) => {
     setArticles,
     article,
     handleArticle,
+    // Auth
+    authUser,
+    token,
+    isAuthenticated,
+    isInitializing,
+    isLoading,
+    handleLogin,
+    handleLogout,
+    activeService,
+    setActiveService,
   };
 
   return (

@@ -1,11 +1,12 @@
 import hashlib
 
 from app.database import db
+from app.model.base import Model
 from flask_login import UserMixin
 from sqlalchemy.ext.hybrid import hybrid_property
 
 
-class User(UserMixin, db.Model):
+class User(UserMixin, Model, db.Model):
     """Represents a user entity in the database.
 
     Tipos de usuario:
@@ -45,6 +46,9 @@ class User(UserMixin, db.Model):
 
     def authenticate(self, password):
         return self._password_hash == hashlib.sha256(password.encode('utf-8')).hexdigest()
+
+    def __repr__(self):
+        return '<User %r>' % self.username
 
     def to_dict(self):
         return {

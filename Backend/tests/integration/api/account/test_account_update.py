@@ -1,9 +1,7 @@
 """It contains tests for the account updating endpoint."""
 
-from datetime import datetime
-
 from flask import json
-from tests.util import create_user, create_tokens, get_unique_username
+from tests.util import create_user, create_tokens
 
 
 def test_update_account_with_data_well_formatted_returning_200_status_code(client, session):
@@ -44,7 +42,7 @@ def test_update_account_with_password_length_smaller_than_3_character_returning_
                           headers={'Authorization': 'Bearer ' + tokens['access']['enconded']})
     assert response.status_code == 400
     assert response.json['status'] == 'fail'
-    assert {"password": "minimum length of 3 characters"} in response.json['data']   
+    assert {"password": "minimum length of 3 characters"} in response.json['data']
 
 
 def test_update_account_with_an_user_already_excluded_returning_404_status_code(client, session):
@@ -101,7 +99,7 @@ def test_update_account_without_request_content_type_returning_400_status_code(c
                           headers={'Authorization': 'Bearer ' + tokens['access']['enconded']})
     assert response.status_code == 400
     assert response.json['status'] == 'fail'
-    assert response.json['message'] == 'bad request'    
+    assert response.json['message'] == 'bad request'
 
 
 def test_update_account_with_empty_data_returning_400_status_code(client, session):

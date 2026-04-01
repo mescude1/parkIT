@@ -10,12 +10,13 @@ from flask_jwt_extended import (
 )
 
 from app.model.repository.user_repository import UserRepository
+from app.model import User
 
 bp = Blueprint('account', __name__, url_prefix='/account')
 
 
 @bp.route('', methods=('GET',))
-@jwt_required
+@jwt_required()
 def get_account():
     """Retrieves the user account.
 
@@ -23,8 +24,8 @@ def get_account():
         response: flask.Response object with the application/json mimetype.
     """
 
-    user_identity = get_jwt_identity()
-    user = UserRepository().get_by_username(user_identity)
+    user_identity = int(get_jwt_identity())
+    user = User.query.get(user_identity)
 
     if not user:
         abort(404)
@@ -36,7 +37,7 @@ def get_account():
 
 
 @bp.route('', methods=('PUT',))
-@jwt_required
+@jwt_required()
 def update_account() -> Response:
     """Updates the user account.
 
@@ -75,7 +76,7 @@ def update_account() -> Response:
 
 
 @bp.route('', methods=('PATCH',))
-@jwt_required
+@jwt_required()
 def patch_account() -> Response:
     """Patches the user account.
 
@@ -115,7 +116,7 @@ def patch_account() -> Response:
 
 
 @bp.route('', methods=('DELETE',))
-@jwt_required
+@jwt_required()
 def delete_account() -> Response:
     """Deletes the user account.
 
@@ -129,7 +130,7 @@ def delete_account() -> Response:
 
     if user:
         user_repository.delete(user)
-        TokenRepository().revoke_all_tokens(user_identity)
+        # TokenRepository().revoke_all_tokens(user_identity)  # TODO: implement token revocation
         return make_response('', 201)
 
     abort(404)

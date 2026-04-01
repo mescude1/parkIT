@@ -1,0 +1,10 @@
+__pycache__/
+*.py[cod]
+*.pyo
+.env
+.venv/
+instance/
+*.db
+.pytest_cache/
+.idea/
+migrations/__pycache__/

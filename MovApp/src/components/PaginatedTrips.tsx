@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { View, Text, FlatList, ActivityIndicator } from "react-native";
+import { valetService } from "../services";
 
 const PAGE_SIZE = 10;
 
@@ -8,21 +9,6 @@ type Trip = {
   date: string;
   driver: string;
   price: string;
-};
-
-// Mock function to simulate fetching paginated trips from an API
-const fetchTrips = (page: number): Promise<Trip[]> => {
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      const newTrips = Array.from({ length: PAGE_SIZE }, (_, index) => ({
-        id: `${page * PAGE_SIZE + index + 1}`,
-        date: `2024-04-${((index % 30) + 1).toString().padStart(2, "0")}`,
-        driver: `Driver ${page * PAGE_SIZE + index + 1}`,
-        price: `$${(Math.random() * 200 + 50).toFixed(2)}`,
-      }));
-      resolve(newTrips);
-    }, 1000); // Simulate network delay
-  });
 };
 
 const PaginatedTrips = () => {
@@ -39,7 +25,7 @@ const PaginatedTrips = () => {
     if (loading || !hasMore) return;
 
     setLoading(true);
-    const newTrips = await fetchTrips(page);
+    const newTrips = (await valetService.fetchServiceHistory(page, PAGE_SIZE)) as Trip[];
     setTrips((prevTrips) => [...prevTrips, ...newTrips]);
     setPage((prevPage) => prevPage + 1);
     setHasMore(newTrips.length === PAGE_SIZE);

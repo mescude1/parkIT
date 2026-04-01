@@ -5,6 +5,7 @@ from app.model.repository.user_repository import UserRepository
 
 bp_display = Blueprint('display', __name__, url_prefix='/display')
 
+
 @bp_display.route('/dashboard', methods=['GET'])
 @jwt_required()
 def dashboard():
@@ -21,16 +22,17 @@ def dashboard():
     name = user_data['name']
     services = user_data['services'][-3:][::-1]  # Last 3 services, most recent first
 
-
     return jsonify({'status': 'success', 'message': {
         "name": name,
         "last_services": services
     }}), 200
 
+
 @bp_display.route('/services', methods=['GET'])
 @jwt_required()
 def get_services():
     return jsonify({'status': 'success', 'message': 'List of services'}), 200
+
 
 @bp_display.route('/vehicles', methods=['GET'])
 @jwt_required()

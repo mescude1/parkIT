@@ -2,6 +2,7 @@ from sqlalchemy import ForeignKey
 
 from app.database import db
 
+
 class UserLocation(db.Model):
     """
     Represents a user's location data within the application.
@@ -25,7 +26,6 @@ class UserLocation(db.Model):
         representation.
     """
 
-
     __tablename__ = 'user_locations'
 
     id = db.Column(db.Integer, primary_key=True)
@@ -46,4 +46,3 @@ class UserLocation(db.Model):
             'timestamp': self.timestamp,
             'type': self.type
         }
-

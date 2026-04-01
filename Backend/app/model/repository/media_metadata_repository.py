@@ -3,6 +3,7 @@
 from app.model.media_metadata import MediaMetadata
 from app.model.repository import Repository
 
+
 class MediaMetadataRepository(Repository):
     """It Contains specific method related to de User
     model to do operation in the database.

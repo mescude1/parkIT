@@ -24,7 +24,7 @@ def test_session_shutdown(app, mocker):
     THEN check if the session is clean
     """
 
-    from app.database import shutdown_session, db_session
+    from app.database import shutdown_session
 
     mock_session = mocker.MagicMock()
     mocker.patch('app.database.db_session', mock_session)

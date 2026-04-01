@@ -3,6 +3,7 @@
 from app.model.service import Service
 from app.model.repository import Repository
 
+
 class ServiceRepository(Repository):
     """It Contains specific method related to de User
     model to do operation in the database.

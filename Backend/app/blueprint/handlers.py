@@ -7,7 +7,7 @@ from flask import make_response, jsonify
 def register_handler(app):
     """Registers the error handler is a function to common error HTTP codes
 
-    Parameters:    
+    Parameters:
         app (flask.app.Flask): The application instance.
     """
 

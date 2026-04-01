@@ -21,8 +21,8 @@ def test_delete_with_all_data_passed_returning_200_status_code(client, session):
 
     from app.model import Token
     tokens = session.query(Token).filter_by(
-                                            user_identity=user.username, 
-                                            revoked=False).all()
+        user_identity=user.username,
+        revoked=False).all()
     assert len(tokens) == 0
 
 

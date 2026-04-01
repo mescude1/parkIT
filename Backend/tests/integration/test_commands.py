@@ -17,8 +17,9 @@ def test_add_user_command(runner, monkeypatch):
         Recorder.called = True
 
     monkeypatch.setattr('app.commands.add_user', fake_add_user)
-    result = runner.invoke(args=['user', 'admin', '123'])
+    runner.invoke(args=['user', 'admin', '123'])
     assert Recorder.called
+
 
 def test_function_of_add_user_command_with_data_well(session):
     """
@@ -28,7 +29,7 @@ def test_function_of_add_user_command_with_data_well(session):
     """
 
     from app.commands import add_user
-    
+
     username = get_unique_username()
     password = '123'
     add_user(username, password)

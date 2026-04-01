@@ -53,10 +53,10 @@ def test_with_development_config():
     app = create_app(config)
     assert not app.testing
     assert app.debug
-    assert app.config.get('JWT_BLACKLIST_ENABLED') == True
+    assert app.config.get('JWT_BLACKLIST_ENABLED')
     assert app.config.get('JWT_BLACKLIST_TOKEN_CHECKS') == [
         'access', 'refresh']
-    assert app.config.get('SQLALCHEMY_TRACK_MODIFICATIONS') == False
+    assert not app.config.get('SQLALCHEMY_TRACK_MODIFICATIONS')
     assert app.config.get('SECRET_KEY') == 'dev'
     assert app.config.get('JWT_SECRET_KEY') == 'dev'
     assert app.config.get(
@@ -76,13 +76,13 @@ def test_with_production_config():
         'SQLALCHEMY_DATABASE_URI': os.environ.get('DATABASE_URL')
     }
     app = create_app(config)
-    from app.config import Production, Development
+    from app.config import Production
     assert not app.testing
     assert not app.debug
-    assert app.config.get('JWT_BLACKLIST_ENABLED') == True
+    assert app.config.get('JWT_BLACKLIST_ENABLED')
     assert app.config.get('JWT_BLACKLIST_TOKEN_CHECKS') == [
         'access', 'refresh']
-    assert app.config.get('SQLALCHEMY_TRACK_MODIFICATIONS') == False
+    assert not app.config.get('SQLALCHEMY_TRACK_MODIFICATIONS')
     assert app.config.get('SECRET_KEY') == Production.SECRET_KEY
     assert app.config.get('JWT_SECRET_KEY') == Production.JWT_SECRET_KEY
     assert app.config.get(

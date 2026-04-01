@@ -3,6 +3,7 @@
 from flask import json
 from tests.util import create_user, create_tokens, is_token_revoked, revoke_token
 
+
 def test_auth_list_tokens_of_logged_user_returning_200_status_code(client, session):
     """
     GIVEN a Flask application
@@ -31,7 +32,7 @@ def test_auth_revoke_an_existent_token_returning_200_status_code(client, session
     """
     GIVEN a Flask application
     WHEN the '/auth/token/<id>' URL is requested (PUT)
-    THEN check the response is valid and and for revoked token 
+    THEN check the response is valid and and for revoked token
     """
 
     tokens = create_tokens('test')
@@ -53,7 +54,7 @@ def test_auth_unrevoke_an_existent_token_returning_200_status_code(client, sessi
     """
     GIVEN a Flask application
     WHEN the '/auth/token/<id>' URL is requested (PUT)
-    THEN check the response is valid and and for unrevoked token 
+    THEN check the response is valid and and for unrevoked token
     """
 
     tokens = create_tokens('test')
@@ -65,12 +66,12 @@ def test_auth_unrevoke_an_existent_token_returning_200_status_code(client, sessi
     url = '/auth/token/{}'.format(tokens['refresh']['model'].id)
     data = {'revoke': False}
     response = client.put(url,
-                           content_type='application/json',
-                           data=json.dumps(data),
-                           headers={'Authorization': 'Bearer ' + tokens['access']['enconded']})
+                          content_type='application/json',
+                          data=json.dumps(data),
+                          headers={'Authorization': 'Bearer ' + tokens['access']['enconded']})
     assert response.status_code == 200
     assert response.json['status'] == 'success'
-    assert response.json['message'] == 'Token unrevoked'    
+    assert response.json['message'] == 'Token unrevoked'
     assert not is_token_revoked(tokens['refresh']['decoded'])
 
 
@@ -78,7 +79,7 @@ def test_auth_revoke_and_try_access_a_protected_url_returning_200_status_code(cl
     """
     GIVEN a Flask application
     WHEN the '/auth/token' URL is requested (GET) with revoked token
-    THEN check the response HTTP 401 response 
+    THEN check the response HTTP 401 response
     """
 
     tokens = create_tokens('test')
@@ -93,11 +94,12 @@ def test_auth_revoke_and_try_access_a_protected_url_returning_200_status_code(cl
     assert response.status_code == 401
     assert response.json['msg'] == 'Token has been revoked'
 
+
 def test_auth_revoke_with_an_inexistent_token_id_returning_400_status_code(client, auth):
     """
     GIVEN a Flask application
     WHEN the '/auth/token/<id>' URL is requested (PUT) with an inexistent token
-    THEN check the response HTTP 400 response 
+    THEN check the response HTTP 400 response
     """
 
     response = client.put('/auth/token/9999999',
@@ -112,7 +114,7 @@ def test_auth_revoke_without_data_returning_400_status_code(client, session, aut
     """
     GIVEN a Flask application
     WHEN the '/auth/token/<id>' URL is requested (PUT) without data
-    THEN check the response HTTP 400 response 
+    THEN check the response HTTP 400 response
     """
 
     tokens = create_tokens('test')
@@ -131,7 +133,7 @@ def test_auth_revoke_without_request_content_type_returning_400_status_code(clie
     """
     GIVEN a Flask application
     WHEN the '/auth/token/<id>' URL is requested (PUT) without request content type
-    THEN check the response HTTP 400 response 
+    THEN check the response HTTP 400 response
     """
 
     tokens = create_tokens('test')
@@ -141,15 +143,15 @@ def test_auth_revoke_without_request_content_type_returning_400_status_code(clie
     response = client.put(url,
                           headers={'Authorization': 'Bearer ' + tokens['access']['enconded']})
     assert response.status_code == 400
-    assert response.json['status'] == 'fail'   
-    assert response.json['message'] == 'bad request' 
+    assert response.json['status'] == 'fail'
+    assert response.json['message'] == 'bad request'
 
 
 def test_auth_revoke_with_invalid_revoke_value_returning_400_status_code(client, session, auth):
     """
     GIVEN a Flask application
     WHEN the '/auth/token/<id>' URL is requested (PUT) with invalid revoke value
-    THEN check the response HTTP 400 response 
+    THEN check the response HTTP 400 response
     """
 
     tokens = create_tokens('test')
@@ -170,7 +172,7 @@ def test_auth_revoke_that_not_existent_in_the_database_anymore_returning_404_sta
     """
     GIVEN a Flask application
     WHEN the '/auth/token/<id>' URL is requested (PUT) with a token deleted from database
-    THEN check the response HTTP 404 response 
+    THEN check the response HTTP 404 response
     """
 
     tokens = create_tokens('test')
@@ -198,7 +200,7 @@ def test_auth_token_no_existent_in_the_database_anymore_returning_400_status_cod
     """
     GIVEN a Flask application
     WHEN the '/auth/token/' URL is requested (GET) with a token deleted from database
-    THEN check the response HTTP 400 response 
+    THEN check the response HTTP 400 response
     """
 
     tokens = create_tokens('test')

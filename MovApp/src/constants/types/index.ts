@@ -4,6 +4,9 @@ import { ITheme } from "./theme";
 
 export * from "./components";
 export * from "./theme";
+export * from "./api";
+
+import { IApiUser } from "./api";
 
 export interface IUser {
   id: number | string;
@@ -84,6 +87,19 @@ export interface IUseData {
   handleArticle: (data?: IArticle) => void;
   notifications: INotification[];
   handleNotifications: (data?: INotification[]) => void;
+  // Auth
+  authUser: IApiUser | null;
+  token: string | null;
+  isAuthenticated: boolean;
+  isInitializing: boolean;
+  isLoading: boolean;
+  handleLogin: (
+    username: string,
+    password: string
+  ) => Promise<{ success: boolean; message?: string }>;
+  handleLogout: () => Promise<void>;
+  activeService: null;
+  setActiveService: (service: null) => void;
 }
 
 export interface ITranslate {

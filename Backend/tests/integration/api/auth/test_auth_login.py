@@ -4,7 +4,7 @@
 from flask import json
 from flask_jwt_extended import decode_token
 
-from tests.util import get_unique_username, create_user
+from tests.util import get_unique_username
 
 
 def test_auth_login_with_correct_credentials_passed_returning_200_status_code(client, session):
@@ -117,7 +117,7 @@ def test_auth_login_with_an_inexistent_username_returning_401_status_code(client
 def test_auth_login_with_an_incorrect_password_returning_401_status_code(client):
     """
     GIVEN a Flask application
-    WHEN the '/auth/login' URL is requested (POST) with incorrect password 
+    WHEN the '/auth/login' URL is requested (POST) with incorrect password
     THEN check the response HTTP 401 response
     """
 

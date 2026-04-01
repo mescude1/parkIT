@@ -13,12 +13,8 @@ import { LinearGradient } from "expo-linear-gradient";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 import useTheme from "../hooks/useTheme";
+import { useData } from "../hooks/useData";
 import { IBlockProps } from "../constants/types";
-
-// Mock data for user
-const mockUser = {
-  username: "Pablo Perez",
-};
 
 const GreetUser = (props: IBlockProps) => {
   const {
@@ -35,13 +31,17 @@ const GreetUser = (props: IBlockProps) => {
     ...rest
   } = props;
   const { colors } = useTheme();
+  const { authUser } = useData();
 
   const blockStyles = StyleSheet.flatten([style, { padding: 5 }]) as ViewStyle;
 
   const blockID =
     Platform.OS === "android" ? { accessibilityLabel: id } : { testID: id };
 
-  const greetingText = `Hola! ${mockUser.username}`;
+  const displayName = authUser
+    ? `${authUser.name} ${authUser.last_name}`
+    : "Guest";
+  const greetingText = `Hola! ${displayName}`;
 
   if (safe) {
     return (

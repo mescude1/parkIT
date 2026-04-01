@@ -1,8 +1,10 @@
 from sqlalchemy import ForeignKey
 
 from app.database import db
+from app.model.base import Model
 
-class Vehicle(db.Model):
+
+class Vehicle(Model, db.Model):
     """
     Columns:
         id (integer, primary key, auto-incremented): Unique identifier for the vehicle.
@@ -24,7 +26,6 @@ class Vehicle(db.Model):
         registration_date (datetime): The vehicle's registration date.
     """
 
-
     __tablename__ = 'vehicles'
 
     id = db.Column(db.Integer, primary_key=True)
@@ -39,6 +40,9 @@ class Vehicle(db.Model):
     type = db.Column(db.String, nullable=False)
     created_at = db.Column(db.DateTime, nullable=False)
     is_deleted = db.Column(db.Boolean, nullable=False)
+
+    def __repr__(self):
+        return '<Vehicle %r>' % self.license_plate
 
     def to_dict(self):
         return {
