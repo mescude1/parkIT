@@ -131,6 +131,16 @@ export interface IDeviceTokenRequest {
   token: string;
 }
 
+// Profile editing
+export interface IEditProfileRequest {
+  name?: string;
+  last_name?: string;
+  email?: string;
+  cellphone?: string;
+  profile_img?: string;
+  vehicle_type?: string;
+}
+
 // Trip — used for history lists
 export interface ITrip {
   id: string | number;

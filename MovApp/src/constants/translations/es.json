@@ -103,10 +103,22 @@
   },
   "profile": {
     "title": "Perfil",
-    "posts": "Publicaciones",
-    "followers": "Seguidores",
-    "following": "Siguiendo",
-    "aboutMe": "Sobre mí"
+    "servicesCompleted": "Servicios",
+    "customerRating": "Calificación",
+    "personalInfo": "Información Personal",
+    "name": "Nombre",
+    "lastName": "Apellido",
+    "email": "Correo",
+    "phone": "Teléfono",
+    "userType": "Tipo de Cuenta",
+    "vehicleType": "Tipo de Vehículo",
+    "valetCode": "Código Valet",
+    "editProfile": "Editar Perfil",
+    "saveChanges": "Guardar Cambios",
+    "cancel": "Cancelar",
+    "callPhone": "Llamar",
+    "profileUpdated": "Perfil actualizado exitosamente",
+    "profileUpdateError": "Error al actualizar perfil"
   },
   "pro": {
     "title": "Soft UI PRO",
