@@ -105,10 +105,22 @@
   },
   "profile": {
     "title": "Profile",
-    "posts": "Posts",
-    "followers": "Followers",
-    "following": "Following",
-    "aboutMe": "About me"
+    "servicesCompleted": "Services",
+    "customerRating": "Rating",
+    "personalInfo": "Personal Information",
+    "name": "Name",
+    "lastName": "Last Name",
+    "email": "Email",
+    "phone": "Phone",
+    "userType": "Account Type",
+    "vehicleType": "Vehicle Type",
+    "valetCode": "Valet Code",
+    "editProfile": "Edit Profile",
+    "saveChanges": "Save Changes",
+    "cancel": "Cancel",
+    "callPhone": "Call",
+    "profileUpdated": "Profile updated successfully",
+    "profileUpdateError": "Failed to update profile"
   },
   "pro": {
     "title": "Soft UI PRO",

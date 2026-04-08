@@ -71,22 +71,16 @@ export interface IUseData {
   users: IUser[];
   handleUser: (data?: IUser) => void;
   handleUsers: (data?: IUser[]) => void;
-  basket: IBasket;
-  handleBasket: (data?: IBasket) => void;
-  following: IProduct[];
-  setFollowing: (data?: IProduct[]) => void;
-  trending: IProduct[];
-  setTrending: (data?: IProduct[]) => void;
+  valet_user: IProduct[];
+  setValetUser: (data?: IProduct[]) => void;
+  valet_driver: IProduct[];
+  setValetDriver: (data?: IProduct[]) => void;
   categories: ICategory[];
   setCategories: (data?: ICategory[]) => void;
-  recommendations: IArticle[];
-  setRecommendations: (data?: IArticle[]) => void;
   articles: IArticle[];
   setArticles: (data?: IArticle[]) => void;
   article: IArticle;
   handleArticle: (data?: IArticle) => void;
-  notifications: INotification[];
-  handleNotifications: (data?: INotification[]) => void;
   // Auth
   authUser: IApiUser | null;
   token: string | null;
@@ -98,6 +92,7 @@ export interface IUseData {
     password: string
   ) => Promise<{ success: boolean; message?: string }>;
   handleLogout: () => Promise<void>;
+  handleUpdateAuthUser: (fields: Partial<IApiUser>) => Promise<void>;
   activeService: null;
   setActiveService: (service: null) => void;
 }

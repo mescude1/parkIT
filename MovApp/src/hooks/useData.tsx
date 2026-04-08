@@ -143,6 +143,16 @@ export const DataProvider = ({ children }: { children: React.ReactNode }) => {
     []
   );
 
+  // Update authUser fields locally and persist to AsyncStorage
+  const handleUpdateAuthUser = useCallback(
+    async (updatedFields: Partial<IApiUser>) => {
+      const merged = { ...authUser!, ...updatedFields };
+      setAuthUser(merged);
+      await Storage.setItem("auth_user", JSON.stringify(merged));
+    },
+    [authUser]
+  );
+
   // Logout — blacklists token server-side, clears local state
   const handleLogout = useCallback(async () => {
     try {
@@ -202,6 +212,7 @@ export const DataProvider = ({ children }: { children: React.ReactNode }) => {
     isLoading,
     handleLogin,
     handleLogout,
+    handleUpdateAuthUser,
     activeService,
     setActiveService,
   };

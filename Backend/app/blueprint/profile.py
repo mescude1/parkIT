@@ -2,8 +2,9 @@ from datetime import datetime
 
 from flask import Blueprint, request, jsonify, abort, Response, make_response
 from flask_jwt_extended import jwt_required, get_jwt_identity, create_access_token
+from sqlalchemy import func
 from app.database import db
-from app.model import User
+from app.model import User, Service
 
 bp_profile = Blueprint('profile', __name__, url_prefix='/profile')
 
@@ -106,7 +107,11 @@ def edit_profile() -> Response:
             setattr(user, key, value)
 
     db.session.commit()
-    return make_response(jsonify({'status': 'success', 'message': 'Profile updated successfully'}), 200)
+    return make_response(jsonify({
+        'status': 'success',
+        'message': 'Profile updated successfully',
+        'user': user.to_dict()
+    }), 200)
 
 
 @bp_profile.route('/generate-enrollment-contracts', methods=['POST'])
@@ -124,3 +129,77 @@ def generate_enrollment_contracts():
 
     db.session.commit()
     return make_response(jsonify({'status': 'success', 'message': 'Enrollment contracts generated'}), 200)
+
+
+@bp_profile.route('/services-completed', methods=['GET'])
+@jwt_required()
+def services_completed():
+    """Count finished services for the authenticated user."""
+    user_id = int(get_jwt_identity())
+    count = Service.query.filter(
+        db.or_(Service.driver_id == user_id, Service.user_id == user_id),
+        Service.is_finished == True,
+        Service.is_deleted == False
+    ).count()
+    return jsonify({"status": "success", "count": count}), 200
+
+
+@bp_profile.route('/rating', methods=['GET'])
+@jwt_required()
+def user_rating():
+    """Get average rating and count for the authenticated user."""
+    from app.model import Rating
+    user_id = int(get_jwt_identity())
+    result = db.session.query(
+        func.avg(Rating.score).label('average'),
+        func.count(Rating.id).label('count')
+    ).filter(Rating.rated_user_id == user_id).one()
+
+    return jsonify({
+        "status": "success",
+        "average": round(float(result.average or 0), 1),
+        "count": result.count
+    }), 200
+
+
+@bp_profile.route('/rate-service', methods=['POST'])
+@jwt_required()
+def rate_service():
+    """Submit a rating for a finished service."""
+    from app.model import Rating
+    user_id = int(get_jwt_identity())
+    data = request.get_json()
+
+    if not data or 'service_id' not in data or 'score' not in data:
+        return jsonify({"status": "error", "message": "service_id and score are required"}), 400
+
+    score = data['score']
+    if not isinstance(score, int) or score < 1 or score > 5:
+        return jsonify({"status": "error", "message": "Score must be an integer between 1 and 5"}), 400
+
+    service = Service.query.get(data['service_id'])
+    if not service:
+        return jsonify({"status": "error", "message": "Service not found"}), 404
+
+    if not service.is_finished:
+        return jsonify({"status": "error", "message": "Service is not finished"}), 400
+
+    if service.driver_id != user_id and service.user_id != user_id:
+        return jsonify({"status": "error", "message": "You are not a participant of this service"}), 403
+
+    existing = Rating.query.filter_by(service_id=service.id, rater_id=user_id).first()
+    if existing:
+        return jsonify({"status": "error", "message": "You have already rated this service"}), 400
+
+    rated_user_id = service.driver_id if service.user_id == user_id else service.user_id
+    rating = Rating(
+        service_id=service.id,
+        rater_id=user_id,
+        rated_user_id=rated_user_id,
+        score=score,
+        comment=data.get('comment')
+    )
+    db.session.add(rating)
+    db.session.commit()
+
+    return jsonify({"status": "success", "message": "Rating submitted"}), 201
