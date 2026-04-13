@@ -73,7 +73,7 @@ const DrawerContentObj = (props: DrawerContentComponentProps) => {
   const handleNavigation = useCallback(
     (to: string) => {
       setActive(to);
-      navigation.navigate("Screens" as never, { screen: to } as never);
+      (navigation as any).navigate("Screens", { screen: to });
     },
     [navigation, setActive]
   );
@@ -85,7 +85,8 @@ const DrawerContentObj = (props: DrawerContentComponentProps) => {
     { name: t("screens.home"), to: "Home", icon: assets.home },
     { name: t("screens.history"), to: "History", icon: assets.calendar },
     { name: t("screens.profile"), to: "Profile", icon: assets.profile },
-    { name: t("screens.settings"), to: "Settings", icon: assets.settings }
+    { name: t("screens.settings"), to: "Settings", icon: assets.settings },
+    { name: t("screens.help"), to: "Help", icon: assets.chat }
   ];
 
   return (
@@ -172,9 +173,10 @@ export default () => {
       <Drawer.Navigator
         drawerContent={(props) => <DrawerContentObj {...props} />}
         screenOptions={{
+          headerShown: false,
           drawerType: "slide",
           overlayColor: "transparent",
-          sceneContainerStyle: { backgroundColor: "transparent" },
+          sceneStyle: { backgroundColor: "transparent" },
           drawerStyle: {
             flex: 1,
             width: "60%",

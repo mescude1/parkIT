@@ -170,12 +170,12 @@ const Button = ({
 
   /* handle onPress event */
   const handlePress = useCallback(
-    (event) => {
+    (event: any) => {
       onPress?.(event);
 
       /* vibrate onPress */
       if (vibrate) {
-        Vibration.vibrate(vibrate, vibrateRepeat);
+        Vibration.vibrate(vibrate, vibrateRepeat ?? undefined);
       }
 
       /* haptic feedback onPress */
@@ -224,7 +224,7 @@ const Button = ({
       >
         <LinearGradient
           style={gradientStyles}
-          colors={gradient}
+          colors={gradient as any}
           start={[0, 1]}
           end={[1, 0]}
         >

@@ -11,3 +11,6 @@ export { default as Settings } from "./Settings";
 export { default as History } from "./History";
 export { default as IncomingRequest } from "./IncomingRequest";
 export { default as ActiveService } from "./ActiveService";
+export { default as Help } from "./Help";
+export { default as VehicleList } from "./VehicleList";
+export { default as VehicleForm } from "./VehicleForm";

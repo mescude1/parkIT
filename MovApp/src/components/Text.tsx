@@ -1,7 +1,7 @@
 import React from "react";
 import { Platform, StyleSheet, Text, TextStyle } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
-import { MaskedView } from "@react-native-masked-view/masked-view";
+import MaskedView from "@react-native-masked-view/masked-view";
 import useTheme from "../hooks/useTheme";
 import { ITextProps } from "../constants/types";
 
@@ -192,7 +192,7 @@ const Typography = (props: ITextProps) => {
         }
       >
         <LinearGradient
-          colors={gradient}
+          colors={gradient as any}
           end={end || [0.2, 0]}
           start={start || [0, 0]}
           style={{ flex: 1, height: gradientHeight, flexWrap: "wrap" }}

@@ -4,3 +4,6 @@ export { verificationService } from "./verificationService";
 export { valetService } from "./valetService";
 export { deviceTokenService } from "./deviceTokenService";
 export { profileService } from "./profileService";
+export { historyService } from "./historyService";
+export { vehicleService } from "./vehicleService";
+export { chatService } from "./chatService";

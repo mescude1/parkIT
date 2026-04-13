@@ -15,6 +15,9 @@ import {
   History,
   IncomingRequest,
   ActiveService,
+  Help,
+  VehicleList,
+  VehicleForm,
 } from "../screens";
 import { useScreenOptions, useTranslation } from "../hooks";
 
@@ -80,6 +83,21 @@ export default () => {
         name="ActiveService"
         component={ActiveService}
         options={{ headerShown: false, title: "Servicio activo" }}
+      />
+      <Stack.Screen
+        name="Help"
+        component={Help}
+        options={{ headerShown: false, title: t("screens.help") }}
+      />
+      <Stack.Screen
+        name="VehicleList"
+        component={VehicleList}
+        options={{ headerShown: false, title: t("screens.vehicleList") }}
+      />
+      <Stack.Screen
+        name="VehicleForm"
+        component={VehicleForm}
+        options={{ headerShown: false, title: t("screens.vehicleForm") }}
       />
     </Stack.Navigator>
   );

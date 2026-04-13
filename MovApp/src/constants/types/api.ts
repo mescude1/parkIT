@@ -141,6 +141,65 @@ export interface IEditProfileRequest {
   vehicle_type?: string;
 }
 
+// Service history
+export interface IServiceHistoryItem {
+  id: number;
+  date: string;
+  counterpart_name: string;
+  is_finished: boolean;
+  price: string;
+}
+
+export interface IServiceHistoryResponse {
+  status: string;
+  services: IServiceHistoryItem[];
+  page: number;
+  total_pages: number;
+  has_next: boolean;
+}
+
+// Vehicle
+export interface IVehicle {
+  id: number;
+  model: string;
+  brand: string;
+  license_plate: string;
+  year: number;
+  vehicle_img: string;
+  proof_insurance_img: string;
+  property_card: string;
+  type: string;
+}
+
+export interface ICreateVehicleRequest {
+  model: string;
+  brand: string;
+  license_plate: string;
+  year: number;
+  vehicle_img: string;
+  proof_insurance_img: string;
+  property_card: string;
+  type: string;
+}
+
+// Chat
+export interface IConversation {
+  id: number;
+  user_id: number;
+  status: "open" | "closed";
+  created_at: string;
+  updated_at: string;
+}
+
+export interface IChatMessage {
+  id: number;
+  conversation_id: number;
+  sender_id: number;
+  sender_role: "user" | "agent";
+  message: string;
+  created_at: string;
+}
+
 // Trip — used for history lists
 export interface ITrip {
   id: string | number;
