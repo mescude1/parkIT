@@ -21,7 +21,7 @@ const Home = () => {
         showsHorizontalScrollIndicator={false}
         contentOffset={{ x: -sizes.padding, y: 10 }}
       >
-        <GreetUser useSafeArea={true} />
+        <GreetUser />
         <LatestTrips />
       </CenteredContainer>
       <CenteredContainer

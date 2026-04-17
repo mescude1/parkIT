@@ -110,6 +110,7 @@ def init_blueprints(app: Flask) -> None:
     from .blueprint.display import bp_display
     from .blueprint.verification import bp_verification
     from .blueprint.device_token import bp_device_token
+    from .blueprint.chat import bp_chat
     app.register_blueprint(index.bp)
     app.register_blueprint(autho.bp)
     app.register_blueprint(profile.bp_profile)
@@ -120,6 +121,7 @@ def init_blueprints(app: Flask) -> None:
     app.register_blueprint(bp_display)
     app.register_blueprint(bp_verification)
     app.register_blueprint(bp_device_token)
+    app.register_blueprint(bp_chat)
 
 
 def init_commands(app):

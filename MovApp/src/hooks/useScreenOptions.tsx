@@ -1,7 +1,6 @@
 import React from "react";
 import { TouchableOpacity } from "react-native";
 import {
-  StackHeaderTitleProps,
   CardStyleInterpolators,
   StackNavigationOptions,
 } from "@react-navigation/stack";
@@ -29,7 +28,7 @@ export default () => {
     headerLeftContainerStyle: { paddingLeft: sizes.s },
     headerRightContainerStyle: { paddingRight: sizes.s },
     cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
-    headerTitle: ({ children }: StackHeaderTitleProps) => (
+    headerTitle: ({ children }: { children?: React.ReactNode }) => (
       <Text p>{children}</Text>
     ),
     headerLeft: () => (
@@ -42,8 +41,8 @@ export default () => {
         <TouchableOpacity
           style={{ marginRight: sizes.sm }}
           onPress={() =>
-            navigation.navigate("Screens", {
-              screen: "Pro",
+            (navigation as any).navigate("Screens", {
+              screen: "Help",
             })
           }
         >
@@ -80,23 +79,6 @@ export default () => {
         </Button>
       ),
     },
-    pro: {
-      ...menu,
-      headerTransparent: true,
-      headerTitle: () => (
-        <Text p white semibold>
-          {t("pro.title")}
-        </Text>
-      ),
-      headerRight: () => null,
-      headerLeft: () => (
-        <Button
-          onPress={() => navigation.dispatch(DrawerActions.toggleDrawer())}
-        >
-          <Image source={icons.menu} radius={0} color={colors.white} />
-        </Button>
-      ),
-    },
     back: {
       ...menu,
       headerRight: () => null,
@@ -120,7 +102,7 @@ export default () => {
           <TouchableOpacity
             style={{ marginRight: sizes.sm }}
             onPress={() =>
-              navigation.navigate("Screens", {
+              (navigation as any).navigate("Screens", {
                 screen: "Notifications",
               })
             }

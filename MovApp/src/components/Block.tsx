@@ -199,7 +199,7 @@ const Block = (props: IBlockProps) => {
     return (
       <LinearGradient
         {...blockID}
-        colors={gradient}
+        colors={gradient as any}
         style={blockStyles}
         end={end || [1, 0]}
         start={start || [0, 0]}

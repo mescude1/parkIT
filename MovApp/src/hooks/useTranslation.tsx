@@ -35,7 +35,8 @@ export const TranslationProvider = ({
     const localeJSON = await Storage.getItem("locale");
 
     // set Locale / compare if has updated
-    setLocale(localeJSON !== null ? localeJSON : Localization.locale);
+    const deviceLocale = Localization.getLocales()?.[0]?.languageCode ?? "en";
+    setLocale(localeJSON !== null ? localeJSON : deviceLocale);
   }, [setLocale]);
 
   useEffect(() => {

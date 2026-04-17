@@ -11,19 +11,7 @@
     "recommended": "Recomendado para ti",
     "viewall": "Ver todo",
     "more": "Más",
-    "follow": "Seguir",
-    "followed": "Seguido",
     "search": "Buscar",
-    "night": "noche",
-    "day": "día",
-    "booknow": "Reservar ahora",
-    "selectDate": "Seleccionar fecha",
-    "checkInOut": "Check-In y Check-Out",
-    "adults": "Adultos",
-    "roomType": "Tipo de habitación",
-    "luxury": "Lujo",
-    "message": "Ingresa tu mensaje",
-    "album": "Álbum",
     "or": "o",
     "name": "Nombre",
     "namePlaceholder": "Ingresa tu nombre completo",
@@ -36,17 +24,7 @@
     "signup": "Registrarse",
     "signin": "Iniciar sesión",
     "goBack": "Volver",
-    "inStock": "En stock",
-    "outStock": "Agotado",
-    "addToCart": "Añadir al carrito",
-    "checkout": "Proceder al pago",
-    "readArticle": "Leer artículo",
-    "send": "Enviar",
-    "guests": {
-      "one": "1 huésped",
-      "other": "{{count}} huéspedes",
-      "zero": "0 huéspedes"
-    }
+    "send": "Enviar"
   },
   "app": {
     "name": "Campus Parking",
@@ -57,43 +35,27 @@
   "darkMode": "Modo oscuro",
   "screens": {
     "home": "Inicio",
-    "components": "Componentes",
-    "articles": "Artículos",
-    "rental": "Alquiler",
     "profile": "Perfil",
     "settings": "Configuración",
     "register": "Crear cuenta",
-    "extra": "Extra - Automotriz",
-    "login": "Iniciar sesión"
+    "history": "Historial",
+    "login": "Iniciar sesión",
+    "help": "Ayuda",
+    "vehicleList": "Mis Vehículos",
+    "vehicleForm": "Vehículo"
   },
   "navigation": {
     "home": "Campus Parking",
-    "components": "Componentes",
-    "articles": "Soft UI",
-    "rentals": "Soft UI",
-    "rental": "Mejor oferta",
-    "booking": "Reservación",
-    "chat": "Chat",
     "profile": "Perfil",
     "settings": "Configuración",
-    "notifications": "Notificaciones",
-    "agreement": "Acuerdo de usuario",
-    "about": "Acerca de",
-    "privacy": "Privacidad",
     "register": "Registro",
     "login": "Iniciar sesión",
-    "extra": "Automotriz",
-    "shopping": "Carrito de compras",
-    "past_services_list": "Ultimos Servicios"
-  },
-  "menu": {
-    "started": "Comenzando",
-    "documentation": "Documentación"
+    "history": "Historial",
+    "help": "Ayuda",
+    "past_services_list": "Últimos Servicios"
   },
   "home": {
     "title": "Campus Parking",
-    "following": "Siguiendo",
-    "trending": "Tendencias",
     "valet_driver": "Conductor",
     "valet_user": "Usuario"
   },
@@ -120,10 +82,37 @@
     "profileUpdated": "Perfil actualizado exitosamente",
     "profileUpdateError": "Error al actualizar perfil"
   },
-  "pro": {
-    "title": "Soft UI PRO",
-    "alert": "Esta función está disponible en la versión PRO",
-    "components": "• {{count}} Componentes (Botones, Entradas, Tarjetas, etc.)",
-    "screens": "• {{count}} Pantallas (Compras, Notificaciones, Chat, etc.)",
-    "support": "• Soporte premium incluido",
-    "takeAdvantage": "Aprovecha todas las funciones y pantallas"}}
+  "history": {
+    "title": "Historial de Servicios",
+    "noServices": "No hay servicios aún",
+    "active": "Activo",
+    "finished": "Finalizado"
+  },
+  "settings": {
+    "title": "Configuración",
+    "emailNotifications": "Notificaciones por correo",
+    "myVehicles": "Mis Vehículos",
+    "paymentMethods": "Métodos de Pago",
+    "comingSoon": "Próximamente"
+  },
+  "help": {
+    "title": "Ayuda",
+    "placeholder": "Escribe un mensaje...",
+    "send": "Enviar",
+    "connecting": "Conectando con soporte..."
+  },
+  "vehicles": {
+    "addVehicle": "Agregar Vehículo",
+    "editVehicle": "Editar Vehículo",
+    "model": "Modelo",
+    "brand": "Marca",
+    "licensePlate": "Placa",
+    "year": "Año",
+    "type": "Tipo",
+    "vehicleImage": "URL Foto del Vehículo",
+    "insuranceImage": "URL Foto del Seguro",
+    "propertyCard": "URL Tarjeta de Propiedad",
+    "save": "Guardar",
+    "noVehicles": "No hay vehículos registrados"
+  }
+}

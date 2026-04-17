@@ -74,7 +74,7 @@ const GreetUser = (props: IBlockProps) => {
     return (
       <LinearGradient
         {...blockID}
-        colors={gradient}
+        colors={gradient as any}
         style={blockStyles}
         {...rest}
       >
