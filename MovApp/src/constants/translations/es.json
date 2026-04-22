@@ -42,7 +42,8 @@
     "login": "Iniciar sesión",
     "help": "Ayuda",
     "vehicleList": "Mis Vehículos",
-    "vehicleForm": "Vehículo"
+    "vehicleForm": "Vehículo",
+    "vehicles": "Vehículos"
   },
   "navigation": {
     "home": "Campus Parking",
@@ -109,10 +110,23 @@
     "licensePlate": "Placa",
     "year": "Año",
     "type": "Tipo",
-    "vehicleImage": "URL Foto del Vehículo",
-    "insuranceImage": "URL Foto del Seguro",
-    "propertyCard": "URL Tarjeta de Propiedad",
+    "color": "Color",
+    "policyNumber": "Número de Póliza de Seguro",
+    "insuranceExpiration": "Vencimiento del Seguro (AAAA-MM-DD)",
+    "vehicleImage": "Foto del Vehículo",
+    "insuranceImage": "Foto del Seguro",
+    "propertyCard": "Foto de la Tarjeta de Propiedad",
     "save": "Guardar",
-    "noVehicles": "No hay vehículos registrados"
+    "delete": "Eliminar Vehículo",
+    "deleteConfirmTitle": "Eliminar vehículo",
+    "deleteConfirmMessage": "¿Seguro que quieres eliminar este vehículo?",
+    "cancel": "Cancelar",
+    "manageVehicles": "Gestionar Vehículos",
+    "noVehicles": "No hay vehículos registrados",
+    "pickPhoto": "Elegir foto",
+    "changePhoto": "Cambiar foto",
+    "noPhoto": "Sin foto seleccionada",
+    "photoPermissionDenied": "Se denegó el permiso para acceder a las fotos",
+    "invalidDate": "El vencimiento debe tener formato AAAA-MM-DD"
   }
 }

@@ -42,7 +42,8 @@
     "login": "Login",
     "help": "Help",
     "vehicleList": "My Vehicles",
-    "vehicleForm": "Vehicle"
+    "vehicleForm": "Vehicle",
+    "vehicles": "Vehicles"
   },
   "navigation": {
     "home": "Campus Parking",
@@ -109,10 +110,23 @@
     "licensePlate": "License Plate",
     "year": "Year",
     "type": "Type",
-    "vehicleImage": "Vehicle Photo URL",
-    "insuranceImage": "Insurance Photo URL",
-    "propertyCard": "Property Card URL",
+    "color": "Color",
+    "policyNumber": "Insurance Policy Number",
+    "insuranceExpiration": "Insurance Expiration (YYYY-MM-DD)",
+    "vehicleImage": "Vehicle Photo",
+    "insuranceImage": "Proof of Insurance Photo",
+    "propertyCard": "Property Card Photo",
     "save": "Save",
-    "noVehicles": "No vehicles registered"
+    "delete": "Delete Vehicle",
+    "deleteConfirmTitle": "Delete vehicle",
+    "deleteConfirmMessage": "Are you sure you want to remove this vehicle?",
+    "cancel": "Cancel",
+    "manageVehicles": "Manage Vehicles",
+    "noVehicles": "No vehicles registered",
+    "pickPhoto": "Pick photo",
+    "changePhoto": "Change photo",
+    "noPhoto": "No photo selected",
+    "photoPermissionDenied": "Permission to access photos was denied",
+    "invalidDate": "Insurance expiration must be YYYY-MM-DD"
   }
 }

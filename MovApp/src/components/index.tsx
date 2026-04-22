@@ -8,6 +8,7 @@ import Checkbox from "./Checkbox";
 import Image from "./Image";
 import Article from "./Article";
 import Product from "./Product";
+import ImagePickerField from "./ImagePickerField";
 
 export {
   Block,
@@ -20,4 +21,5 @@ export {
   Article,
   Product,
   Modal,
+  ImagePickerField,
 };

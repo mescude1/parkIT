@@ -84,6 +84,7 @@ const DrawerContentObj = (props: DrawerContentComponentProps) => {
   const screens = [
     { name: t("screens.home"), to: "Home", icon: assets.home },
     { name: t("screens.history"), to: "History", icon: assets.calendar },
+    { name: t("screens.vehicles"), to: "VehicleList", icon: assets.rental },
     { name: t("screens.profile"), to: "Profile", icon: assets.profile },
     { name: t("screens.settings"), to: "Settings", icon: assets.settings },
     { name: t("screens.help"), to: "Help", icon: assets.chat }
