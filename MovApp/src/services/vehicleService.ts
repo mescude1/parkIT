@@ -13,4 +13,7 @@ export const vehicleService = {
 
   update: (id: number, body: Partial<IVehicle>) =>
     apiClient.post<{ status: string; message: string }>(`/vehicles/edit-vehicle/${id}`, body),
+
+  remove: (id: number) =>
+    apiClient.delete<{ status: string; message: string }>(`/vehicles/vehicle/${id}`),
 };

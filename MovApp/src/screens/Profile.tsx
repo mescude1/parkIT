@@ -374,6 +374,32 @@ const Profile = () => {
                     sizes={sizes}
                   />
                 )}
+
+                <Button
+                  row
+                  outlined
+                  marginTop={sizes.sm}
+                  onPress={() =>
+                    (navigation as any).navigate("VehicleList")
+                  }
+                >
+                  <Block
+                    row
+                    justify="center"
+                    align="center"
+                    paddingHorizontal={sizes.sm}
+                  >
+                    <Ionicons
+                      size={18}
+                      name="car-outline"
+                      color={colors.primary}
+                      style={{ marginRight: 8 }}
+                    />
+                    <Text bold primary>
+                      {t("vehicles.manageVehicles")}
+                    </Text>
+                  </Block>
+                </Button>
               </Block>
             )}
           </Block>

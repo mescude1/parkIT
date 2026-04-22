@@ -165,10 +165,13 @@ export interface IVehicle {
   brand: string;
   license_plate: string;
   year: number;
-  vehicle_img: string;
-  proof_insurance_img: string;
-  property_card: string;
   type: string;
+  color?: string | null;
+  vehicle_img?: string | null;
+  proof_insurance_img?: string | null;
+  property_card?: string | null;
+  policy_number?: string | null;
+  insurance_expiration?: string | null;
 }
 
 export interface ICreateVehicleRequest {
@@ -176,10 +179,13 @@ export interface ICreateVehicleRequest {
   brand: string;
   license_plate: string;
   year: number;
-  vehicle_img: string;
-  proof_insurance_img: string;
-  property_card: string;
   type: string;
+  color?: string | null;
+  vehicle_img?: string | null;
+  proof_insurance_img?: string | null;
+  property_card?: string | null;
+  policy_number?: string | null;
+  insurance_expiration?: string | null;
 }
 
 // Chat

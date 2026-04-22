@@ -38,7 +38,7 @@ class VehicleRepository(Repository):
             Returns:
                 list[Vehicle]: A list of Vehicle model objects associated with the owner.
             """
-        return self.session.query(Vehicle).filter_by(owner_id=owner_id).all()
+        return self.session.query(Vehicle).filter_by(owner=owner_id, is_deleted=False).all()
 
     def save(self, vehicle: Vehicle) -> None:
         """Saves a vehicle in the database.
