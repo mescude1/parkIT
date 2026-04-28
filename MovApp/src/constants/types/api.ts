@@ -191,7 +191,11 @@ export interface ICreateVehicleRequest {
 // Chat
 export interface IConversation {
   id: number;
-  user_id: number;
+  user_id: number | null;
+  valet_request_id: number | null;
+  client_id: number | null;
+  valet_id: number | null;
+  kind: "support" | "service";
   status: "open" | "closed";
   created_at: string;
   updated_at: string;
@@ -201,8 +205,9 @@ export interface IChatMessage {
   id: number;
   conversation_id: number;
   sender_id: number;
-  sender_role: "user" | "agent";
+  sender_role: "user" | "agent" | "cliente" | "valet";
   message: string;
+  attachment_url: string | null;
   created_at: string;
 }
 

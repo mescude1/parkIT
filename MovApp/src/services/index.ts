@@ -7,3 +7,6 @@ export { profileService } from "./profileService";
 export { historyService } from "./historyService";
 export { vehicleService } from "./vehicleService";
 export { chatService } from "./chatService";
+export { belongingsService } from "./belongingsService";
+export { keyHandoverService } from "./keyHandoverService";
+export { inspectionService } from "./inspectionService";

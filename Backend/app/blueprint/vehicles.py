@@ -40,7 +40,18 @@ def new_vehicle():
     data = request.get_json()
     user_id = int(get_jwt_identity())
 
-    required_fields = ["model", "brand", "license_plate", "year", "type"]
+    # Vehicle identity + mandatory insurance evidence. The insurance fields
+    # are required so the valet always has proof of coverage on file.
+    required_fields = [
+        "model",
+        "brand",
+        "license_plate",
+        "year",
+        "type",
+        "policy_number",
+        "insurance_expiration",
+        "proof_insurance_img",
+    ]
     for field in required_fields:
         if not data.get(field):
             return jsonify({'status': 'error', 'message': f'Missing field: {field}'}), 400
@@ -53,6 +64,12 @@ def new_vehicle():
         expiration = _parse_expiration(data.get("insurance_expiration"))
     except ValueError:
         return jsonify({'status': 'error', 'message': 'insurance_expiration must be YYYY-MM-DD'}), 400
+
+    if expiration is not None and expiration < date.today():
+        return jsonify({
+            'status': 'error',
+            'message': 'Insurance is expired; please update before registering the vehicle',
+        }), 400
 
     new_vehicle = Vehicle(
         model=data.get("model"),

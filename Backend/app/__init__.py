@@ -17,6 +17,7 @@ import os
 from flask import Flask
 from flask_cors import CORS
 
+
 def create_app(test_config: dict = None) -> Flask:
     """This function is responsible to create a Flask instance according
     a previous setting passed from environment. In that process, it also
@@ -111,6 +112,9 @@ def init_blueprints(app: Flask) -> None:
     from .blueprint.verification import bp_verification
     from .blueprint.device_token import bp_device_token
     from .blueprint.chat import bp_chat
+    from .blueprint.belongings import bp_belongings
+    from .blueprint.key_handover import bp_keys
+    from .blueprint.inspection import bp_inspection
     app.register_blueprint(index.bp)
     app.register_blueprint(autho.bp)
     app.register_blueprint(profile.bp_profile)
@@ -122,6 +126,9 @@ def init_blueprints(app: Flask) -> None:
     app.register_blueprint(bp_verification)
     app.register_blueprint(bp_device_token)
     app.register_blueprint(bp_chat)
+    app.register_blueprint(bp_belongings)
+    app.register_blueprint(bp_keys)
+    app.register_blueprint(bp_inspection)
 
 
 def init_commands(app):
