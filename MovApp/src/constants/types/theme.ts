@@ -9,7 +9,7 @@ import {
 
 // Spacing types
 export interface ISpacing
-  extends Pick<
+  extends Pick <
     FlexStyle,
     | "margin"
     | "marginVertical"
@@ -206,6 +206,7 @@ export interface ThemeWeights {
   extrabold?: TextStyle["fontWeight"];
   black?: TextStyle["fontWeight"];
 }
+
 export interface ThemeIcons {
   apple: ImageSourcePropType;
   google: ImageSourcePropType;
@@ -259,18 +260,18 @@ export interface ThemeAssets {
   card2: ImageSourcePropType;
   card3: ImageSourcePropType;
   card4: ImageSourcePropType;
-  card5: ImageSourcePropType;
+  card5: ImageSourcePropType; // apunta a card4 en theme.ts
 
-  photo1: ImageSourcePropType;
-  photo2: ImageSourcePropType;
-  photo3: ImageSourcePropType;
-  photo4: ImageSourcePropType;
-  photo5: ImageSourcePropType;
-  photo6: ImageSourcePropType;
-  carousel1: ImageSourcePropType;
+  photo1?: ImageSourcePropType;
+  photo2?: ImageSourcePropType;
+  photo3?: ImageSourcePropType;
+  photo4?: ImageSourcePropType;
+  photo5?: ImageSourcePropType;
+  photo6?: ImageSourcePropType;
+  carousel1?: ImageSourcePropType;
 
-  avatar1: ImageSourcePropType;
-  avatar2: ImageSourcePropType;
+  avatar1?: ImageSourcePropType;
+  avatar2?: ImageSourcePropType;
 
   x5: ImageSourcePropType;
   gle: ImageSourcePropType;
