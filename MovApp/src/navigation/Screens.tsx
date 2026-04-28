@@ -18,6 +18,10 @@ import {
   Help,
   VehicleList,
   VehicleForm,
+  Chat,
+  Belongings,
+  KeyHandover,
+  VehicleInspection,
 } from "../screens";
 import { useScreenOptions, useTranslation } from "../hooks";
 
@@ -98,6 +102,26 @@ export default () => {
         name="VehicleForm"
         component={VehicleForm}
         options={{ headerShown: false, title: t("screens.vehicleForm") }}
+      />
+      <Stack.Screen
+        name="Chat"
+        component={Chat}
+        options={{ headerShown: false, title: "Chat" }}
+      />
+      <Stack.Screen
+        name="Belongings"
+        component={Belongings}
+        options={{ headerShown: false, title: "Pertenencias" }}
+      />
+      <Stack.Screen
+        name="KeyHandover"
+        component={KeyHandover}
+        options={{ headerShown: false, title: "Entrega de llaves" }}
+      />
+      <Stack.Screen
+        name="VehicleInspection"
+        component={VehicleInspection}
+        options={{ headerShown: false, title: "Inspección del vehículo" }}
       />
     </Stack.Navigator>
   );

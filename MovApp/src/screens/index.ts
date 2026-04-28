@@ -14,3 +14,7 @@ export { default as ActiveService } from "./ActiveService";
 export { default as Help } from "./Help";
 export { default as VehicleList } from "./VehicleList";
 export { default as VehicleForm } from "./VehicleForm";
+export { default as Chat } from "./Chat";
+export { default as Belongings } from "./Belongings";
+export { default as KeyHandover } from "./KeyHandover";
+export { default as VehicleInspection } from "./VehicleInspection";

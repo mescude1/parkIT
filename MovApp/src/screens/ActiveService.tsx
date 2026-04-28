@@ -7,6 +7,10 @@ import { useNavigation, useRoute } from "@react-navigation/core";
 import { Block, Button, Text } from "../components/";
 import { useData, useTheme } from "../hooks/";
 import { valetService } from "../services";
+import { inspectionService } from "../services/inspectionService";
+
+const SPEED_LIMIT_KMH = 10;
+const SPEED_REPORT_DEBOUNCE_MS = 8000;
 
 interface Coords {
   latitude: number;
@@ -21,11 +25,13 @@ const ActiveService = () => {
   const { gradients, sizes, colors } = useTheme();
   const { authUser } = useData();
 
-  const { service_id, other_user_id, initial_other_coords } = route.params as {
-    service_id: number;
-    other_user_id: number;
-    initial_other_coords?: Coords;
-  };
+  const { service_id, other_user_id, initial_other_coords, request_id } =
+    route.params as {
+      service_id: number;
+      other_user_id: number;
+      initial_other_coords?: Coords;
+      request_id?: number;
+    };
 
   const [myCoords, setMyCoords] = useState<Coords | null>(null);
   const [otherCoords, setOtherCoords] = useState<Coords | null>(
@@ -35,6 +41,8 @@ const ActiveService = () => {
 
   const pushRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const pullRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const lastSpeedReportRef = useRef<number>(0);
+  const isValet = authUser?.type === "valet";
 
   useEffect(() => {
     // Push own location every 3s
@@ -47,6 +55,28 @@ const ActiveService = () => {
         };
         setMyCoords(coords);
         await valetService.updateLocation(coords);
+
+        // Speed monitoring — only the valet, only when over the 10km/h limit.
+        // Convert m/s reading to km/h. Report at most once every few seconds.
+        const speedMs = loc.coords.speed ?? 0;
+        if (isValet && speedMs > 0) {
+          const speedKmh = speedMs * 3.6;
+          const now = Date.now();
+          if (
+            speedKmh > SPEED_LIMIT_KMH &&
+            now - lastSpeedReportRef.current > SPEED_REPORT_DEBOUNCE_MS
+          ) {
+            lastSpeedReportRef.current = now;
+            inspectionService
+              .reportSpeed({
+                service_id,
+                speed_kmh: speedKmh,
+                latitude: coords.latitude,
+                longitude: coords.longitude,
+              })
+              .catch(() => {});
+          }
+        }
       } catch {
         // ignore transient errors
       }
@@ -83,7 +113,6 @@ const ActiveService = () => {
     }
   }, [service_id, navigation]);
 
-  const isValet = authUser?.type === "valet";
   const mapCenter = myCoords ?? otherCoords;
 
   return (
@@ -138,6 +167,70 @@ const ActiveService = () => {
             ? "Navega hasta el cliente y recoge su vehículo"
             : "El mapa se actualiza en tiempo real"}
         </Text>
+
+        <Block row marginHorizontal={sizes.sm} marginBottom={sizes.s}>
+          <Button
+            outlined
+            primary
+            flex={1}
+            marginRight={sizes.s}
+            onPress={() =>
+              (navigation as any).navigate("Chat", { request_id })
+            }
+          >
+            <Text bold primary transform="uppercase">
+              Chat
+            </Text>
+          </Button>
+          <Button
+            outlined
+            primary
+            flex={1}
+            onPress={() =>
+              (navigation as any).navigate("Belongings", {
+                request_id,
+                service_id,
+              })
+            }
+          >
+            <Text bold primary transform="uppercase">
+              Pertenencias
+            </Text>
+          </Button>
+        </Block>
+
+        <Block row marginHorizontal={sizes.sm} marginBottom={sizes.s}>
+          <Button
+            outlined
+            primary
+            flex={1}
+            marginRight={sizes.s}
+            onPress={() =>
+              (navigation as any).navigate("VehicleInspection", {
+                service_id,
+                stage: isValet ? "before" : "view",
+              })
+            }
+          >
+            <Text bold primary transform="uppercase">
+              Inspección
+            </Text>
+          </Button>
+          {isValet && (
+            <Button
+              outlined
+              primary
+              flex={1}
+              onPress={() =>
+                (navigation as any).navigate("KeyHandover", { service_id })
+              }
+            >
+              <Text bold primary transform="uppercase">
+                Llaves
+              </Text>
+            </Button>
+          )}
+        </Block>
 
         {isValet && (
           <Button

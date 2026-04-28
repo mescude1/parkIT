@@ -104,7 +104,10 @@ const VehicleForm = () => {
     !form.model.trim() ||
     !form.license_plate.trim() ||
     !form.year.trim() ||
-    !form.type.trim();
+    !form.type.trim() ||
+    !form.policy_number.trim() ||
+    !form.insurance_expiration.trim() ||
+    !form.proof_insurance_img.trim();
 
   const handleSave = useCallback(async () => {
     if (form.insurance_expiration && !ISO_DATE.test(form.insurance_expiration)) {
@@ -271,7 +274,7 @@ const VehicleForm = () => {
             />
             <Input
               marginBottom={sizes.m}
-              label={t("vehicles.policyNumber")}
+              label={`${t("vehicles.policyNumber")} *`}
               placeholder={t("vehicles.policyNumber")}
               autoCapitalize="characters"
               value={form.policy_number}
@@ -279,7 +282,7 @@ const VehicleForm = () => {
             />
             <Input
               marginBottom={sizes.m}
-              label={t("vehicles.insuranceExpiration")}
+              label={`${t("vehicles.insuranceExpiration")} *`}
               placeholder="YYYY-MM-DD"
               autoCapitalize="none"
               value={form.insurance_expiration}
@@ -294,7 +297,7 @@ const VehicleForm = () => {
               onChange={(uri) => handleChange("vehicle_img", uri)}
             />
             <ImagePickerField
-              label={t("vehicles.insuranceImage")}
+              label={`${t("vehicles.insuranceImage")} *`}
               value={form.proof_insurance_img}
               onChange={(uri) => handleChange("proof_insurance_img", uri)}
             />
