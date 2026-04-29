@@ -1,3 +1,4 @@
+// src/screens/Login.tsx
 import React, { useCallback, useState } from "react";
 import { Alert, Platform } from "react-native";
 import { useNavigation } from "@react-navigation/core";
@@ -16,16 +17,13 @@ const Login = () => {
   const { handleLogin, isLoading } = useData();
   const { t } = useTranslation();
   const navigation = useNavigation();
-  const { assets, colors, gradients, sizes } = useTheme();
+  const { colors, gradients, sizes } = useTheme();
 
   const [login, setLogin] = useState<ILogin>({ username: "", password: "" });
 
-  const handleChange = useCallback(
-    (value: Partial<ILogin>) => {
-      setLogin((state) => ({ ...state, ...value }));
-    },
-    []
-  );
+  const handleChange = useCallback((value: Partial<ILogin>) => {
+    setLogin((state) => ({ ...state, ...value }));
+  }, []);
 
   const handleSignIn = useCallback(async () => {
     if (!login.username || !login.password) return;
@@ -33,7 +31,6 @@ const Login = () => {
     if (!result.success) {
       Alert.alert("Error", result.message ?? "Login failed");
     }
-    // On success, isAuthenticated becomes true and App.tsx switches to Menu automatically
   }, [login, handleLogin]);
 
   const isDisabled = !login.username || !login.password || isLoading;
@@ -41,45 +38,34 @@ const Login = () => {
   return (
     <Block safe marginTop={sizes.md}>
       <Block paddingHorizontal={sizes.s}>
-        <Block flex={0} style={{ zIndex: 0 }}>
-          <Image
-            background
-            resizeMode="cover"
-            padding={sizes.sm}
-            radius={sizes.cardRadius}
-            source={assets.background}
-            height={sizes.height * 0.3}
-          >
-            <Button
-              row
-              flex={0}
-              justify="flex-start"
-              onPress={() => navigation.canGoBack() && navigation.goBack()}
-            >
-              <Image
-                radius={0}
-                width={10}
-                height={18}
-                color={colors.white}
-                source={assets.arrow}
-                transform={[{ rotate: "180deg" }]}
-              />
-              <Text p white marginLeft={sizes.s}>
-                {t("common.goBack")}
-              </Text>
-            </Button>
 
-            <Text h4 center white marginBottom={sizes.md}>
-              {t("register.title")}
-            </Text>
-          </Image>
+        {/* Header con logo */}
+        <Block
+          flex={0}
+          align="center"
+          justify="center"
+          style={{ height: sizes.height * 0.28 }}
+        >
+          <Image
+            width={110}
+            height={110}
+            radius={55}
+            source={require("../assets/images/logo.png")}
+            resizeMode="contain"
+          />
+          <Text h4 center marginTop={sizes.sm}>
+            ParkIT
+          </Text>
+          <Text p center color={colors.secondary} marginTop={sizes.xs}>
+            Valet parking bajo demanda
+          </Text>
         </Block>
 
-        {/* login form */}
+        {/* Formulario */}
         <Block
           keyboard
           behavior={!isAndroid ? "padding" : "height"}
-          marginTop={-(sizes.height * 0.2 - sizes.l)}
+          marginTop={sizes.s}
         >
           <Block
             flex={0}
@@ -101,7 +87,6 @@ const Login = () => {
                 {t("register.subtitle")}
               </Text>
 
-              {/* form inputs */}
               <Block paddingHorizontal={sizes.sm} marginTop={sizes.m}>
                 <Input
                   autoCapitalize="none"
@@ -149,6 +134,7 @@ const Login = () => {
             </Block>
           </Block>
         </Block>
+
       </Block>
     </Block>
   );

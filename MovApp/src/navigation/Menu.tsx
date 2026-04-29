@@ -1,10 +1,6 @@
+// src/navigation/Menu.tsx
 import React, { useCallback, useEffect, useRef, useState } from "react";
-import {
-  Alert,
-  Animated,
-  Linking,
-  StyleSheet,
-} from "react-native";
+import { Alert, Animated, Linking, StyleSheet } from "react-native";
 
 import {
   useDrawerStatus,
@@ -14,17 +10,16 @@ import {
 } from "@react-navigation/drawer";
 
 import Screens from "./Screens";
-import { Block, Text, Button, Image } from "../components";
+import { Block, Text, Switch, Button, Image } from "../components";
 import { useData, useTheme, useTranslation } from "../hooks";
 
 const Drawer = createDrawerNavigator();
 
-/* ---------------- SCREEN STACK ---------------- */
+/* drawer menu screens navigation */
 const ScreensStack = () => {
   const { colors } = useTheme();
   const drawerStatus = useDrawerStatus();
   const isDrawerOpen = drawerStatus === "open";
-
   const animation = useRef(new Animated.Value(0)).current;
 
   const scale = animation.interpolate({
@@ -34,260 +29,185 @@ const ScreensStack = () => {
 
   const borderRadius = animation.interpolate({
     inputRange: [0, 1],
-    outputRange: [0, 22],
+    outputRange: [0, 16],
   });
+
+  const animatedStyle = {
+    borderRadius: borderRadius,
+    transform: [{ scale: scale }],
+  };
 
   useEffect(() => {
     Animated.timing(animation, {
-      duration: 220,
+      duration: 200,
       useNativeDriver: true,
       toValue: isDrawerOpen ? 1 : 0,
     }).start();
-  }, [isDrawerOpen]);
+  }, [isDrawerOpen, animation]);
 
   return (
     <Animated.View
-      style={[
+      style={StyleSheet.flatten([
+        animatedStyle,
         {
           flex: 1,
           overflow: "hidden",
           borderColor: colors.card,
           borderWidth: isDrawerOpen ? 1 : 0,
         },
-        {
-          borderRadius,
-          transform: [{ scale }],
-        },
-      ]}
+      ])}
     >
       <Screens />
     </Animated.View>
   );
 };
 
-/* ---------------- CUSTOM MENU ---------------- */
+/* custom drawer menu */
 const DrawerContentObj = (props: DrawerContentComponentProps) => {
   const { navigation } = props;
-
   const { t } = useTranslation();
-  const { assets, colors, gradients, sizes } = useTheme();
-  const { setIsDark } = useData() as any;
-
   const [active, setActive] = useState("Home");
+  const { assets, colors, gradients, sizes } = useTheme();
+  // ── ROL ──────────────────────────────────────────────────────────────
+  const { authUser } = useData();
+  const isValet = authUser?.type === "valet";
+  // ─────────────────────────────────────────────────────────────────────
+  const labelColor = colors.text;
 
   const handleNavigation = useCallback(
     (to: string) => {
       setActive(to);
       (navigation as any).navigate("Screens", { screen: to });
     },
-    [navigation]
+    [navigation, setActive]
   );
 
-  const handleLogout = useCallback(() => {
-    Alert.alert(
-      "Cerrar sesión",
-      "¿Deseas salir de tu cuenta?",
-      [
-        { text: "Cancelar", style: "cancel" },
-        {
-          text: "Salir",
-          style: "destructive",
-          onPress: () => {
-            (navigation as any).navigate("Screens", {
-              screen: "Login",
-            });
-          },
-        },
-      ]
-    );
-  }, [navigation]);
+  const handleWebLink = useCallback((url: any) => Linking.openURL(url), []);
 
-  const screens = [
-    {
-      name: t("screens.home"),
-      to: "Home",
-      icon: assets.home,
-    },
-    {
-      name: t("screens.history"),
-      to: "History",
-      icon: assets.calendar,
-    },
-    {
-      name: t("screens.vehicles"),
-      to: "VehicleList",
-      icon: assets.rental,
-    },
-    {
-      name: t("screens.profile"),
-      to: "Profile",
-      icon: assets.profile,
-    },
-    {
-      name: t("screens.settings"),
-      to: "Settings",
-      icon: assets.settings,
-    },
-    {
-      name: t("screens.help"),
-      to: "Help",
-      icon: assets.chat,
-    },
+  // ── Menú conductor (sin Vehículos) ────────────────────────────────────
+  const screensValet = [
+    { name: t("screens.home"),     to: "Home",     icon: assets.home     },
+    { name: t("screens.history"),  to: "History",  icon: assets.calendar },
+    { name: t("screens.profile"),  to: "Profile",  icon: assets.profile  },
+    { name: t("screens.settings"), to: "Settings", icon: assets.settings },
+    { name: t("screens.help"),     to: "Help",     icon: assets.chat     },
   ];
+
+  // ── Menú cliente (con Vehículos) ──────────────────────────────────────
+  const screensCliente = [
+    { name: t("screens.home"),     to: "Home",        icon: assets.home     },
+    { name: t("screens.history"),  to: "History",     icon: assets.calendar },
+    /*
+    ========================================
+    SECCIÓN CLIENTE (NO MODIFICAR)
+    Esta parte corresponde a la funcionalidad del cliente.
+    Debe mantenerse intacta y organizada.
+    ========================================
+    */
+    { name: t("screens.vehicles"), to: "VehicleList", icon: assets.rental   },
+    { name: t("screens.profile"),  to: "Profile",     icon: assets.profile  },
+    { name: t("screens.settings"), to: "Settings",    icon: assets.settings },
+    { name: t("screens.help"),     to: "Help",        icon: assets.chat     },
+  ];
+
+  const screens = isValet ? screensValet : screensCliente;
 
   return (
     <DrawerContentScrollView
       {...props}
-      showsVerticalScrollIndicator={false}
-      contentContainerStyle={{
-        paddingBottom: sizes.xl,
-      }}
+      scrollEnabled
+      removeClippedSubviews
+      renderToHardwareTextureAndroid
+      contentContainerStyle={{ paddingBottom: sizes.padding }}
     >
-      <Block padding={sizes.m}>
-        {/* HEADER */}
-        <Block
-          radius={20}
-          padding={sizes.m}
-          marginBottom={sizes.l}
-          color={colors.card}
-        >
-          <Block row align="center">
-            <Image
-              source={assets.logo}
-              width={48}
-              height={48}
-              radius={12}
-              marginRight={sizes.sm}
-            />
-
-            <Block>
-              <Text semibold size={16}>
-                Felipe Gomez
-              </Text>
-
-              <Text size={12} gray>
-                Campus Parking
-              </Text>
-            </Block>
+      <Block paddingHorizontal={sizes.padding}>
+        <Block flex={0} row align="center" marginBottom={sizes.l}>
+          <Image
+            radius={0}
+            width={40}
+            height={40}
+            source={require("../assets/images/logo.png")}
+            marginRight={sizes.sm}
+          />
+          <Block>
+            <Text size={12} semibold>
+              {t("app.name")}
+            </Text>
+            <Text size={12} semibold>
+              {t("app.native")}
+            </Text>
           </Block>
         </Block>
 
-        {/* MENU ITEMS */}
-        {screens.map((screen, index) => {
+        {screens?.map((screen, index) => {
           const isActive = active === screen.to;
-
           return (
             <Button
-              key={`drawer-${index}`}
               row
-              align="center"
               justify="flex-start"
-              padding={12}
-              radius={14}
-              marginBottom={8}
-              color={isActive ? colors.card : "transparent"}
+              marginBottom={sizes.s}
+              key={`menu-screen-${screen.name}-${index}`}
               onPress={() => handleNavigation(screen.to)}
             >
               <Block
-                width={38}
-                height={38}
-                radius={12}
+                flex={0}
+                radius={6}
                 align="center"
                 justify="center"
-                marginRight={12}
-                gradient={
-                  gradients[
-                    isActive ? "primary" : "white"
-                  ]
-                }
+                width={sizes.md}
+                height={sizes.md}
+                marginRight={sizes.s}
+                gradient={gradients[isActive ? "primary" : "white"]}
               >
                 <Image
+                  radius={0}
+                  width={14}
+                  height={14}
                   source={screen.icon}
-                  width={16}
-                  height={16}
-                  color={
-                    colors[
-                      isActive ? "white" : "black"
-                    ]
-                  }
+                  color={colors[isActive ? "white" : "black"]}
                 />
               </Block>
-
-              <Text
-                semibold={isActive}
-                color={colors.text}
-              >
+              <Text p semibold={isActive} color={labelColor}>
                 {screen.name}
               </Text>
             </Button>
           );
         })}
 
-        {/* DIVIDER */}
         <Block
+          flex={0}
           height={1}
-          marginVertical={sizes.m}
+          marginRight={sizes.md}
+          marginVertical={sizes.sm}
           gradient={gradients.menu}
         />
-
-        {/* LOGOUT */}
-        <Button
-          row
-          align="center"
-          justify="flex-start"
-          padding={12}
-          radius={14}
-          onPress={handleLogout}
-        >
-          <Block
-            width={38}
-            height={38}
-            radius={12}
-            align="center"
-            justify="center"
-            marginRight={12}
-            color="#FFECEC"
-          >
-            <Text color="red">↩</Text>
-          </Block>
-
-          <Text semibold color="red">
-            Cerrar sesión
-          </Text>
-        </Button>
       </Block>
     </DrawerContentScrollView>
   );
 };
 
-/* ---------------- ROOT ---------------- */
+/* drawer menu navigation */
 export default () => {
   const { gradients } = useTheme();
 
   return (
     <Block gradient={gradients.light}>
       <Drawer.Navigator
-        drawerContent={(props) => (
-          <DrawerContentObj {...props} />
-        )}
+        drawerContent={(props) => <DrawerContentObj {...props} />}
         screenOptions={{
           headerShown: false,
           drawerType: "slide",
           overlayColor: "transparent",
-          sceneStyle: {
-            backgroundColor: "transparent",
-          },
+          sceneStyle: { backgroundColor: "transparent" },
           drawerStyle: {
-            width: "72%",
+            flex: 1,
+            width: "60%",
             borderRightWidth: 0,
-            backgroundColor: "white",
+            backgroundColor: "transparent",
           },
         }}
       >
-        <Drawer.Screen
-          name="Screens"
-          component={ScreensStack}
-        />
+        <Drawer.Screen name="Screens" component={ScreensStack} />
       </Drawer.Navigator>
     </Block>
   );
