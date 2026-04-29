@@ -54,7 +54,7 @@ const Login = () => {
               row
               flex={0}
               justify="flex-start"
-              onPress={() => navigation.goBack()}
+              onPress={() => navigation.canGoBack() && navigation.goBack()}
             >
               <Image
                 radius={0}
