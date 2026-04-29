@@ -33,7 +33,8 @@ const C = {
 };
 
 const Home = () => {
-  const { handleLogout } = useData();
+  const { handleLogout, authUser } = useData();
+  const isValet = authUser?.type === "valet";
 
   return (
     <View style={s.root}>
@@ -78,44 +79,100 @@ const Home = () => {
             <GreetUser />
           </View>
 
-          {/* Status pill */}
+          {/* Status pill — diferente por rol */}
           <View style={s.statusPill}>
             <View style={s.activeDot} />
-            <Text style={s.statusTxt}>Campus Parking · Activo</Text>
+            <Text style={s.statusTxt}>
+              {isValet ? "Modo Conductor · Activo" : "Campus Parking · Activo"}
+            </Text>
           </View>
         </LinearGradient>
 
         {/* ── BODY ───────────────────────────────── */}
         <View style={s.body}>
 
-          {/* Quick actions */}
-          <Text style={s.sectionTitle}>Acciones rápidas</Text>
-          <View style={s.qaRow}>
-            {[
-              { icon: "car-outline",       label: "Reservar",  bg: "#eef3ff", color: C.blue    },
-              { icon: "navigate-outline",  label: "Navegar",   bg: "#fff5ef", color: C.orange  },
-              { icon: "card-outline",      label: "Pagar",     bg: "#f0fdf4", color: "#16a34a" },
-              { icon: "time-outline",      label: "Historial", bg: "#faf5ff", color: "#7c3aed" },
-            ].map((a) => (
-              <TouchableOpacity key={a.label} style={s.qaBtn} activeOpacity={0.75}>
-                <View style={[s.qaIcon, { backgroundColor: a.bg }]}>
-                  <Ionicons name={a.icon as any} size={22} color={a.color} />
+          {isValet ? (
+            /*
+            ========================================
+            SECCIÓN CONDUCTOR
+            Panel de disponibilidad del valet.
+            ========================================
+            */
+            <View>
+              {/* Panel de estado */}
+              <View style={s.valetPanel}>
+                <View style={s.valetIconWrap}>
+                  <Ionicons name="car-sport-outline" size={40} color={C.blue} />
                 </View>
-                <Text style={s.qaLabel}>{a.label}</Text>
-              </TouchableOpacity>
-            ))}
-          </View>
+                <Text style={s.valetTitle}>Estás disponible</Text>
+                <Text style={s.valetSubtitle}>
+                  Cuando un cliente solicite un valet cercano, recibirás una notificación aquí.
+                </Text>
+              </View>
 
-          {/* Latest trips */}
-          <Text style={s.sectionTitle}>Últimos servicios</Text>
-          <View style={s.card}>
-            <LatestTrips />
-          </View>
+              {/* Acciones rápidas del conductor */}
+              <Text style={s.sectionTitle}>Acciones rápidas</Text>
+              <View style={s.qaRow}>
+                {[
+                  { icon: "time-outline",        label: "Historial",  bg: "#faf5ff", color: "#7c3aed" },
+                  { icon: "person-outline",      label: "Perfil",     bg: "#eef3ff", color: C.blue    },
+                  { icon: "settings-outline",    label: "Config.",    bg: "#fff5ef", color: C.orange  },
+                  { icon: "help-circle-outline", label: "Ayuda",      bg: "#f0fdf4", color: "#16a34a" },
+                ].map((a) => (
+                  <TouchableOpacity key={a.label} style={s.qaBtn} activeOpacity={0.75}>
+                    <View style={[s.qaIcon, { backgroundColor: a.bg }]}>
+                      <Ionicons name={a.icon as any} size={22} color={a.color} />
+                    </View>
+                    <Text style={s.qaLabel}>{a.label}</Text>
+                  </TouchableOpacity>
+                ))}
+              </View>
 
-          {/* Service request */}
-          <View style={s.card}>
-            <ServiceRequest />
-          </View>
+              {/* Últimos servicios del conductor */}
+              <Text style={s.sectionTitle}>Últimos servicios</Text>
+              <View style={s.card}>
+                <LatestTrips />
+              </View>
+            </View>
+          ) : (
+            /*
+            ========================================
+            SECCIÓN CLIENTE (NO MODIFICAR)
+            Esta parte corresponde a la funcionalidad del cliente.
+            Debe mantenerse intacta y organizada.
+            ========================================
+            */
+            <View>
+              {/* Quick actions */}
+              <Text style={s.sectionTitle}>Acciones rápidas</Text>
+              <View style={s.qaRow}>
+                {[
+                  { icon: "car-outline",       label: "Reservar",  bg: "#eef3ff", color: C.blue    },
+                  { icon: "navigate-outline",  label: "Navegar",   bg: "#fff5ef", color: C.orange  },
+                  { icon: "card-outline",      label: "Pagar",     bg: "#f0fdf4", color: "#16a34a" },
+                  { icon: "time-outline",      label: "Historial", bg: "#faf5ff", color: "#7c3aed" },
+                ].map((a) => (
+                  <TouchableOpacity key={a.label} style={s.qaBtn} activeOpacity={0.75}>
+                    <View style={[s.qaIcon, { backgroundColor: a.bg }]}>
+                      <Ionicons name={a.icon as any} size={22} color={a.color} />
+                    </View>
+                    <Text style={s.qaLabel}>{a.label}</Text>
+                  </TouchableOpacity>
+                ))}
+              </View>
+
+              {/* Latest trips */}
+              <Text style={s.sectionTitle}>Últimos servicios</Text>
+              <View style={s.card}>
+                <LatestTrips />
+              </View>
+
+              {/* Service request */}
+              <View style={s.card}>
+                <ServiceRequest />
+              </View>
+            </View>
+          )}
 
         </View>
       </ScrollView>
@@ -274,5 +331,47 @@ const s = StyleSheet.create({
     shadowRadius:    8,
     elevation:       2,
     padding:         12,
+  },
+
+  /*
+  ========================================
+  SECCIÓN CONDUCTOR — estilos del panel valet
+  ========================================
+  */
+  valetPanel: {
+    backgroundColor: C.card,
+    borderRadius:    18,
+    borderWidth:     1,
+    borderColor:     C.border,
+    alignItems:      "center",
+    padding:         32,
+    marginBottom:    24,
+    shadowColor:     "#1a56db",
+    shadowOffset:    { width: 0, height: 2 },
+    shadowOpacity:   0.06,
+    shadowRadius:    8,
+    elevation:       2,
+  },
+  valetIconWrap: {
+    width:           72,
+    height:          72,
+    borderRadius:    36,
+    backgroundColor: "#eef3ff",
+    alignItems:      "center",
+    justifyContent:  "center",
+    marginBottom:    16,
+  },
+  valetTitle: {
+    fontSize:     18,
+    fontWeight:   "800",
+    color:        C.navy,
+    marginBottom: 8,
+    textAlign:    "center",
+  },
+  valetSubtitle: {
+    fontSize:   13,
+    color:      C.muted,
+    textAlign:  "center",
+    lineHeight: 20,
   },
 });
