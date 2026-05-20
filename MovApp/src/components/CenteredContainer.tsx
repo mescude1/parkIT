@@ -25,7 +25,13 @@ const CenteredContainer: React.FC<CenteredContainerProps> = ({
   showsHorizontalScrollIndicator,
   contentOffset,
 }) => {
-  const containerStyle = [styles.container, { marginTop, padding }, style];
+  // ✅ Sin alignItems/justifyContent en el style del ScrollView
+  const scrollStyle = [styles.scrollView, { marginTop, padding }, style];
+
+  // ✅ Props de flex van en contentContainerStyle
+  const contentContainerStyle: ViewStyle = horizontal
+    ? { alignItems: "flex-start", flexDirection: "row" }
+    : { alignItems: "flex-start", justifyContent: "flex-start", flexGrow: 1 };
 
   if (scroll) {
     return (
@@ -35,8 +41,8 @@ const CenteredContainer: React.FC<CenteredContainerProps> = ({
           renderToHardwareTextureAndroid={renderToHardwareTextureAndroid}
           showsHorizontalScrollIndicator={showsHorizontalScrollIndicator}
           contentOffset={contentOffset}
-          style={containerStyle}
-          contentContainerStyle={horizontal ? { alignItems: "flex-start" } : undefined}
+          style={scrollStyle}
+          contentContainerStyle={contentContainerStyle}
         >
           {children}
         </ScrollView>
@@ -46,7 +52,9 @@ const CenteredContainer: React.FC<CenteredContainerProps> = ({
 
   return (
     <View style={styles.wrapper}>
-      <View style={containerStyle}>{children}</View>
+      <View style={[styles.plainContainer, { marginTop, padding }, style]}>
+        {children}
+      </View>
     </View>
   );
 };
@@ -56,13 +64,24 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
   },
-  container: {
+  // ✅ Solo propiedades de layout/visual — sin alignItems/justifyContent
+  scrollView: {
     width: 380,
     height: 300,
     backgroundColor: "white",
     borderRadius: 15,
-    alignItems: "flex-start",
-    justifyContent: "flex-start",
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 4,
+    elevation: 5,
+    marginTop: 10,
+  },
+  plainContainer: {
+    width: 380,
+    height: 300,
+    backgroundColor: "white",
+    borderRadius: 15,
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.2,

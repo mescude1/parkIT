@@ -1,3 +1,4 @@
+// src/navigation/Menu.tsx
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { Alert, Animated, Linking, StyleSheet } from "react-native";
 
@@ -56,7 +57,6 @@ const ScreensStack = () => {
         },
       ])}
     >
-      {/*  */}
       <Screens />
     </Animated.View>
   );
@@ -68,6 +68,10 @@ const DrawerContentObj = (props: DrawerContentComponentProps) => {
   const { t } = useTranslation();
   const [active, setActive] = useState("Home");
   const { assets, colors, gradients, sizes } = useTheme();
+  // ── ROL ──────────────────────────────────────────────────────────────
+  const { authUser } = useData();
+  const isValet = authUser?.type === "valet";
+  // ─────────────────────────────────────────────────────────────────────
   const labelColor = colors.text;
 
   const handleNavigation = useCallback(
@@ -80,15 +84,33 @@ const DrawerContentObj = (props: DrawerContentComponentProps) => {
 
   const handleWebLink = useCallback((url: any) => Linking.openURL(url), []);
 
-  // screen list for Drawer menu
-  const screens = [
-    { name: t("screens.home"), to: "Home", icon: assets.home },
-    { name: t("screens.history"), to: "History", icon: assets.calendar },
-    { name: t("screens.vehicles"), to: "VehicleList", icon: assets.rental },
-    { name: t("screens.profile"), to: "Profile", icon: assets.profile },
+  // ── Menú conductor (sin Vehículos) ────────────────────────────────────
+  const screensValet = [
+    { name: t("screens.home"),     to: "Home",     icon: assets.home     },
+    { name: t("screens.history"),  to: "History",  icon: assets.calendar },
+    { name: t("screens.profile"),  to: "Profile",  icon: assets.profile  },
     { name: t("screens.settings"), to: "Settings", icon: assets.settings },
-    { name: t("screens.help"), to: "Help", icon: assets.chat }
+    { name: t("screens.help"),     to: "Help",     icon: assets.chat     },
   ];
+
+  // ── Menú cliente (con Vehículos) ──────────────────────────────────────
+  const screensCliente = [
+    { name: t("screens.home"),     to: "Home",        icon: assets.home     },
+    { name: t("screens.history"),  to: "History",     icon: assets.calendar },
+    /*
+    ========================================
+    SECCIÓN CLIENTE (NO MODIFICAR)
+    Esta parte corresponde a la funcionalidad del cliente.
+    Debe mantenerse intacta y organizada.
+    ========================================
+    */
+    { name: t("screens.vehicles"), to: "VehicleList", icon: assets.rental   },
+    { name: t("screens.profile"),  to: "Profile",     icon: assets.profile  },
+    { name: t("screens.settings"), to: "Settings",    icon: assets.settings },
+    { name: t("screens.help"),     to: "Help",        icon: assets.chat     },
+  ];
+
+  const screens = isValet ? screensValet : screensCliente;
 
   return (
     <DrawerContentScrollView
@@ -102,10 +124,9 @@ const DrawerContentObj = (props: DrawerContentComponentProps) => {
         <Block flex={0} row align="center" marginBottom={sizes.l}>
           <Image
             radius={0}
-            width={33}
-            height={33}
-            color={colors.text}
-            source={assets.logo}
+            width={40}
+            height={40}
+            source={require("../assets/images/logo.png")}
             marginRight={sizes.sm}
           />
           <Block>

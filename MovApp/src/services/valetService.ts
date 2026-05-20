@@ -12,6 +12,14 @@ import {
 
 const PAGE_SIZE_DEFAULT = 10;
 
+export interface IPendingRequest {
+  id: number;
+  status: string;
+  latitude: number;
+  longitude: number;
+  created_at: string;
+}
+
 export const valetService = {
   requestService: (body: IRequestServiceRequest) =>
     apiClient.post<IRequestServiceResponse>("/valet/request", body),
@@ -39,6 +47,11 @@ export const valetService = {
 
   endService: (body: IServiceActionRequest) =>
     apiClient.post<IServiceActionResponse>("/valet/end-service", body),
+
+  // Nuevo: polling de solicitudes pendientes para el valet
+  // Requiere GET /valet/requests/pending en el backend
+  getPendingRequests: () =>
+    apiClient.get<IPendingRequest[]>("/valet/requests/pending"),
 
   fetchServiceHistory: (
     page: number,
