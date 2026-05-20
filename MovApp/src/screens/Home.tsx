@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useRef, useState, useCallback } from "react";
 import {
   View,
   StyleSheet,
@@ -6,18 +6,23 @@ import {
   TouchableOpacity,
   Platform,
   Image,
+  ActivityIndicator,
 } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import { Ionicons } from "@expo/vector-icons";
 import { StatusBar } from "expo-status-bar";
+import { useNavigation } from "@react-navigation/native";
 
-import { useData, useTheme } from "../hooks/";
+import { useData } from "../hooks/";
 import { Text } from "../components/";
 import GreetUser from "../components/GreetUser";
 import LatestTrips from "../components/LatestTrips";
 import ServiceRequest from "../components/ServiceRequest";
+import { valetService } from "../services";
 
 const isAndroid = Platform.OS === "android";
+
+const POLL_INTERVAL_MS = 5000;
 
 const C = {
   navy:    "#0f1d36",
@@ -34,7 +39,42 @@ const C = {
 
 const Home = () => {
   const { handleLogout, authUser } = useData();
+  const navigation = useNavigation();
   const isValet = authUser?.type === "valet";
+
+  // ── Polling (solo activo cuando el usuario es valet) ──────────────────
+  const [pollingStatus, setPollingStatus] = useState<"waiting" | "found" | "error">("waiting");
+  const seenIds = useRef<Set<number>>(new Set());
+  const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
+
+  const poll = useCallback(async () => {
+    try {
+      const data = await valetService.getPendingRequests();
+      if (!data || data.length === 0) {
+        setPollingStatus("waiting");
+        return;
+      }
+      const next = data.find((r) => !seenIds.current.has(r.id));
+      if (next) {
+        seenIds.current.add(next.id);
+        setPollingStatus("found");
+        (navigation as any).navigate("IncomingRequest", { request_id: next.id });
+        setTimeout(() => setPollingStatus("waiting"), 2000);
+      }
+    } catch {
+      setPollingStatus("error");
+    }
+  }, [navigation]);
+
+  useEffect(() => {
+    if (!isValet) return;
+    poll();
+    intervalRef.current = setInterval(poll, POLL_INTERVAL_MS);
+    return () => {
+      if (intervalRef.current) clearInterval(intervalRef.current);
+    };
+  }, [isValet, poll]);
+  // ── fin polling ───────────────────────────────────────────────────────
 
   return (
     <View style={s.root}>
@@ -102,12 +142,33 @@ const Home = () => {
               {/* Panel de estado */}
               <View style={s.valetPanel}>
                 <View style={s.valetIconWrap}>
-                  <Ionicons name="car-sport-outline" size={40} color={C.blue} />
+                  {pollingStatus === "found" ? (
+                    <Ionicons name="checkmark-circle-outline" size={40} color={C.green} />
+                  ) : pollingStatus === "error" ? (
+                    <Ionicons name="cloud-offline-outline" size={40} color={C.muted} />
+                  ) : (
+                    <Ionicons name="car-sport-outline" size={40} color={C.blue} />
+                  )}
                 </View>
-                <Text style={s.valetTitle}>Estás disponible</Text>
-                <Text style={s.valetSubtitle}>
-                  Cuando un cliente solicite un valet cercano, recibirás una notificación aquí.
+
+                <Text style={s.valetTitle}>
+                  {pollingStatus === "found" ? "¡Solicitud encontrada!" : "Estás disponible"}
                 </Text>
+
+                <Text style={s.valetSubtitle}>
+                  {pollingStatus === "error"
+                    ? "Esperando conexión con el servidor..."
+                    : pollingStatus === "found"
+                    ? "Redirigiendo a la solicitud..."
+                    : "Buscando solicitudes cercanas automáticamente."}
+                </Text>
+
+                {pollingStatus === "waiting" && (
+                  <View style={s.pollingRow}>
+                    <ActivityIndicator size="small" color={C.blue} />
+                    <Text style={s.pollingTxt}>Escuchando solicitudes...</Text>
+                  </View>
+                )}
               </View>
 
               {/* Acciones rápidas del conductor */}
@@ -369,9 +430,20 @@ const s = StyleSheet.create({
     textAlign:    "center",
   },
   valetSubtitle: {
-    fontSize:   13,
+    fontSize:     13,
+    color:        C.muted,
+    textAlign:    "center",
+    lineHeight:   20,
+    marginBottom: 16,
+  },
+  pollingRow: {
+    flexDirection: "row",
+    alignItems:    "center",
+    gap:           8,
+  },
+  pollingTxt: {
+    fontSize:   12,
     color:      C.muted,
-    textAlign:  "center",
-    lineHeight: 20,
+    fontWeight: "600",
   },
 });
