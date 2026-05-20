@@ -4,7 +4,6 @@ from abc import ABC, abstractmethod
 
 from sqlalchemy import desc
 
-from app.database import db_session
 from app.model import Model
 
 
@@ -16,6 +15,10 @@ class Repository(ABC):
 
     def __init__(self, model_class):
         self.__model_class = model_class
+        # Import db_session lazily: it is None at module-import time and only
+        # gets assigned a scoped_session once database.init() runs. Reading it
+        # here (at instantiation) guarantees we bind the live session.
+        from app.database import db_session
         self.session = db_session
 
     def get(self, model_id: int) -> Model:

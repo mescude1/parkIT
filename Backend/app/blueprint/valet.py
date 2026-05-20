@@ -15,6 +15,31 @@ bp_valet = Blueprint('valet', __name__, url_prefix='/valet')
 
 PROXIMITY_METERS = 500
 
+# Service operating hours (extended schedule, every day): 06:00 - 22:00.
+# Requests created outside this window are rejected.
+SERVICE_HOUR_START = 6
+SERVICE_HOUR_END = 22
+
+# Campus reference data — used by the map / tracking endpoint so the
+# frontend can center the university map. Coordinates are approximate and
+# can be tuned later without touching client code.
+CAMPUS = {
+    'name': 'Campus',
+    'center': {'latitude': 4.6280, 'longitude': -74.0640},
+    'bounds': {
+        'north': 4.6320,
+        'south': 4.6240,
+        'east': -74.0590,
+        'west': -74.0690,
+    },
+}
+
+
+def _within_service_hours(now=None):
+    """Return True if the given datetime falls within service hours."""
+    now = now or datetime.now()
+    return SERVICE_HOUR_START <= now.hour < SERVICE_HOUR_END
+
 
 # ---------------------------------------------------------------------------
 # Helpers
@@ -67,6 +92,16 @@ def create_request():
     user = User.query.get(user_id)
     if not user or user.type != 'cliente':
         return jsonify({'error': 'Only clients can request valet service'}), 403
+
+    # Service is only available within operating hours (06:00 - 22:00).
+    if not _within_service_hours():
+        return jsonify({
+            'error': 'Service unavailable outside operating hours',
+            'service_hours': {
+                'start': f'{SERVICE_HOUR_START:02d}:00',
+                'end': f'{SERVICE_HOUR_END:02d}:00',
+            },
+        }), 403
 
     data = request.get_json() or {}
     latitude = data.get('latitude')
@@ -238,6 +273,111 @@ def get_request(request_id):
             result['valet_location'] = loc.to_dict() if loc else None
 
     return jsonify(result), 200
+
+
+# ---------------------------------------------------------------------------
+# Service availability (#31) — lets the client know if the request button
+# should be enabled right now.
+# ---------------------------------------------------------------------------
+
+@bp_valet.route('/service-hours', methods=['GET'])
+def service_hours():
+    """Public endpoint: operating hours and whether service is open now."""
+    return jsonify({
+        'start': f'{SERVICE_HOUR_START:02d}:00',
+        'end': f'{SERVICE_HOUR_END:02d}:00',
+        'available_now': _within_service_hours(),
+    }), 200
+
+
+# ---------------------------------------------------------------------------
+# Contact the valet (#31) — once a request is accepted, the client can pull
+# the valet's contact details (and vice-versa).
+# ---------------------------------------------------------------------------
+
+@bp_valet.route('/request/<int:request_id>/contact', methods=['GET'])
+@jwt_required()
+def request_contact(request_id):
+    """Return the counterpart's contact info for an accepted request."""
+    user_id = int(get_jwt_identity())
+    valet_request = ValetRequest.query.get(request_id)
+    if not valet_request:
+        return jsonify({'error': 'Request not found'}), 404
+
+    is_client = valet_request.client_id == user_id
+    is_valet = valet_request.accepted_by == user_id
+    if not is_client and not is_valet:
+        return jsonify({'error': 'Not authorized'}), 403
+
+    if valet_request.status != 'accepted':
+        return jsonify({'error': 'Request has not been accepted yet'}), 409
+
+    counterpart_id = valet_request.accepted_by if is_client else valet_request.client_id
+    counterpart = User.query.get(counterpart_id)
+    if not counterpart:
+        return jsonify({'error': 'Counterpart not found'}), 404
+
+    return jsonify({
+        'status': 'success',
+        'contact': {
+            'user_id': counterpart.id,
+            'name': counterpart.name,
+            'last_name': counterpart.last_name,
+            'cellphone': counterpart.cellphone,
+            'role': 'valet' if is_client else 'cliente',
+        },
+    }), 200
+
+
+# ---------------------------------------------------------------------------
+# Map / tracking (#29) — one call returns both parties' live positions, the
+# meeting point and the campus reference frame so the map can draw everything.
+# ---------------------------------------------------------------------------
+
+@bp_valet.route('/request/<int:request_id>/tracking', methods=['GET'])
+@jwt_required()
+def request_tracking(request_id):
+    """Return everything the map needs for an accepted request."""
+    user_id = int(get_jwt_identity())
+    valet_request = ValetRequest.query.get(request_id)
+    if not valet_request:
+        return jsonify({'error': 'Request not found'}), 404
+
+    is_client = valet_request.client_id == user_id
+    is_valet = valet_request.accepted_by == user_id
+    if not is_client and not is_valet:
+        return jsonify({'error': 'Not authorized'}), 403
+
+    client_loc = _latest_location(valet_request.client_id)
+    valet_loc = (
+        _latest_location(valet_request.accepted_by)
+        if valet_request.accepted_by else None
+    )
+
+    # The meeting point is where the client stood when requesting service.
+    meeting_point = {
+        'latitude': valet_request.latitude,
+        'longitude': valet_request.longitude,
+    }
+
+    # Straight-line distance valet -> meeting point, as a routing hint.
+    distance_meters = None
+    if valet_loc:
+        distance_meters = round(geodesic(
+            (valet_loc.latitude, valet_loc.longitude),
+            (meeting_point['latitude'], meeting_point['longitude']),
+        ).meters, 1)
+
+    return jsonify({
+        'status': 'success',
+        'request_id': request_id,
+        'request_status': valet_request.status,
+        'campus': CAMPUS,
+        'meeting_point': meeting_point,
+        'client_location': client_loc.to_dict() if client_loc else None,
+        'valet_location': valet_loc.to_dict() if valet_loc else None,
+        'valet_distance_to_meeting_m': distance_meters,
+    }), 200
 
 
 # ---------------------------------------------------------------------------

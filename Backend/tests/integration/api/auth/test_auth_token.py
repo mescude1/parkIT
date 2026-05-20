@@ -1,7 +1,20 @@
-"""It contains tests for /auth/token endpoint."""
+"""It contains tests for /auth/token endpoint.
 
-from flask import json
-from tests.util import create_user, create_tokens, is_token_revoked, revoke_token
+SKIPPED: the token-management endpoints ('/auth/token' list/revoke) no
+longer exist. The token system was refactored to a simple TokenBlacklist
+(populated on '/autho/logout'); there is no per-token listing or revoke
+API. These tests are kept, skipped, as a historical record — delete the
+file once the team confirms token management will not return.
+"""
+
+import pytest
+
+pytestmark = pytest.mark.skip(
+    reason="'/auth/token' management endpoints removed in the token-system refactor"
+)
+
+from flask import json  # noqa: E402
+from tests.util import create_user, create_tokens, is_token_revoked, revoke_token  # noqa: E402,F401
 
 
 def test_auth_list_tokens_of_logged_user_returning_200_status_code(client, session):

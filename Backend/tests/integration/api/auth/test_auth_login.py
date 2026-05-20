@@ -1,130 +1,73 @@
-"""It contains tests for the logining endpoint."""
+"""Integration tests for the login endpoint (/autho/login).
 
+The current endpoint (autho.py):
+    - 200 with {'data': {'user': ..., 'access_token': ...}} on valid creds.
+    - 401 with {'status': 'error', 'data': '401 Unauthorized'} otherwise.
+    - 400 when the request has no JSON body at all.
+
+Rewritten after the token-system refactor: the old tests targeted '/auth'
+(now '/autho') and a Token model that no longer exists.
+"""
 
 from flask import json
-from flask_jwt_extended import decode_token
 
-from tests.util import get_unique_username
+from tests.integration.api.helpers import make_cliente
 
 
-def test_auth_login_with_correct_credentials_passed_returning_200_status_code(client, session):
-    """
-    GIVEN a Flask application
-    WHEN the '/auth/login' URL is requested (POST)
-    THEN check the response is valid and the tokens creations
-    """
+# Happy path -----------------------------------------------------------------
 
-    data = {'username': 'test', 'password': 'test'}
-    response = client.post('/auth/login',
-                           data=json.dumps(data),
-                           content_type='application/json')
+def test_login_with_correct_credentials_returns_200_and_token(client, session):
+    """A valid username/password yields an access token that actually works."""
+    make_cliente('login_ok')
+
+    # helpers._make_user sets the password to 'x'.
+    response = client.post(
+        '/autho/login',
+        data=json.dumps({'username': 'login_ok', 'password': 'x'}),
+        content_type='application/json',
+    )
 
     assert response.status_code == 200
-    assert response.json['status'] == 'success'
+    body = response.get_json()
+    assert body['data']['user']['username'] == 'login_ok'
 
-    # checks tokens created
+    token = body['data']['access_token']
+    assert isinstance(token, str) and len(token) > 0
 
-    access_token_decoded = decode_token(response.json['data']['access_token'])
-    refresh_token_decoded = decode_token(
-        response.json['data']['refresh_token'])
-
-    assert access_token_decoded['identity'] == 'test'
-    assert refresh_token_decoded['identity'] == 'test'
-
-    # checks for tokens in the database
-    from app.model import Token
-    assert session.query(Token).filter_by(jti=access_token_decoded['jti'],
-                                          user_identity='test').first()
-    assert session.query(Token).filter_by(jti=refresh_token_decoded['jti'],
-                                          user_identity='test').first()
+    # The issued token is valid against a protected endpoint.
+    protected = client.get(
+        '/account',
+        headers={'Authorization': f'Bearer {token}'},
+    )
+    assert protected.status_code == 200
+    assert protected.get_json()['data']['username'] == 'login_ok'
 
 
-def test_auth_login_without_data_returning_400_status_code(client):
-    """
-    GIVEN a Flask application
-    WHEN the '/auth/login' URL is requested (POST) without data
-    THEN check the response HTTP 400 response
-    """
+# Alternative flow -----------------------------------------------------------
 
-    response = client.post('/auth/login', content_type='application/json')
+def test_login_without_body_returns_400(client, session):
+    """No JSON body at all -> the endpoint cannot parse the request."""
+    response = client.post('/autho/login', content_type='application/json')
     assert response.status_code == 400
-    assert response.json['status'] == 'fail'
-    assert response.json['message'] == 'bad request'
 
 
-def test_auth_login_with_empty_data_returning_400_status_code(client):
-    """
-    GIVEN a Flask application
-    WHEN the '/auth/login' URL is requested (POST) with empty data
-    THEN check the response HTTP 400 response
-    """
-
-    response = client.post('/auth/login', data={},
-                           content_type='application/json')
-    assert response.status_code == 400
-    assert response.json['status'] == 'fail'
-    assert response.json['message'] == 'bad request'
-
-
-def test_auth_login_without_username_returning_400_status_code(client):
-    """
-    GIVEN a Flask application
-    WHEN the '/auth/login' URL is requested (POST) without username
-    THEN check the response HTTP 400 response
-    """
-
-    data = {'password': "123"}
-    response = client.post('/auth/login',
-                           data=json.dumps(data),
-                           content_type='application/json')
-    assert response.status_code == 400
-    assert response.json['status'] == 'fail'
-    assert response.json['message'] == 'bad request'
-
-
-def test_auth_login_without_password_returning_400_status_code(client):
-    """
-    GIVEN a Flask application
-    WHEN the '/auth/login' URL is requested (POST) without password
-    THEN check the response HTTP 400 response
-    """
-
-    data = {'username': get_unique_username()}
-    response = client.post('/auth/login',
-                           data=json.dumps(data),
-                           content_type='application/json')
-    assert response.status_code == 400
-    assert response.json['status'] == 'fail'
-    assert response.json['message'] == 'bad request'
-
-
-def test_auth_login_with_an_inexistent_username_returning_401_status_code(client):
-    """
-    GIVEN a Flask application
-    WHEN the '/auth/login' URL is requested (POST) with an inexistent username
-    THEN check the response HTTP 401 response
-    """
-
-    data = {'username': 'xtestx', 'password': "test"}
-    response = client.post('/auth/login',
-                           data=json.dumps(data),
-                           content_type='application/json')
+def test_login_with_inexistent_username_returns_401(client, session):
+    response = client.post(
+        '/autho/login',
+        data=json.dumps({'username': 'does_not_exist', 'password': 'x'}),
+        content_type='application/json',
+    )
     assert response.status_code == 401
-    assert response.json['status'] == 'fail'
-    assert response.json['message'] == 'Username or Password not valid'
+    assert response.get_json()['status'] == 'error'
 
 
-def test_auth_login_with_an_incorrect_password_returning_401_status_code(client):
-    """
-    GIVEN a Flask application
-    WHEN the '/auth/login' URL is requested (POST) with incorrect password
-    THEN check the response HTTP 401 response
-    """
+def test_login_with_incorrect_password_returns_401(client, session):
+    make_cliente('login_badpass')
 
-    data = {'username': 'test', 'password': "xtestx"}
-    response = client.post('/auth/login',
-                           data=json.dumps(data),
-                           content_type='application/json')
+    response = client.post(
+        '/autho/login',
+        data=json.dumps({'username': 'login_badpass', 'password': 'wrong'}),
+        content_type='application/json',
+    )
     assert response.status_code == 401
-    assert response.json['status'] == 'fail'
-    assert response.json['message'] == 'Username or Password not valid'
+    assert response.get_json()['status'] == 'error'

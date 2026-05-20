@@ -115,6 +115,7 @@ def init_blueprints(app: Flask) -> None:
     from .blueprint.belongings import bp_belongings
     from .blueprint.key_handover import bp_keys
     from .blueprint.inspection import bp_inspection
+    from .blueprint.payments import bp_payments, bp_sanctions
     app.register_blueprint(index.bp)
     app.register_blueprint(autho.bp)
     app.register_blueprint(profile.bp_profile)
@@ -129,6 +130,8 @@ def init_blueprints(app: Flask) -> None:
     app.register_blueprint(bp_belongings)
     app.register_blueprint(bp_keys)
     app.register_blueprint(bp_inspection)
+    app.register_blueprint(bp_payments)
+    app.register_blueprint(bp_sanctions)
 
 
 def init_commands(app):

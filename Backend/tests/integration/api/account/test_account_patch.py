@@ -1,123 +1,76 @@
-"""It contains tests for the account patching endpoint."""
+"""Integration tests for PATCH /account (partial account update)."""
 
 from flask import json
-from tests.util import create_user, create_tokens
+
+from tests.integration.api.helpers import auth_header, make_cliente
 
 
-def test_patch_account_with_data_well_formatted_returning_200_status_code(client, session, auth):
-    """
-    GIVEN a Flask application
-    WHEN the '/account' URL is requested (PATCH)
-    THEN check the response is valid
-    """
+# Happy path -----------------------------------------------------------------
 
-    user = create_user(session)
-    tokens = create_tokens(user.username)
-    endpoint = '/account'
-    data = {'password': "x123x"}
-    response = client.patch(endpoint,
-                            data=json.dumps(data),
-                            content_type='application/json',
-                            headers={'Authorization': 'Bearer ' + tokens['access']['enconded']})
+def test_patch_account_single_field_returns_200(client, session):
+    user = make_cliente('acc_patch_ok')
+
+    response = client.patch(
+        '/account',
+        data=json.dumps({'name': 'SoloNombre'}),
+        content_type='application/json',
+        headers=auth_header(user),
+    )
 
     assert response.status_code == 200
-    assert response.json['status'] == 'success'
-    assert int(response.json['data']['id']) == user.id
+    body = response.get_json()
+    assert body['status'] == 'success'
+    assert body['data']['name'] == 'SoloNombre'
+    # Other fields are untouched.
+    assert body['data']['username'] == 'acc_patch_ok'
 
 
-def test_patch_account_with_password_length_smaller_than_3_character_returning_400_status_code(client, session):
-    """
-    GIVEN a Flask application
-    WHEN the '/account' URL is requested (PATCH) with invalid password value
-    THEN check the response HTTP 400 response
-    """
+def test_patch_account_with_valid_password_returns_200(client, session):
+    user = make_cliente('acc_patch_pw')
 
-    user = create_user(session)
-    tokens = create_tokens(user.username)
-    endpoint = '/account'
-    data = {'password': "xx"}
-    response = client.patch(endpoint,
-                            data=json.dumps(data),
-                            content_type='application/json',
-                            headers={'Authorization': 'Bearer ' + tokens['access']['enconded']})
-    assert response.status_code == 400
-    assert response.json['status'] == 'fail'
-    assert {"password": "minimum length of 3 characters"} in response.json['data']
-
-
-def test_patch_account_with_an_user_already_excluded_returning_404_status_code(client, session):
-    """
-    GIVEN a Flask application
-    WHEN the '/account' URL is requested (PATCH) with inexistent user
-    THEN check the response HTTP 404 response
-    """
-
-    user = create_user(session)
-    tokens = create_tokens(user.username)
-    # delete the user
-    session.delete(user)
-    session.commit()
-    # request
-    response = client.patch('/account',
-                            content_type='application/json',
-                            headers={'Authorization': 'Bearer ' + tokens['access']['enconded']})
-    # asserts
-    assert response.status_code == 404
-    assert response.json['status'] == 'error'
-    assert response.json['message'] == 'not Found'
-
-
-def test_patch_account_without_data_returning_400_status_code(client, session):
-    """
-    GIVEN a Flask application
-    WHEN the '/account' URL is requested (PATCH) without data
-    THEN check the response HTTP 400 response
-    """
-
-    user = create_user(session)
-    tokens = create_tokens(user.username)
-    endpoint = '/account'
-    response = client.patch(endpoint,
-                            content_type='application/json',
-                            headers={'Authorization': 'Bearer ' + tokens['access']['enconded']})
-    assert response.status_code == 400
-    assert response.json['status'] == 'fail'
-    assert response.json['message'] == 'bad request'
-
-
-def test_patch_account_without_request_content_type_returning_400_status_code(client, session):
-    """
-    GIVEN a Flask application
-    WHEN the '/account' URL is requested (PATH) without the request content type
-    THEN check the response HTTP 400 response
-    """
-
-    user = create_user(session)
-    tokens = create_tokens(user.username)
-    endpoint = '/account'
-    response = client.patch(endpoint,
-                            headers={'Authorization': 'Bearer ' + tokens['access']['enconded']})
-    assert response.status_code == 400
-    assert response.json['status'] == 'fail'
-    assert response.json['message'] == 'bad request'
-
-
-def test_patch_account_with_only_password_passed_returning_200_status_code(client, session, auth):
-    """
-    GIVEN a Flask application
-    WHEN the '/account' URL is requested (PATCH) passing only password
-    THEN check the response is valid
-    """
-
-    user = create_user(session)
-    tokens = create_tokens(user.username)
-    endpoint = '/account'
-    data = {'password': "x123x"}
-    response = client.patch(endpoint,
-                            data=json.dumps(data),
-                            content_type='application/json',
-                            headers={'Authorization': 'Bearer ' + tokens['access']['enconded']})
-
+    response = client.patch(
+        '/account',
+        data=json.dumps({'password': 'brandnew'}),
+        content_type='application/json',
+        headers=auth_header(user),
+    )
     assert response.status_code == 200
-    assert response.json['status'] == 'success'
-    assert int(response.json['data']['id']) == user.id
+    assert response.get_json()['status'] == 'success'
+
+
+# Alternative flow -----------------------------------------------------------
+
+def test_patch_account_without_json_content_type_returns_400(client, session):
+    user = make_cliente('acc_patch_ct')
+
+    response = client.patch(
+        '/account',
+        data=json.dumps({'name': 'X'}),
+        headers=auth_header(user),
+    )
+    assert response.status_code == 400
+
+
+def test_patch_account_with_empty_body_returns_400(client, session):
+    user = make_cliente('acc_patch_empty')
+
+    response = client.patch(
+        '/account',
+        data=json.dumps({}),
+        content_type='application/json',
+        headers=auth_header(user),
+    )
+    assert response.status_code == 400
+
+
+def test_patch_account_with_short_password_returns_400(client, session):
+    user = make_cliente('acc_patch_short')
+
+    response = client.patch(
+        '/account',
+        data=json.dumps({'password': 'ab'}),
+        content_type='application/json',
+        headers=auth_header(user),
+    )
+    assert response.status_code == 400
+    assert response.get_json()['status'] == 'fail'

@@ -6,13 +6,19 @@ service threads, belongings, key handover, inspection) all do
 ``int(get_jwt_identity())`` exactly like ``autho.py:login`` does — so
 they need numeric identities. These helpers create real ``User`` rows
 and mint tokens whose identity is the user's primary key as a string.
+
+Note: we use ``db.session`` (the Flask-SQLAlchemy session) rather than
+``app.database.db_session``. The latter is a module-level global that is
+``None`` until ``database.init()`` runs, so importing it at module load
+time would bind the name to ``None``. ``db`` is a stable instance and
+``db.session`` is the same session the new blueprints write through.
 """
 
 from datetime import datetime
 
 from flask_jwt_extended import create_access_token
 
-from app.database import db_session
+from app.database import db
 from app.model import User, ValetRequest, Service
 
 
@@ -28,13 +34,14 @@ def _make_user(*, username, user_type='cliente'):
     user.profile_img = 'p.jpg'
     user.id_img = 'i.jpg'
     user.driver_license_img = 'l.jpg'
-    user.contract = None
-    user.vehicle_type = 'car' if user_type == 'valet' else None
+    # contract and vehicle_type are NOT NULL on the users table.
+    user.contract = 'contract.pdf'
+    user.vehicle_type = 'car'
     user.created_at = datetime.utcnow()
     user.is_deleted = False
     user.is_verified = True
-    db_session.add(user)
-    db_session.commit()
+    db.session.add(user)
+    db.session.commit()
     return user
 
 
@@ -66,8 +73,8 @@ def make_valet_request(client_user, valet_user=None, status='accepted'):
     if status == 'accepted' and valet_user is not None:
         req.accepted_by = valet_user.id
 
-    db_session.add(req)
-    db_session.commit()
+    db.session.add(req)
+    db.session.commit()
 
     service_id = None
     if status == 'accepted' and valet_user is not None:
@@ -77,11 +84,11 @@ def make_valet_request(client_user, valet_user=None, status='accepted'):
         service.created_at = datetime.utcnow()
         service.is_finished = False
         service.is_deleted = False
-        db_session.add(service)
-        db_session.commit()
+        db.session.add(service)
+        db.session.commit()
         service_id = service.id
 
         req.service_id = service_id
-        db_session.commit()
+        db.session.commit()
 
     return req

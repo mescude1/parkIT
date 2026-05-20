@@ -96,8 +96,18 @@ def app(request):
     def teardown():
         drop_db()
         ctx.pop()
+        # Dispose the engine so SQLite releases its file handle. On Windows
+        # an open handle prevents os.remove() from deleting test.db.
+        from app.database import engine
+        if engine is not None:
+            engine.dispose()
         if os.path.exists(TEST_DB_PATH):
-            os.remove(TEST_DB_PATH)
+            try:
+                os.remove(TEST_DB_PATH)
+            except PermissionError:
+                # Safety net in case a handle is still held; the next run's
+                # init_db() recreates the schema anyway.
+                pass
 
     init_db()
     create_test_user()
