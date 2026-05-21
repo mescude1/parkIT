@@ -16,6 +16,8 @@ from app.model.chat_message import ChatMessage
 from app.model.belonging import Belonging
 from app.model.key_handover import KeyHandover
 from app.model.vehicle_inspection import VehicleInspection, SpeedAlert
+from app.model.payment import Payment
+from app.model.sanction import Sanction
 from app.model.repository.user_repository import UserRepository
 
 __all__ = [
@@ -24,5 +26,6 @@ __all__ = [
     "ValetRequest", "DeviceToken", "Rating",
     "Conversation", "ChatMessage",
     "Belonging", "KeyHandover", "VehicleInspection", "SpeedAlert",
+    "Payment", "Sanction",
     "UserRepository",
 ]

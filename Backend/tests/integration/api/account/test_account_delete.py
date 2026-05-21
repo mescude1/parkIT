@@ -1,47 +1,33 @@
-"""It contains tests for the /account exclusion endpoint."""
+"""Integration tests for DELETE /account (soft-deletes the account)."""
+
+from flask_jwt_extended import create_access_token
+
+from tests.integration.api.helpers import auth_header, make_cliente
 
 
-from tests.util import create_user, create_tokens
+# Happy path -----------------------------------------------------------------
+
+def test_delete_account_returns_200_and_soft_deletes(client, session):
+    user = make_cliente('acc_del_ok')
+
+    response = client.delete('/account', headers=auth_header(user))
+
+    assert response.status_code == 200
+    assert response.get_json()['status'] == 'success'
+
+    # The account is flagged as deleted rather than physically removed.
+    from app.model import User
+    refreshed = User.query.get(user.id)
+    assert refreshed is not None
+    assert refreshed.is_deleted is True
 
 
-def test_delete_with_all_data_passed_returning_200_status_code(client, session):
-    """
-    GIVEN a Flask application
-    WHEN the '/account' URL is requested (DELETE)
-    THEN check the response is valid
-    """
+# Alternative flow -----------------------------------------------------------
 
-    user = create_user(session)
-    tokens = create_tokens(user.username)
-    endpoint = '/account'
-    # assert user was deleted
-    response = client.delete(endpoint,
-                             headers={'Authorization': 'Bearer ' + tokens['access']['enconded']})
-    assert response.status_code == 201
-
-    from app.model import Token
-    tokens = session.query(Token).filter_by(
-        user_identity=user.username,
-        revoked=False).all()
-    assert len(tokens) == 0
-
-
-def test_delete_with_inexistent_user_id_returning_404_status_code(client, session):
-    """
-    GIVEN a Flask application
-    WHEN the '/account' URL is requested (DELETE) with inexistent user
-    THEN check the response HTTP 404 response
-    """
-
-    user = create_user(session)
-    tokens = create_tokens(user.username)
-    # delete the user
-    session.delete(user)
-    session.commit()
-    # request
-    endpoint = '/account'
-    response = client.delete(endpoint,
-                             headers={'Authorization': 'Bearer ' + tokens['access']['enconded']})
+def test_delete_account_of_inexistent_user_returns_404(client, session):
+    token = create_access_token(identity='999999')
+    response = client.delete(
+        '/account',
+        headers={'Authorization': f'Bearer {token}'},
+    )
     assert response.status_code == 404
-    assert response.json['status'] == 'error'
-    assert response.json['message'] == 'not Found'

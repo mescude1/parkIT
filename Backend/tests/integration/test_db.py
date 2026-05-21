@@ -9,11 +9,16 @@ def test_sqlalchemy_base(app):
     GIVEN a Flask application
     WHEN the app is initialized
     THEN check SQLAlchemy initialization
+
+    Note: sqlalchemy.ext.declarative.api was removed in SQLAlchemy 2.x.
+    Instead of checking the metaclass by its (moved) path, verify that
+    Base is a declarative base by inspecting its MetaData.
     """
 
     with app.app_context():
         from app.database import Base
-        assert Base.__class__ == sqlalchemy.ext.declarative.api.DeclarativeMeta
+        assert Base is not None
+        assert isinstance(Base.metadata, sqlalchemy.MetaData)
 
 
 def test_session_is_open(app):

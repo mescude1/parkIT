@@ -1,0 +1,2101 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="40" failures="61" skipped="0" tests="141" time="8.848" timestamp="2026-04-29T16:06:34.544413-05:00" hostname="LAPTOP-MDSBEUKH"><testcase classname="tests.integration.api.account.test_account_delete" name="test_delete_with_all_data_passed_returning_200_status_code" time="0.330"><failure message="ImportError: cannot import name 'TokenRepository' from 'app.model' (D:\ProyectosU\parkIT\Backend\app\model\__init__.py)">client = &lt;FlaskClient &lt;Flask 'app'&gt;&gt;, session = &lt;sqlalchemy.orm.scoping.scoped_session object at 0x000002083A1956D0&gt;
+
+    def test_delete_with_all_data_passed_returning_200_status_code(client, session):
+        """
+        GIVEN a Flask application
+        WHEN the '/account' URL is requested (DELETE)
+        THEN check the response is valid
+        """
+    
+        user = create_user(session)
+&gt;       tokens = create_tokens(user.username)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\integration\api\account\test_account_delete.py:15: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+username = 'user_1348075474465747675'
+
+    def create_tokens(username):
+        """Create encoded token, a decode token and model token
+        for both access and refresh tokens.
+    
+        Parameters:
+            session: a SLQAlchmey Session object.
+            username (str): the user that owns the token.
+    
+        Returns:
+            A dictionary with an encoded token, a decode token and model
+            token for both access and refresh tokens.
+        """
+    
+&gt;       from app.model import TokenRepository
+E       ImportError: cannot import name 'TokenRepository' from 'app.model' (D:\ProyectosU\parkIT\Backend\app\model\__init__.py)
+
+tests\util.py:108: ImportError</failure></testcase><testcase classname="tests.integration.api.account.test_account_delete" name="test_delete_with_inexistent_user_id_returning_404_status_code" time="0.086"><failure message="ImportError: cannot import name 'TokenRepository' from 'app.model' (D:\ProyectosU\parkIT\Backend\app\model\__init__.py)">client = &lt;FlaskClient &lt;Flask 'app'&gt;&gt;, session = &lt;sqlalchemy.orm.scoping.scoped_session object at 0x000002083A6AE850&gt;
+
+    def test_delete_with_inexistent_user_id_returning_404_status_code(client, session):
+        """
+        GIVEN a Flask application
+        WHEN the '/account' URL is requested (DELETE) with inexistent user
+        THEN check the response HTTP 404 response
+        """
+    
+        user = create_user(session)
+&gt;       tokens = create_tokens(user.username)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\integration\api\account\test_account_delete.py:37: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+username = 'user_1837553861895811803'
+
+    def create_tokens(username):
+        """Create encoded token, a decode token and model token
+        for both access and refresh tokens.
+    
+        Parameters:
+            session: a SLQAlchmey Session object.
+            username (str): the user that owns the token.
+    
+        Returns:
+            A dictionary with an encoded token, a decode token and model
+            token for both access and refresh tokens.
+        """
+    
+&gt;       from app.model import TokenRepository
+E       ImportError: cannot import name 'TokenRepository' from 'app.model' (D:\ProyectosU\parkIT\Backend\app\model\__init__.py)
+
+tests\util.py:108: ImportError</failure></testcase><testcase classname="tests.integration.api.account.test_account_get" name="test_get_account_with_an_existent_user_returning_200_status_code" time="0.082"><failure message="ValueError: invalid literal for int() with base 10: 'test'">client = &lt;FlaskClient &lt;Flask 'app'&gt;&gt;
+auth = {'access_token': {'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTc3NzQ5Nj...MyZmRiNjctZDIyNy00Zjc3LWE1YzctMjVjMTkzNGI2Yjg4IiwiZXhwIjoxNzgwMDg4Nzk1fQ.L2H7GlzwVnZr5FSgKtBVrlLzHxQWQtNuREwJbrJPksY'}}
+
+    def test_get_account_with_an_existent_user_returning_200_status_code(client, auth):
+        """
+        GIVEN a Flask application
+        WHEN the '/account' URL is requested (GET)
+        THEN check the response is valid
+        """
+    
+&gt;       response = client.get('/account',
+                              headers=auth['access_token'])
+
+tests\integration\api\account\test_account_get.py:13: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+C:\Users\Alexander\AppData\Local\Programs\Python\Python313\Lib\site-packages\werkzeug\test.py:1162: in get
+    return self.open(*args, **kw)
+           ^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\Alexander\AppData\Local\Programs\Python\Python313\Lib\site-packages\flask\testing.py:235: in open
+    response = super().open(
+C:\Users\Alexander\AppData\Local\Programs\Python\Python313\Lib\site-packages\werkzeug\test.py:1116: in open
+    response_parts = self.run_wsgi_app(request.environ, buffered=buffered)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\Alexander\AppData\Local\Programs\Python\Python313\Lib\site-packages\werkzeug\test.py:988: in run_wsgi_app
+    rv = run_wsgi_app(self.application, environ, buffered=buffered)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\Alexander\AppData\Local\Programs\Python\Python313\Lib\site-packages\werkzeug\test.py:1264: in run_wsgi_app
+    app_rv = app(environ, start_response)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\Alexander\AppData\Local\Programs\Python\Python313\Lib\site-packages\flask\app.py:1536: in __call__
+    return self.wsgi_app(environ, start_response)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\Alexander\AppData\Local\Programs\Python\Python313\Lib\site-packages\flask\app.py:1514: in wsgi_app
+    response = self.handle_exception(e)
+               ^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\Alexander\AppData\Local\Programs\Python\Python313\Lib\site-packages\flask_cors\extension.py:176: in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+                                                ^^^^^^^^^^^^^^^^^^
+C:\Users\Alexander\AppData\Local\Programs\Python\Python313\Lib\site-packages\flask\app.py:1511: in wsgi_app
+    response = self.full_dispatch_request()
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\Alexander\AppData\Local\Programs\Python\Python313\Lib\site-packages\flask\app.py:919: in full_dispatch_request
+    rv = self.handle_user_exception(e)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\Alexander\AppData\Local\Programs\Python\Python313\Lib\site-packages\flask_cors\extension.py:176: in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+                                                ^^^^^^^^^^^^^^^^^^
+C:\Users\Alexander\AppData\Local\Programs\Python\Python313\Lib\site-packages\flask\app.py:917: in full_dispatch_request
+    rv = self.dispatch_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\Alexander\AppData\Local\Programs\Python\Python313\Lib\site-packages\flask\app.py:902: in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\Alexander\AppData\Local\Programs\Python\Python313\Lib\site-packages\flask_jwt_extended\view_decorators.py:170: in decorator
+    return current_app.ensure_sync(fn)(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+    @bp.route('', methods=('GET',))
+    @jwt_required()
+    def get_account():
+        """Retrieves the user account.
+    
+        Returns:
+            response: flask.Response object with the application/json mimetype.
+        """
+    
+&gt;       user_identity = int(get_jwt_identity())
+                        ^^^^^^^^^^^^^^^^^^^^^^^
+E       ValueError: invalid literal for int() with base 10: 'test'
+
+app\blueprint\account.py:27: ValueError</failure></testcase><testcase classname="tests.integration.api.account.test_account_get" name="test_get_account_with_an_existent_user_returning_200_status_code" time="0.005"><error message="failed on teardown with &quot;PermissionError: [WinError 32] El proceso no tiene acceso al archivo porque está siendo utilizado por otro proceso: 'D:\\ProyectosU\\parkIT\\Backend\\tests\\test.db'&quot;">def teardown():
+        drop_db()
+        ctx.pop()
+        if os.path.exists(TEST_DB_PATH):
+&gt;           os.remove(TEST_DB_PATH)
+E           PermissionError: [WinError 32] El proceso no tiene acceso al archivo porque está siendo utilizado por otro proceso: 'D:\\ProyectosU\\parkIT\\Backend\\tests\\test.db'
+
+tests\conftest.py:100: PermissionError</error></testcase><testcase classname="tests.integration.api.account.test_account_get" name="test_get_account_with_an_user_already_excluded_returning_404_status_code" time="0.028"><failure message="ImportError: cannot import name 'TokenRepository' from 'app.model' (D:\ProyectosU\parkIT\Backend\app\model\__init__.py)">client = &lt;FlaskClient &lt;Flask 'app'&gt;&gt;, session = &lt;sqlalchemy.orm.scoping.scoped_session object at 0x000002083A91C050&gt;
+
+    def test_get_account_with_an_user_already_excluded_returning_404_status_code(client, session):
+        """
+        GIVEN a Flask application
+        WHEN the '/account' URL is requested (GET) with inexistent user
+        THEN check the response HTTP 404 response
+        """
+    
+        user = create_user(session)
+&gt;       tokens = create_tokens(user.username)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\integration\api\account\test_account_get.py:29: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+username = 'user_2287141417714348763'
+
+    def create_tokens(username):
+        """Create encoded token, a decode token and model token
+        for both access and refresh tokens.
+    
+        Parameters:
+            session: a SLQAlchmey Session object.
+            username (str): the user that owns the token.
+    
+        Returns:
+            A dictionary with an encoded token, a decode token and model
+            token for both access and refresh tokens.
+        """
+    
+&gt;       from app.model import TokenRepository
+E       ImportError: cannot import name 'TokenRepository' from 'app.model' (D:\ProyectosU\parkIT\Backend\app\model\__init__.py)
+
+tests\util.py:108: ImportError</failure></testcase><testcase classname="tests.integration.api.account.test_account_get" name="test_get_account_with_an_user_already_excluded_returning_404_status_code" time="0.005"><error message="failed on teardown with &quot;PermissionError: [WinError 32] El proceso no tiene acceso al archivo porque está siendo utilizado por otro proceso: 'D:\\ProyectosU\\parkIT\\Backend\\tests\\test.db'&quot;">def teardown():
+        drop_db()
+        ctx.pop()
+        if os.path.exists(TEST_DB_PATH):
+&gt;           os.remove(TEST_DB_PATH)
+E           PermissionError: [WinError 32] El proceso no tiene acceso al archivo porque está siendo utilizado por otro proceso: 'D:\\ProyectosU\\parkIT\\Backend\\tests\\test.db'
+
+tests\conftest.py:100: PermissionError</error></testcase><testcase classname="tests.integration.api.account.test_account_patch" name="test_patch_account_with_data_well_formatted_returning_200_status_code" time="0.080"><failure message="ImportError: cannot import name 'TokenRepository' from 'app.model' (D:\ProyectosU\parkIT\Backend\app\model\__init__.py)">client = &lt;FlaskClient &lt;Flask 'app'&gt;&gt;, session = &lt;sqlalchemy.orm.scoping.scoped_session object at 0x000002083A8EAC30&gt;
+auth = {'access_token': {'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTc3NzQ5Nj...Q4YzQwY2EtZTZjNy00MzUyLThjYzQtZWNiZWQ3YWZkMDVhIiwiZXhwIjoxNzgwMDg4Nzk2fQ.vnoaRWi8hkJcTvpvtXamzsBTT870yr2cuAD_08vrqYg'}}
+
+    def test_patch_account_with_data_well_formatted_returning_200_status_code(client, session, auth):
+        """
+        GIVEN a Flask application
+        WHEN the '/account' URL is requested (PATCH)
+        THEN check the response is valid
+        """
+    
+        user = create_user(session)
+&gt;       tokens = create_tokens(user.username)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\integration\api\account\test_account_patch.py:15: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+username = 'user_183376001302164188'
+
+    def create_tokens(username):
+        """Create encoded token, a decode token and model token
+        for both access and refresh tokens.
+    
+        Parameters:
+            session: a SLQAlchmey Session object.
+            username (str): the user that owns the token.
+    
+        Returns:
+            A dictionary with an encoded token, a decode token and model
+            token for both access and refresh tokens.
+        """
+    
+&gt;       from app.model import TokenRepository
+E       ImportError: cannot import name 'TokenRepository' from 'app.model' (D:\ProyectosU\parkIT\Backend\app\model\__init__.py)
+
+tests\util.py:108: ImportError</failure></testcase><testcase classname="tests.integration.api.account.test_account_patch" name="test_patch_account_with_password_length_smaller_than_3_character_returning_400_status_code" time="0.161"><failure message="ImportError: cannot import name 'TokenRepository' from 'app.model' (D:\ProyectosU\parkIT\Backend\app\model\__init__.py)">client = &lt;FlaskClient &lt;Flask 'app'&gt;&gt;, session = &lt;sqlalchemy.orm.scoping.scoped_session object at 0x000002083A5FA7A0&gt;
+
+    def test_patch_account_with_password_length_smaller_than_3_character_returning_400_status_code(client, session):
+        """
+        GIVEN a Flask application
+        WHEN the '/account' URL is requested (PATCH) with invalid password value
+        THEN check the response HTTP 400 response
+        """
+    
+        user = create_user(session)
+&gt;       tokens = create_tokens(user.username)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\integration\api\account\test_account_patch.py:36: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+username = 'user_569775173628228316'
+
+    def create_tokens(username):
+        """Create encoded token, a decode token and model token
+        for both access and refresh tokens.
+    
+        Parameters:
+            session: a SLQAlchmey Session object.
+            username (str): the user that owns the token.
+    
+        Returns:
+            A dictionary with an encoded token, a decode token and model
+            token for both access and refresh tokens.
+        """
+    
+&gt;       from app.model import TokenRepository
+E       ImportError: cannot import name 'TokenRepository' from 'app.model' (D:\ProyectosU\parkIT\Backend\app\model\__init__.py)
+
+tests\util.py:108: ImportError</failure></testcase><testcase classname="tests.integration.api.account.test_account_patch" name="test_patch_account_with_an_user_already_excluded_returning_404_status_code" time="0.172"><failure message="ImportError: cannot import name 'TokenRepository' from 'app.model' (D:\ProyectosU\parkIT\Backend\app\model\__init__.py)">client = &lt;FlaskClient &lt;Flask 'app'&gt;&gt;, session = &lt;sqlalchemy.orm.scoping.scoped_session object at 0x000002083A687350&gt;
+
+    def test_patch_account_with_an_user_already_excluded_returning_404_status_code(client, session):
+        """
+        GIVEN a Flask application
+        WHEN the '/account' URL is requested (PATCH) with inexistent user
+        THEN check the response HTTP 404 response
+        """
+    
+        user = create_user(session)
+&gt;       tokens = create_tokens(user.username)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\integration\api\account\test_account_patch.py:56: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+username = 'user_974464721882346204'
+
+    def create_tokens(username):
+        """Create encoded token, a decode token and model token
+        for both access and refresh tokens.
+    
+        Parameters:
+            session: a SLQAlchmey Session object.
+            username (str): the user that owns the token.
+    
+        Returns:
+            A dictionary with an encoded token, a decode token and model
+            token for both access and refresh tokens.
+        """
+    
+&gt;       from app.model import TokenRepository
+E       ImportError: cannot import name 'TokenRepository' from 'app.model' (D:\ProyectosU\parkIT\Backend\app\model\__init__.py)
+
+tests\util.py:108: ImportError</failure></testcase><testcase classname="tests.integration.api.account.test_account_patch" name="test_patch_account_without_data_returning_400_status_code" time="0.096"><failure message="ImportError: cannot import name 'TokenRepository' from 'app.model' (D:\ProyectosU\parkIT\Backend\app\model\__init__.py)">client = &lt;FlaskClient &lt;Flask 'app'&gt;&gt;, session = &lt;sqlalchemy.orm.scoping.scoped_session object at 0x000002083AB4E350&gt;
+
+    def test_patch_account_without_data_returning_400_status_code(client, session):
+        """
+        GIVEN a Flask application
+        WHEN the '/account' URL is requested (PATCH) without data
+        THEN check the response HTTP 400 response
+        """
+    
+        user = create_user(session)
+&gt;       tokens = create_tokens(user.username)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\integration\api\account\test_account_patch.py:78: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+username = 'user_1207372070970880732'
+
+    def create_tokens(username):
+        """Create encoded token, a decode token and model token
+        for both access and refresh tokens.
+    
+        Parameters:
+            session: a SLQAlchmey Session object.
+            username (str): the user that owns the token.
+    
+        Returns:
+            A dictionary with an encoded token, a decode token and model
+            token for both access and refresh tokens.
+        """
+    
+&gt;       from app.model import TokenRepository
+E       ImportError: cannot import name 'TokenRepository' from 'app.model' (D:\ProyectosU\parkIT\Backend\app\model\__init__.py)
+
+tests\util.py:108: ImportError</failure></testcase><testcase classname="tests.integration.api.account.test_account_patch" name="test_patch_account_without_request_content_type_returning_400_status_code" time="0.103"><failure message="ImportError: cannot import name 'TokenRepository' from 'app.model' (D:\ProyectosU\parkIT\Backend\app\model\__init__.py)">client = &lt;FlaskClient &lt;Flask 'app'&gt;&gt;, session = &lt;sqlalchemy.orm.scoping.scoped_session object at 0x000002083AAD5050&gt;
+
+    def test_patch_account_without_request_content_type_returning_400_status_code(client, session):
+        """
+        GIVEN a Flask application
+        WHEN the '/account' URL is requested (PATH) without the request content type
+        THEN check the response HTTP 400 response
+        """
+    
+        user = create_user(session)
+&gt;       tokens = create_tokens(user.username)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\integration\api\account\test_account_patch.py:96: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+username = 'user_1456083250441253596'
+
+    def create_tokens(username):
+        """Create encoded token, a decode token and model token
+        for both access and refresh tokens.
+    
+        Parameters:
+            session: a SLQAlchmey Session object.
+            username (str): the user that owns the token.
+    
+        Returns:
+            A dictionary with an encoded token, a decode token and model
+            token for both access and refresh tokens.
+        """
+    
+&gt;       from app.model import TokenRepository
+E       ImportError: cannot import name 'TokenRepository' from 'app.model' (D:\ProyectosU\parkIT\Backend\app\model\__init__.py)
+
+tests\util.py:108: ImportError</failure></testcase><testcase classname="tests.integration.api.account.test_account_patch" name="test_patch_account_with_only_password_passed_returning_200_status_code" time="0.087"><failure message="ImportError: cannot import name 'TokenRepository' from 'app.model' (D:\ProyectosU\parkIT\Backend\app\model\__init__.py)">client = &lt;FlaskClient &lt;Flask 'app'&gt;&gt;, session = &lt;sqlalchemy.orm.scoping.scoped_session object at 0x000002083A8E3890&gt;
+auth = {'access_token': {'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTc3NzQ5Nj...Y5M2I3YTktMTg1MC00NjQ5LWE0NzYtNzc3MmIzYjhhMWIxIiwiZXhwIjoxNzgwMDg4Nzk2fQ.0G8XIub29FBr0ZEydvCK0NtYFLCzDxEH2Zpzu4fUUAc'}}
+
+    def test_patch_account_with_only_password_passed_returning_200_status_code(client, session, auth):
+        """
+        GIVEN a Flask application
+        WHEN the '/account' URL is requested (PATCH) passing only password
+        THEN check the response is valid
+        """
+    
+        user = create_user(session)
+&gt;       tokens = create_tokens(user.username)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\integration\api\account\test_account_patch.py:113: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+username = 'user_1668684269032207068'
+
+    def create_tokens(username):
+        """Create encoded token, a decode token and model token
+        for both access and refresh tokens.
+    
+        Parameters:
+            session: a SLQAlchmey Session object.
+            username (str): the user that owns the token.
+    
+        Returns:
+            A dictionary with an encoded token, a decode token and model
+            token for both access and refresh tokens.
+        """
+    
+&gt;       from app.model import TokenRepository
+E       ImportError: cannot import name 'TokenRepository' from 'app.model' (D:\ProyectosU\parkIT\Backend\app\model\__init__.py)
+
+tests\util.py:108: ImportError</failure></testcase><testcase classname="tests.integration.api.account.test_account_update" name="test_update_account_with_data_well_formatted_returning_200_status_code" time="0.185"><failure message="ImportError: cannot import name 'TokenRepository' from 'app.model' (D:\ProyectosU\parkIT\Backend\app\model\__init__.py)">client = &lt;FlaskClient &lt;Flask 'app'&gt;&gt;, session = &lt;sqlalchemy.orm.scoping.scoped_session object at 0x000002083A825310&gt;
+
+    def test_update_account_with_data_well_formatted_returning_200_status_code(client, session):
+        """
+        GIVEN a Flask application
+        WHEN the '/account' URL is requested (PUT)
+        THEN check the response is valid
+        """
+    
+        user = create_user(session)
+&gt;       tokens = create_tokens(user.username)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\integration\api\account\test_account_update.py:15: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+username = 'user_2107119478410212060'
+
+    def create_tokens(username):
+        """Create encoded token, a decode token and model token
+        for both access and refresh tokens.
+    
+        Parameters:
+            session: a SLQAlchmey Session object.
+            username (str): the user that owns the token.
+    
+        Returns:
+            A dictionary with an encoded token, a decode token and model
+            token for both access and refresh tokens.
+        """
+    
+&gt;       from app.model import TokenRepository
+E       ImportError: cannot import name 'TokenRepository' from 'app.model' (D:\ProyectosU\parkIT\Backend\app\model\__init__.py)
+
+tests\util.py:108: ImportError</failure></testcase><testcase classname="tests.integration.api.account.test_account_update" name="test_update_account_with_password_length_smaller_than_3_character_returning_400_status_code" time="0.085"><failure message="ImportError: cannot import name 'TokenRepository' from 'app.model' (D:\ProyectosU\parkIT\Backend\app\model\__init__.py)">client = &lt;FlaskClient &lt;Flask 'app'&gt;&gt;, session = &lt;sqlalchemy.orm.scoping.scoped_session object at 0x000002083ABDEDD0&gt;
+
+    def test_update_account_with_password_length_smaller_than_3_character_returning_400_status_code(client, session):
+        """
+        GIVEN a Flask application
+        WHEN the '/account' URL is requested (PUT) with invalid password value
+        THEN check the response HTTP 400 response
+        """
+    
+        user = create_user(session)
+&gt;       tokens = create_tokens(user.username)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\integration\api\account\test_account_update.py:36: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+username = 'user_12570718217859805'
+
+    def create_tokens(username):
+        """Create encoded token, a decode token and model token
+        for both access and refresh tokens.
+    
+        Parameters:
+            session: a SLQAlchmey Session object.
+            username (str): the user that owns the token.
+    
+        Returns:
+            A dictionary with an encoded token, a decode token and model
+            token for both access and refresh tokens.
+        """
+    
+&gt;       from app.model import TokenRepository
+E       ImportError: cannot import name 'TokenRepository' from 'app.model' (D:\ProyectosU\parkIT\Backend\app\model\__init__.py)
+
+tests\util.py:108: ImportError</failure></testcase><testcase classname="tests.integration.api.account.test_account_update" name="test_update_account_with_an_user_already_excluded_returning_404_status_code" time="0.084"><failure message="ImportError: cannot import name 'TokenRepository' from 'app.model' (D:\ProyectosU\parkIT\Backend\app\model\__init__.py)">client = &lt;FlaskClient &lt;Flask 'app'&gt;&gt;, session = &lt;sqlalchemy.orm.scoping.scoped_session object at 0x000002083AD092B0&gt;
+
+    def test_update_account_with_an_user_already_excluded_returning_404_status_code(client, session):
+        """
+        GIVEN a Flask application
+        WHEN the '/account' URL is requested (PUT) with inexistent user
+        THEN check the response HTTP 404 response
+        """
+    
+        user = create_user(session)
+&gt;       tokens = create_tokens(user.username)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\integration\api\account\test_account_update.py:56: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+username = 'user_216431718879621853'
+
+    def create_tokens(username):
+        """Create encoded token, a decode token and model token
+        for both access and refresh tokens.
+    
+        Parameters:
+            session: a SLQAlchmey Session object.
+            username (str): the user that owns the token.
+    
+        Returns:
+            A dictionary with an encoded token, a decode token and model
+            token for both access and refresh tokens.
+        """
+    
+&gt;       from app.model import TokenRepository
+E       ImportError: cannot import name 'TokenRepository' from 'app.model' (D:\ProyectosU\parkIT\Backend\app\model\__init__.py)
+
+tests\util.py:108: ImportError</failure></testcase><testcase classname="tests.integration.api.account.test_account_update" name="test_update_account_without_data_returning_400_status_code" time="0.099"><failure message="ImportError: cannot import name 'TokenRepository' from 'app.model' (D:\ProyectosU\parkIT\Backend\app\model\__init__.py)">client = &lt;FlaskClient &lt;Flask 'app'&gt;&gt;, session = &lt;sqlalchemy.orm.scoping.scoped_session object at 0x000002083ACF28F0&gt;
+
+    def test_update_account_without_data_returning_400_status_code(client, session):
+        """
+        GIVEN a Flask application
+        WHEN the '/account' URL is requested (PUT) without data
+        THEN check the response HTTP 400 response
+        """
+    
+        user = create_user(session)
+&gt;       tokens = create_tokens(user.username)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\integration\api\account\test_account_update.py:78: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+username = 'user_451381410816750301'
+
+    def create_tokens(username):
+        """Create encoded token, a decode token and model token
+        for both access and refresh tokens.
+    
+        Parameters:
+            session: a SLQAlchmey Session object.
+            username (str): the user that owns the token.
+    
+        Returns:
+            A dictionary with an encoded token, a decode token and model
+            token for both access and refresh tokens.
+        """
+    
+&gt;       from app.model import TokenRepository
+E       ImportError: cannot import name 'TokenRepository' from 'app.model' (D:\ProyectosU\parkIT\Backend\app\model\__init__.py)
+
+tests\util.py:108: ImportError</failure></testcase><testcase classname="tests.integration.api.account.test_account_update" name="test_update_account_without_request_content_type_returning_400_status_code" time="0.088"><failure message="ImportError: cannot import name 'TokenRepository' from 'app.model' (D:\ProyectosU\parkIT\Backend\app\model\__init__.py)">client = &lt;FlaskClient &lt;Flask 'app'&gt;&gt;, session = &lt;sqlalchemy.orm.scoping.scoped_session object at 0x000002083A93A690&gt;
+
+    def test_update_account_without_request_content_type_returning_400_status_code(client, session):
+        """
+        GIVEN a Flask application
+        WHEN the '/account' URL is requested (PUT) without the request content type
+        THEN check the response HTTP 400 response
+        """
+    
+        user = create_user(session)
+&gt;       tokens = create_tokens(user.username)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\integration\api\account\test_account_update.py:96: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+username = 'user_668940127337345757'
+
+    def create_tokens(username):
+        """Create encoded token, a decode token and model token
+        for both access and refresh tokens.
+    
+        Parameters:
+            session: a SLQAlchmey Session object.
+            username (str): the user that owns the token.
+    
+        Returns:
+            A dictionary with an encoded token, a decode token and model
+            token for both access and refresh tokens.
+        """
+    
+&gt;       from app.model import TokenRepository
+E       ImportError: cannot import name 'TokenRepository' from 'app.model' (D:\ProyectosU\parkIT\Backend\app\model\__init__.py)
+
+tests\util.py:108: ImportError</failure></testcase><testcase classname="tests.integration.api.account.test_account_update" name="test_update_account_with_empty_data_returning_400_status_code" time="0.086"><failure message="ImportError: cannot import name 'TokenRepository' from 'app.model' (D:\ProyectosU\parkIT\Backend\app\model\__init__.py)">client = &lt;FlaskClient &lt;Flask 'app'&gt;&gt;, session = &lt;sqlalchemy.orm.scoping.scoped_session object at 0x000002083AD587D0&gt;
+
+    def test_update_account_with_empty_data_returning_400_status_code(client, session):
+        """
+        GIVEN a Flask application
+        WHEN the '/account' URL is requested (PUT) with empty data
+        THEN check the response HTTP 400 response
+        """
+        user = create_user(session)
+&gt;       tokens = create_tokens(user.username)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\integration\api\account\test_account_update.py:112: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+username = 'user_880232177335431901'
+
+    def create_tokens(username):
+        """Create encoded token, a decode token and model token
+        for both access and refresh tokens.
+    
+        Parameters:
+            session: a SLQAlchmey Session object.
+            username (str): the user that owns the token.
+    
+        Returns:
+            A dictionary with an encoded token, a decode token and model
+            token for both access and refresh tokens.
+        """
+    
+&gt;       from app.model import TokenRepository
+E       ImportError: cannot import name 'TokenRepository' from 'app.model' (D:\ProyectosU\parkIT\Backend\app\model\__init__.py)
+
+tests\util.py:108: ImportError</failure></testcase><testcase classname="tests.integration.api.account.test_account_update" name="test_update_account_without_password_returning_400_status_code" time="0.103"><failure message="ImportError: cannot import name 'TokenRepository' from 'app.model' (D:\ProyectosU\parkIT\Backend\app\model\__init__.py)">client = &lt;FlaskClient &lt;Flask 'app'&gt;&gt;, session = &lt;sqlalchemy.orm.scoping.scoped_session object at 0x000002083ABCB120&gt;
+
+    def test_update_account_without_password_returning_400_status_code(client, session):
+        """
+        GIVEN a Flask application
+        WHEN the '/account' URL is requested (PUT) without password passed
+        THEN check the response HTTP 400 response
+        """
+    
+        user = create_user(session)
+&gt;       tokens = create_tokens(user.username)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\integration\api\account\test_account_update.py:132: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+username = 'user_1129708616898736861'
+
+    def create_tokens(username):
+        """Create encoded token, a decode token and model token
+        for both access and refresh tokens.
+    
+        Parameters:
+            session: a SLQAlchmey Session object.
+            username (str): the user that owns the token.
+    
+        Returns:
+            A dictionary with an encoded token, a decode token and model
+            token for both access and refresh tokens.
+        """
+    
+&gt;       from app.model import TokenRepository
+E       ImportError: cannot import name 'TokenRepository' from 'app.model' (D:\ProyectosU\parkIT\Backend\app\model\__init__.py)
+
+tests\util.py:108: ImportError</failure></testcase><testcase classname="tests.integration.api.auth.test_auth_login" name="test_auth_login_with_correct_credentials_passed_returning_200_status_code" time="0.085"><failure message="assert 404 == 200&#10; +  where 404 = &lt;WrapperTestResponse streamed [404 NOT FOUND]&gt;.status_code">client = &lt;FlaskClient &lt;Flask 'app'&gt;&gt;, session = &lt;sqlalchemy.orm.scoping.scoped_session object at 0x000002083AA64050&gt;
+
+    def test_auth_login_with_correct_credentials_passed_returning_200_status_code(client, session):
+        """
+        GIVEN a Flask application
+        WHEN the '/auth/login' URL is requested (POST)
+        THEN check the response is valid and the tokens creations
+        """
+    
+        data = {'username': 'test', 'password': 'test'}
+        response = client.post('/auth/login',
+                               data=json.dumps(data),
+                               content_type='application/json')
+    
+&gt;       assert response.status_code == 200
+E       assert 404 == 200
+E        +  where 404 = &lt;WrapperTestResponse streamed [404 NOT FOUND]&gt;.status_code
+
+tests\integration\api\auth\test_auth_login.py:22: AssertionError</failure></testcase><testcase classname="tests.integration.api.auth.test_auth_login" name="test_auth_login_without_data_returning_400_status_code" time="0.087"><failure message="assert 404 == 400&#10; +  where 404 = &lt;WrapperTestResponse streamed [404 NOT FOUND]&gt;.status_code">client = &lt;FlaskClient &lt;Flask 'app'&gt;&gt;
+
+    def test_auth_login_without_data_returning_400_status_code(client):
+        """
+        GIVEN a Flask application
+        WHEN the '/auth/login' URL is requested (POST) without data
+        THEN check the response HTTP 400 response
+        """
+    
+        response = client.post('/auth/login', content_type='application/json')
+&gt;       assert response.status_code == 400
+E       assert 404 == 400
+E        +  where 404 = &lt;WrapperTestResponse streamed [404 NOT FOUND]&gt;.status_code
+
+tests\integration\api\auth\test_auth_login.py:50: AssertionError</failure></testcase><testcase classname="tests.integration.api.auth.test_auth_login" name="test_auth_login_with_empty_data_returning_400_status_code" time="0.087"><failure message="assert 404 == 400&#10; +  where 404 = &lt;WrapperTestResponse streamed [404 NOT FOUND]&gt;.status_code">client = &lt;FlaskClient &lt;Flask 'app'&gt;&gt;
+
+    def test_auth_login_with_empty_data_returning_400_status_code(client):
+        """
+        GIVEN a Flask application
+        WHEN the '/auth/login' URL is requested (POST) with empty data
+        THEN check the response HTTP 400 response
+        """
+    
+        response = client.post('/auth/login', data={},
+                               content_type='application/json')
+&gt;       assert response.status_code == 400
+E       assert 404 == 400
+E        +  where 404 = &lt;WrapperTestResponse streamed [404 NOT FOUND]&gt;.status_code
+
+tests\integration\api\auth\test_auth_login.py:64: AssertionError</failure></testcase><testcase classname="tests.integration.api.auth.test_auth_login" name="test_auth_login_without_username_returning_400_status_code" time="0.089"><failure message="assert 404 == 400&#10; +  where 404 = &lt;WrapperTestResponse streamed [404 NOT FOUND]&gt;.status_code">client = &lt;FlaskClient &lt;Flask 'app'&gt;&gt;
+
+    def test_auth_login_without_username_returning_400_status_code(client):
+        """
+        GIVEN a Flask application
+        WHEN the '/auth/login' URL is requested (POST) without username
+        THEN check the response HTTP 400 response
+        """
+    
+        data = {'password': "123"}
+        response = client.post('/auth/login',
+                               data=json.dumps(data),
+                               content_type='application/json')
+&gt;       assert response.status_code == 400
+E       assert 404 == 400
+E        +  where 404 = &lt;WrapperTestResponse streamed [404 NOT FOUND]&gt;.status_code
+
+tests\integration\api\auth\test_auth_login.py:80: AssertionError</failure></testcase><testcase classname="tests.integration.api.auth.test_auth_login" name="test_auth_login_without_password_returning_400_status_code" time="0.122"><failure message="assert 404 == 400&#10; +  where 404 = &lt;WrapperTestResponse streamed [404 NOT FOUND]&gt;.status_code">client = &lt;FlaskClient &lt;Flask 'app'&gt;&gt;
+
+    def test_auth_login_without_password_returning_400_status_code(client):
+        """
+        GIVEN a Flask application
+        WHEN the '/auth/login' URL is requested (POST) without password
+        THEN check the response HTTP 400 response
+        """
+    
+        data = {'username': get_unique_username()}
+        response = client.post('/auth/login',
+                               data=json.dumps(data),
+                               content_type='application/json')
+&gt;       assert response.status_code == 400
+E       assert 404 == 400
+E        +  where 404 = &lt;WrapperTestResponse streamed [404 NOT FOUND]&gt;.status_code
+
+tests\integration\api\auth\test_auth_login.py:96: AssertionError</failure></testcase><testcase classname="tests.integration.api.auth.test_auth_login" name="test_auth_login_with_an_inexistent_username_returning_401_status_code" time="0.090"><failure message="assert 404 == 401&#10; +  where 404 = &lt;WrapperTestResponse streamed [404 NOT FOUND]&gt;.status_code">client = &lt;FlaskClient &lt;Flask 'app'&gt;&gt;
+
+    def test_auth_login_with_an_inexistent_username_returning_401_status_code(client):
+        """
+        GIVEN a Flask application
+        WHEN the '/auth/login' URL is requested (POST) with an inexistent username
+        THEN check the response HTTP 401 response
+        """
+    
+        data = {'username': 'xtestx', 'password': "test"}
+        response = client.post('/auth/login',
+                               data=json.dumps(data),
+                               content_type='application/json')
+&gt;       assert response.status_code == 401
+E       assert 404 == 401
+E        +  where 404 = &lt;WrapperTestResponse streamed [404 NOT FOUND]&gt;.status_code
+
+tests\integration\api\auth\test_auth_login.py:112: AssertionError</failure></testcase><testcase classname="tests.integration.api.auth.test_auth_login" name="test_auth_login_with_an_incorrect_password_returning_401_status_code" time="0.089"><failure message="assert 404 == 401&#10; +  where 404 = &lt;WrapperTestResponse streamed [404 NOT FOUND]&gt;.status_code">client = &lt;FlaskClient &lt;Flask 'app'&gt;&gt;
+
+    def test_auth_login_with_an_incorrect_password_returning_401_status_code(client):
+        """
+        GIVEN a Flask application
+        WHEN the '/auth/login' URL is requested (POST) with incorrect password
+        THEN check the response HTTP 401 response
+        """
+    
+        data = {'username': 'test', 'password': "xtestx"}
+        response = client.post('/auth/login',
+                               data=json.dumps(data),
+                               content_type='application/json')
+&gt;       assert response.status_code == 401
+E       assert 404 == 401
+E        +  where 404 = &lt;WrapperTestResponse streamed [404 NOT FOUND]&gt;.status_code
+
+tests\integration\api\auth\test_auth_login.py:128: AssertionError</failure></testcase><testcase classname="tests.integration.api.auth.test_auth_refresh" name="test_auth_refresh_a_valid_token_returning_200_status_code" time="0.089"><failure message="assert 404 == 200&#10; +  where 404 = &lt;WrapperTestResponse streamed [404 NOT FOUND]&gt;.status_code">client = &lt;FlaskClient &lt;Flask 'app'&gt;&gt;, session = &lt;sqlalchemy.orm.scoping.scoped_session object at 0x000002083AF39BE0&gt;
+auth = {'access_token': {'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTc3NzQ5Nj...RjY2RkNjYtNzljMy00NDUyLTgxZWItNjZmODZkZjQ2MWFkIiwiZXhwIjoxNzgwMDg4Nzk4fQ.SJaxKj3X2tYMK6ci_49JFmAPNPBIzDFL9B28hCyeBIo'}}
+
+    def test_auth_refresh_a_valid_token_returning_200_status_code(client, session, auth):
+        """
+        GIVEN a Flask application
+        WHEN the '/auth/login' URL is requested (POST)
+        THEN check the response is valid and for the created tokens
+        """
+    
+        response = client.post('/auth/refresh',
+                               content_type='application/json',
+                               headers=auth['refresh_token'])
+&gt;       assert response.status_code == 200
+E       assert 404 == 200
+E        +  where 404 = &lt;WrapperTestResponse streamed [404 NOT FOUND]&gt;.status_code
+
+tests\integration\api\auth\test_auth_refresh.py:16: AssertionError</failure></testcase><testcase classname="tests.integration.api.auth.test_auth_refresh" name="test_auth_refresh_an_invalid_token_returning_422_status_code" time="0.088"><failure message="assert 404 == 422&#10; +  where 404 = &lt;WrapperTestResponse streamed [404 NOT FOUND]&gt;.status_code">client = &lt;FlaskClient &lt;Flask 'app'&gt;&gt;
+
+    def test_auth_refresh_an_invalid_token_returning_422_status_code(client):
+        """
+        GIVEN a Flask application
+        WHEN the '/auth/login' URL is requested (POST) with an invalid token
+        THEN check the response HTTP 402 response
+        """
+    
+        response = client.post('/auth/refresh',
+                               content_type='application/json',
+                               headers={'Authorization': 'Bearer invalid-token'})
+&gt;       assert response.status_code == 422
+E       assert 404 == 422
+E        +  where 404 = &lt;WrapperTestResponse streamed [404 NOT FOUND]&gt;.status_code
+
+tests\integration\api\auth\test_auth_refresh.py:39: AssertionError</failure></testcase><testcase classname="tests.integration.api.auth.test_auth_register" name="test_auth_register_with_data_well_formatted_returning_200_status_code" time="0.081"><failure message="assert 404 == 200&#10; +  where 404 = &lt;WrapperTestResponse streamed [404 NOT FOUND]&gt;.status_code">client = &lt;FlaskClient &lt;Flask 'app'&gt;&gt;
+
+    def test_auth_register_with_data_well_formatted_returning_200_status_code(client):
+        """
+        GIVEN a Flask application
+        WHEN the '/auth/register' URL is requested (POST)
+        THEN check the response is valid
+        """
+    
+        data = {'username': get_unique_username(), 'password': "123"}
+        response = client.post('/auth/register',
+                               data=json.dumps(data),
+                               content_type='application/json')
+&gt;       assert response.status_code == 200
+E       assert 404 == 200
+E        +  where 404 = &lt;WrapperTestResponse streamed [404 NOT FOUND]&gt;.status_code
+
+tests\integration\api\auth\test_auth_register.py:19: AssertionError</failure></testcase><testcase classname="tests.integration.api.auth.test_auth_register" name="test_auth_register_without_data_returning_400_status_code" time="0.085"><failure message="assert 404 == 400&#10; +  where 404 = &lt;WrapperTestResponse streamed [404 NOT FOUND]&gt;.status_code">client = &lt;FlaskClient &lt;Flask 'app'&gt;&gt;
+
+    def test_auth_register_without_data_returning_400_status_code(client):
+        """
+        GIVEN a Flask application
+        WHEN the '/auth/register' URL is requested (POST) without data
+        THEN check the response HTTP 400 response
+        """
+    
+        response = client.post('/auth/register', content_type='application/json')
+&gt;       assert response.status_code == 400
+E       assert 404 == 400
+E        +  where 404 = &lt;WrapperTestResponse streamed [404 NOT FOUND]&gt;.status_code
+
+tests\integration\api\auth\test_auth_register.py:32: AssertionError</failure></testcase><testcase classname="tests.integration.api.auth.test_auth_register" name="test_auth_register_without_request_content_type_returning_400_status_code" time="0.085"><failure message="assert 404 == 400&#10; +  where 404 = &lt;WrapperTestResponse streamed [404 NOT FOUND]&gt;.status_code">client = &lt;FlaskClient &lt;Flask 'app'&gt;&gt;
+
+    def test_auth_register_without_request_content_type_returning_400_status_code(client):
+        """
+        GIVEN a Flask application
+        WHEN the '/auth/register' URL is requested (POST) without request content type
+        THEN check the response HTTP 400 response
+        """
+    
+        response = client.post('/auth/register')
+&gt;       assert response.status_code == 400
+E       assert 404 == 400
+E        +  where 404 = &lt;WrapperTestResponse streamed [404 NOT FOUND]&gt;.status_code
+
+tests\integration\api\auth\test_auth_register.py:45: AssertionError</failure></testcase><testcase classname="tests.integration.api.auth.test_auth_register" name="test_auth_register_with_empty_data_returning_400_status_code" time="0.085"><failure message="assert 404 == 400&#10; +  where 404 = &lt;WrapperTestResponse streamed [404 NOT FOUND]&gt;.status_code">client = &lt;FlaskClient &lt;Flask 'app'&gt;&gt;
+
+    def test_auth_register_with_empty_data_returning_400_status_code(client):
+        """
+        GIVEN a Flask application
+        WHEN the '/auth/register' URL is requested (POST) with empty data
+        THEN check the response HTTP 400 response
+        """
+    
+        data = {}
+        response = client.post('/auth/register',
+                               data=json.dumps(data),
+                               content_type='application/json')
+&gt;       assert response.status_code == 400
+E       assert 404 == 400
+E        +  where 404 = &lt;WrapperTestResponse streamed [404 NOT FOUND]&gt;.status_code
+
+tests\integration\api\auth\test_auth_register.py:61: AssertionError</failure></testcase><testcase classname="tests.integration.api.auth.test_auth_register" name="test_auth_register_without_username_returning_400_status_code" time="0.089"><failure message="assert 404 == 400&#10; +  where 404 = &lt;WrapperTestResponse streamed [404 NOT FOUND]&gt;.status_code">client = &lt;FlaskClient &lt;Flask 'app'&gt;&gt;
+
+    def test_auth_register_without_username_returning_400_status_code(client):
+        """
+        GIVEN a Flask application
+        WHEN the '/auth/register' URL is requested (POST) without username
+        THEN check the response HTTP 400 response
+        """
+    
+        data = {'password': "123"}
+        response = client.post('/auth/register',
+                               data=json.dumps(data),
+                               content_type='application/json')
+&gt;       assert response.status_code == 400
+E       assert 404 == 400
+E        +  where 404 = &lt;WrapperTestResponse streamed [404 NOT FOUND]&gt;.status_code
+
+tests\integration\api\auth\test_auth_register.py:78: AssertionError</failure></testcase><testcase classname="tests.integration.api.auth.test_auth_register" name="test_auth_register_without_password_returning_400_status_code" time="0.084"><failure message="assert 404 == 400&#10; +  where 404 = &lt;WrapperTestResponse streamed [404 NOT FOUND]&gt;.status_code">client = &lt;FlaskClient &lt;Flask 'app'&gt;&gt;
+
+    def test_auth_register_without_password_returning_400_status_code(client):
+        """
+        GIVEN a Flask application
+        WHEN the '/auth/register' URL is requested (POST) without password
+        THEN check the response HTTP 400 response
+        """
+    
+        data = {'username': get_unique_username()}
+        response = client.post('/auth/register',
+                               data=json.dumps(data),
+                               content_type='application/json')
+&gt;       assert response.status_code == 400
+E       assert 404 == 400
+E        +  where 404 = &lt;WrapperTestResponse streamed [404 NOT FOUND]&gt;.status_code
+
+tests\integration\api\auth\test_auth_register.py:95: AssertionError</failure></testcase><testcase classname="tests.integration.api.auth.test_auth_register" name="test_auth_register_with_an_existent_username_returning_400_status_code" time="0.094"><failure message="assert 404 == 400&#10; +  where 404 = &lt;WrapperTestResponse streamed [404 NOT FOUND]&gt;.status_code">client = &lt;FlaskClient &lt;Flask 'app'&gt;&gt;, session = &lt;sqlalchemy.orm.scoping.scoped_session object at 0x000002083AD75CD0&gt;
+
+    def test_auth_register_with_an_existent_username_returning_400_status_code(client, session):
+        """
+        GIVEN a Flask application
+        WHEN the '/auth/register' URL is requested (POST) with an existent username
+        THEN check the response HTTP 400 response
+        """
+    
+        user = create_user(session)
+        data = {'username': user.username, 'password': "123"}
+        response = client.post('/auth/register',
+                               data=json.dumps(data),
+                               content_type='application/json')
+&gt;       assert response.status_code == 400
+E       assert 404 == 400
+E        +  where 404 = &lt;WrapperTestResponse streamed [404 NOT FOUND]&gt;.status_code
+
+tests\integration\api\auth\test_auth_register.py:113: AssertionError</failure></testcase><testcase classname="tests.integration.api.auth.test_auth_token" name="test_auth_list_tokens_of_logged_user_returning_200_status_code" time="0.089"><failure message="ImportError: cannot import name 'TokenRepository' from 'app.model' (D:\ProyectosU\parkIT\Backend\app\model\__init__.py)">client = &lt;FlaskClient &lt;Flask 'app'&gt;&gt;, session = &lt;sqlalchemy.orm.scoping.scoped_session object at 0x000002083ADB6B70&gt;
+
+    def test_auth_list_tokens_of_logged_user_returning_200_status_code(client, session):
+        """
+        GIVEN a Flask application
+        WHEN the '/auth/token' URL is requested (GET)
+        THEN check the response is valid and for the tokens created
+        """
+    
+        user = create_user(session)
+&gt;       tokens = create_tokens(user.username)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\integration\api\auth\test_auth_token.py:15: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+username = 'user_152630907410477791'
+
+    def create_tokens(username):
+        """Create encoded token, a decode token and model token
+        for both access and refresh tokens.
+    
+        Parameters:
+            session: a SLQAlchmey Session object.
+            username (str): the user that owns the token.
+    
+        Returns:
+            A dictionary with an encoded token, a decode token and model
+            token for both access and refresh tokens.
+        """
+    
+&gt;       from app.model import TokenRepository
+E       ImportError: cannot import name 'TokenRepository' from 'app.model' (D:\ProyectosU\parkIT\Backend\app\model\__init__.py)
+
+tests\util.py:108: ImportError</failure></testcase><testcase classname="tests.integration.api.auth.test_auth_token" name="test_auth_revoke_an_existent_token_returning_200_status_code" time="0.079"><failure message="ImportError: cannot import name 'TokenRepository' from 'app.model' (D:\ProyectosU\parkIT\Backend\app\model\__init__.py)">client = &lt;FlaskClient &lt;Flask 'app'&gt;&gt;, session = &lt;sqlalchemy.orm.scoping.scoped_session object at 0x000002083B0DB0B0&gt;
+auth = {'access_token': {'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTc3NzQ5Nj...dmZDY0OWMtNDNiNy00MDZiLWJmODktZDg5YmFkYzYxODkzIiwiZXhwIjoxNzgwMDg4Nzk5fQ.O0CumoU0hT9CPGH-eu9rks_rFeKrKyUw0rKYSTCmIVE'}}
+
+    def test_auth_revoke_an_existent_token_returning_200_status_code(client, session, auth):
+        """
+        GIVEN a Flask application
+        WHEN the '/auth/token/&lt;id&gt;' URL is requested (PUT)
+        THEN check the response is valid and and for revoked token
+        """
+    
+&gt;       tokens = create_tokens('test')
+                 ^^^^^^^^^^^^^^^^^^^^^
+
+tests\integration\api\auth\test_auth_token.py:38: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+username = 'test'
+
+    def create_tokens(username):
+        """Create encoded token, a decode token and model token
+        for both access and refresh tokens.
+    
+        Parameters:
+            session: a SLQAlchmey Session object.
+            username (str): the user that owns the token.
+    
+        Returns:
+            A dictionary with an encoded token, a decode token and model
+            token for both access and refresh tokens.
+        """
+    
+&gt;       from app.model import TokenRepository
+E       ImportError: cannot import name 'TokenRepository' from 'app.model' (D:\ProyectosU\parkIT\Backend\app\model\__init__.py)
+
+tests\util.py:108: ImportError</failure></testcase><testcase classname="tests.integration.api.auth.test_auth_token" name="test_auth_unrevoke_an_existent_token_returning_200_status_code" time="0.080"><failure message="ImportError: cannot import name 'TokenRepository' from 'app.model' (D:\ProyectosU\parkIT\Backend\app\model\__init__.py)">client = &lt;FlaskClient &lt;Flask 'app'&gt;&gt;, session = &lt;sqlalchemy.orm.scoping.scoped_session object at 0x000002083B12FC50&gt;
+auth = {'access_token': {'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTc3NzQ5Nj...Y2MWUzNTMtNjNiMC00MWNlLTg5ODktZmNlZjg0MzAxZjY4IiwiZXhwIjoxNzgwMDg4Nzk5fQ.GpXR6ZrC14xov_IocdGkXEn12tTxU4ek4Ugn63RJA4w'}}
+
+    def test_auth_unrevoke_an_existent_token_returning_200_status_code(client, session, auth):
+        """
+        GIVEN a Flask application
+        WHEN the '/auth/token/&lt;id&gt;' URL is requested (PUT)
+        THEN check the response is valid and and for unrevoked token
+        """
+    
+&gt;       tokens = create_tokens('test')
+                 ^^^^^^^^^^^^^^^^^^^^^
+
+tests\integration\api\auth\test_auth_token.py:60: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+username = 'test'
+
+    def create_tokens(username):
+        """Create encoded token, a decode token and model token
+        for both access and refresh tokens.
+    
+        Parameters:
+            session: a SLQAlchmey Session object.
+            username (str): the user that owns the token.
+    
+        Returns:
+            A dictionary with an encoded token, a decode token and model
+            token for both access and refresh tokens.
+        """
+    
+&gt;       from app.model import TokenRepository
+E       ImportError: cannot import name 'TokenRepository' from 'app.model' (D:\ProyectosU\parkIT\Backend\app\model\__init__.py)
+
+tests\util.py:108: ImportError</failure></testcase><testcase classname="tests.integration.api.auth.test_auth_token" name="test_auth_revoke_and_try_access_a_protected_url_returning_200_status_code" time="0.090"><failure message="ImportError: cannot import name 'TokenRepository' from 'app.model' (D:\ProyectosU\parkIT\Backend\app\model\__init__.py)">client = &lt;FlaskClient &lt;Flask 'app'&gt;&gt;, session = &lt;sqlalchemy.orm.scoping.scoped_session object at 0x000002083B137110&gt;
+auth = {'access_token': {'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTc3NzQ5Nj...JkMmQzYmYtMTc3OC00YmRkLWJjZmQtOGIxZDFjNjRlYmU5IiwiZXhwIjoxNzgwMDg4Nzk5fQ.L5Itbap8_pEX5RvA109PodgGmtLf8cgmT_pgS87XsD4'}}
+
+    def test_auth_revoke_and_try_access_a_protected_url_returning_200_status_code(client, session, auth):
+        """
+        GIVEN a Flask application
+        WHEN the '/auth/token' URL is requested (GET) with revoked token
+        THEN check the response HTTP 401 response
+        """
+    
+&gt;       tokens = create_tokens('test')
+                 ^^^^^^^^^^^^^^^^^^^^^
+
+tests\integration\api\auth\test_auth_token.py:85: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+username = 'test'
+
+    def create_tokens(username):
+        """Create encoded token, a decode token and model token
+        for both access and refresh tokens.
+    
+        Parameters:
+            session: a SLQAlchmey Session object.
+            username (str): the user that owns the token.
+    
+        Returns:
+            A dictionary with an encoded token, a decode token and model
+            token for both access and refresh tokens.
+        """
+    
+&gt;       from app.model import TokenRepository
+E       ImportError: cannot import name 'TokenRepository' from 'app.model' (D:\ProyectosU\parkIT\Backend\app\model\__init__.py)
+
+tests\util.py:108: ImportError</failure></testcase><testcase classname="tests.integration.api.auth.test_auth_token" name="test_auth_revoke_with_an_inexistent_token_id_returning_400_status_code" time="0.080"><failure message="assert 404 == 400&#10; +  where 404 = &lt;WrapperTestResponse streamed [404 NOT FOUND]&gt;.status_code">client = &lt;FlaskClient &lt;Flask 'app'&gt;&gt;
+auth = {'access_token': {'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTc3NzQ5Nj...lmMWRiNDMtYWVmNC00OWVjLWJjZTgtZmNmOTZmODU0ZGEyIiwiZXhwIjoxNzgwMDg4Nzk5fQ.a_2sGGMLaTJ7J2TnRgKvEMkKHi7L8q4qQCdGfgqpIco'}}
+
+    def test_auth_revoke_with_an_inexistent_token_id_returning_400_status_code(client, auth):
+        """
+        GIVEN a Flask application
+        WHEN the '/auth/token/&lt;id&gt;' URL is requested (PUT) with an inexistent token
+        THEN check the response HTTP 400 response
+        """
+    
+        response = client.put('/auth/token/9999999',
+                              content_type='application/json',
+                              headers=auth['access_token'])
+&gt;       assert response.status_code == 400
+E       assert 404 == 400
+E        +  where 404 = &lt;WrapperTestResponse streamed [404 NOT FOUND]&gt;.status_code
+
+tests\integration\api\auth\test_auth_token.py:108: AssertionError</failure></testcase><testcase classname="tests.integration.api.auth.test_auth_token" name="test_auth_revoke_without_data_returning_400_status_code" time="0.101"><failure message="ImportError: cannot import name 'TokenRepository' from 'app.model' (D:\ProyectosU\parkIT\Backend\app\model\__init__.py)">client = &lt;FlaskClient &lt;Flask 'app'&gt;&gt;, session = &lt;sqlalchemy.orm.scoping.scoped_session object at 0x000002083AC7A1B0&gt;
+auth = {'access_token': {'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTc3NzQ5Nj...gzOGUwNjctNjMwNy00ZDk0LTg5NzUtNjM0NWIwZWJjZDdjIiwiZXhwIjoxNzgwMDg4Nzk5fQ.-k08x2g-V3VkSigmR-QT9_Bj1w4-VG3VpjTxkhEkA0c'}}
+
+    def test_auth_revoke_without_data_returning_400_status_code(client, session, auth):
+        """
+        GIVEN a Flask application
+        WHEN the '/auth/token/&lt;id&gt;' URL is requested (PUT) without data
+        THEN check the response HTTP 400 response
+        """
+    
+&gt;       tokens = create_tokens('test')
+                 ^^^^^^^^^^^^^^^^^^^^^
+
+tests\integration\api\auth\test_auth_token.py:120: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+username = 'test'
+
+    def create_tokens(username):
+        """Create encoded token, a decode token and model token
+        for both access and refresh tokens.
+    
+        Parameters:
+            session: a SLQAlchmey Session object.
+            username (str): the user that owns the token.
+    
+        Returns:
+            A dictionary with an encoded token, a decode token and model
+            token for both access and refresh tokens.
+        """
+    
+&gt;       from app.model import TokenRepository
+E       ImportError: cannot import name 'TokenRepository' from 'app.model' (D:\ProyectosU\parkIT\Backend\app\model\__init__.py)
+
+tests\util.py:108: ImportError</failure></testcase><testcase classname="tests.integration.api.auth.test_auth_token" name="test_auth_revoke_without_request_content_type_returning_400_status_code" time="0.144"><failure message="ImportError: cannot import name 'TokenRepository' from 'app.model' (D:\ProyectosU\parkIT\Backend\app\model\__init__.py)">client = &lt;FlaskClient &lt;Flask 'app'&gt;&gt;, session = &lt;sqlalchemy.orm.scoping.scoped_session object at 0x000002083AF8EF90&gt;
+auth = {'access_token': {'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTc3NzQ5Nj...Q4NmFjZDAtZTA5Ni00YWIwLTk3ZTctZjQxZmNkYWQ1ZDI3IiwiZXhwIjoxNzgwMDg4Nzk5fQ.TqEYfL9rzyucp71f-lSwS9JPsfFnTojkdp92iBHPTbI'}}
+
+    def test_auth_revoke_without_request_content_type_returning_400_status_code(client, session, auth):
+        """
+        GIVEN a Flask application
+        WHEN the '/auth/token/&lt;id&gt;' URL is requested (PUT) without request content type
+        THEN check the response HTTP 400 response
+        """
+    
+&gt;       tokens = create_tokens('test')
+                 ^^^^^^^^^^^^^^^^^^^^^
+
+tests\integration\api\auth\test_auth_token.py:139: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+username = 'test'
+
+    def create_tokens(username):
+        """Create encoded token, a decode token and model token
+        for both access and refresh tokens.
+    
+        Parameters:
+            session: a SLQAlchmey Session object.
+            username (str): the user that owns the token.
+    
+        Returns:
+            A dictionary with an encoded token, a decode token and model
+            token for both access and refresh tokens.
+        """
+    
+&gt;       from app.model import TokenRepository
+E       ImportError: cannot import name 'TokenRepository' from 'app.model' (D:\ProyectosU\parkIT\Backend\app\model\__init__.py)
+
+tests\util.py:108: ImportError</failure></testcase><testcase classname="tests.integration.api.auth.test_auth_token" name="test_auth_revoke_with_invalid_revoke_value_returning_400_status_code" time="0.147"><failure message="ImportError: cannot import name 'TokenRepository' from 'app.model' (D:\ProyectosU\parkIT\Backend\app\model\__init__.py)">client = &lt;FlaskClient &lt;Flask 'app'&gt;&gt;, session = &lt;sqlalchemy.orm.scoping.scoped_session object at 0x000002083B21D070&gt;
+auth = {'access_token': {'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTc3NzQ5Nj...NhYTVkNTUtNTVlNy00MGJkLWE3NGMtNDE4Njk3YzA3ZjUzIiwiZXhwIjoxNzgwMDg4Nzk5fQ.JMmCyIxnocxpjfriHBsElwOETaveAgJMBESBH6BJoAE'}}
+
+    def test_auth_revoke_with_invalid_revoke_value_returning_400_status_code(client, session, auth):
+        """
+        GIVEN a Flask application
+        WHEN the '/auth/token/&lt;id&gt;' URL is requested (PUT) with invalid revoke value
+        THEN check the response HTTP 400 response
+        """
+    
+&gt;       tokens = create_tokens('test')
+                 ^^^^^^^^^^^^^^^^^^^^^
+
+tests\integration\api\auth\test_auth_token.py:157: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+username = 'test'
+
+    def create_tokens(username):
+        """Create encoded token, a decode token and model token
+        for both access and refresh tokens.
+    
+        Parameters:
+            session: a SLQAlchmey Session object.
+            username (str): the user that owns the token.
+    
+        Returns:
+            A dictionary with an encoded token, a decode token and model
+            token for both access and refresh tokens.
+        """
+    
+&gt;       from app.model import TokenRepository
+E       ImportError: cannot import name 'TokenRepository' from 'app.model' (D:\ProyectosU\parkIT\Backend\app\model\__init__.py)
+
+tests\util.py:108: ImportError</failure></testcase><testcase classname="tests.integration.api.auth.test_auth_token" name="test_auth_revoke_that_not_existent_in_the_database_anymore_returning_404_status_code" time="0.094"><failure message="ImportError: cannot import name 'TokenRepository' from 'app.model' (D:\ProyectosU\parkIT\Backend\app\model\__init__.py)">client = &lt;FlaskClient &lt;Flask 'app'&gt;&gt;, session = &lt;sqlalchemy.orm.scoping.scoped_session object at 0x000002083B258E90&gt;
+
+    def test_auth_revoke_that_not_existent_in_the_database_anymore_returning_404_status_code(client, session):
+        """
+        GIVEN a Flask application
+        WHEN the '/auth/token/&lt;id&gt;' URL is requested (PUT) with a token deleted from database
+        THEN check the response HTTP 404 response
+        """
+    
+&gt;       tokens = create_tokens('test')
+                 ^^^^^^^^^^^^^^^^^^^^^
+
+tests\integration\api\auth\test_auth_token.py:178: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+username = 'test'
+
+    def create_tokens(username):
+        """Create encoded token, a decode token and model token
+        for both access and refresh tokens.
+    
+        Parameters:
+            session: a SLQAlchmey Session object.
+            username (str): the user that owns the token.
+    
+        Returns:
+            A dictionary with an encoded token, a decode token and model
+            token for both access and refresh tokens.
+        """
+    
+&gt;       from app.model import TokenRepository
+E       ImportError: cannot import name 'TokenRepository' from 'app.model' (D:\ProyectosU\parkIT\Backend\app\model\__init__.py)
+
+tests\util.py:108: ImportError</failure></testcase><testcase classname="tests.integration.api.auth.test_auth_token" name="test_auth_token_no_existent_in_the_database_anymore_returning_400_status_code" time="0.084"><failure message="ImportError: cannot import name 'TokenRepository' from 'app.model' (D:\ProyectosU\parkIT\Backend\app\model\__init__.py)">client = &lt;FlaskClient &lt;Flask 'app'&gt;&gt;, session = &lt;sqlalchemy.orm.scoping.scoped_session object at 0x000002083B21F590&gt;
+
+    def test_auth_token_no_existent_in_the_database_anymore_returning_400_status_code(client, session):
+        """
+        GIVEN a Flask application
+        WHEN the '/auth/token/' URL is requested (GET) with a token deleted from database
+        THEN check the response HTTP 400 response
+        """
+    
+&gt;       tokens = create_tokens('test')
+                 ^^^^^^^^^^^^^^^^^^^^^
+
+tests\integration\api\auth\test_auth_token.py:206: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+username = 'test'
+
+    def create_tokens(username):
+        """Create encoded token, a decode token and model token
+        for both access and refresh tokens.
+    
+        Parameters:
+            session: a SLQAlchmey Session object.
+            username (str): the user that owns the token.
+    
+        Returns:
+            A dictionary with an encoded token, a decode token and model
+            token for both access and refresh tokens.
+        """
+    
+&gt;       from app.model import TokenRepository
+E       ImportError: cannot import name 'TokenRepository' from 'app.model' (D:\ProyectosU\parkIT\Backend\app\model\__init__.py)
+
+tests\util.py:108: ImportError</failure></testcase><testcase classname="tests.integration.api.test_belongings" name="test_belonging_create_list_and_report_missing" time="0.087"><failure message="AttributeError: 'NoneType' object has no attribute 'add'">client = &lt;FlaskClient &lt;Flask 'app'&gt;&gt;, session = &lt;sqlalchemy.orm.scoping.scoped_session object at 0x000002083AF8D130&gt;
+
+    def test_belonging_create_list_and_report_missing(client, session):
+&gt;       cliente = make_cliente('cli_bel_ok')
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\integration\api\test_belongings.py:23: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests\integration\api\helpers.py:48: in make_cliente
+    return _make_user(username=username, user_type='cliente')
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+    def _make_user(*, username, user_type='cliente'):
+        user = User()
+        user.username = username
+        user.password_hash = 'x'
+        user.name = username.title()
+        user.last_name = 'Test'
+        user.email = f'{username}@example.com'
+        user.cellphone = '0000000000'
+        user.type = user_type
+        user.profile_img = 'p.jpg'
+        user.id_img = 'i.jpg'
+        user.driver_license_img = 'l.jpg'
+        user.contract = None
+        user.vehicle_type = 'car' if user_type == 'valet' else None
+        user.created_at = datetime.utcnow()
+        user.is_deleted = False
+        user.is_verified = True
+&gt;       db_session.add(user)
+        ^^^^^^^^^^^^^^
+E       AttributeError: 'NoneType' object has no attribute 'add'
+
+tests\integration\api\helpers.py:36: AttributeError</failure></testcase><testcase classname="tests.integration.api.test_belongings" name="test_belonging_valet_cannot_declare_belongings" time="0.086"><failure message="AttributeError: 'NoneType' object has no attribute 'add'">client = &lt;FlaskClient &lt;Flask 'app'&gt;&gt;, session = &lt;sqlalchemy.orm.scoping.scoped_session object at 0x000002083AC7AF90&gt;
+
+    def test_belonging_valet_cannot_declare_belongings(client, session):
+        """Only the cliente (request owner) may create entries."""
+&gt;       cliente = make_cliente('cli_bel_forbid')
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\integration\api\test_belongings.py:72: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests\integration\api\helpers.py:48: in make_cliente
+    return _make_user(username=username, user_type='cliente')
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+    def _make_user(*, username, user_type='cliente'):
+        user = User()
+        user.username = username
+        user.password_hash = 'x'
+        user.name = username.title()
+        user.last_name = 'Test'
+        user.email = f'{username}@example.com'
+        user.cellphone = '0000000000'
+        user.type = user_type
+        user.profile_img = 'p.jpg'
+        user.id_img = 'i.jpg'
+        user.driver_license_img = 'l.jpg'
+        user.contract = None
+        user.vehicle_type = 'car' if user_type == 'valet' else None
+        user.created_at = datetime.utcnow()
+        user.is_deleted = False
+        user.is_verified = True
+&gt;       db_session.add(user)
+        ^^^^^^^^^^^^^^
+E       AttributeError: 'NoneType' object has no attribute 'add'
+
+tests\integration\api\helpers.py:36: AttributeError</failure></testcase><testcase classname="tests.integration.api.test_belongings" name="test_belonging_create_rejects_missing_fields" time="0.089"><failure message="AttributeError: 'NoneType' object has no attribute 'add'">client = &lt;FlaskClient &lt;Flask 'app'&gt;&gt;, session = &lt;sqlalchemy.orm.scoping.scoped_session object at 0x000002083B244410&gt;
+
+    def test_belonging_create_rejects_missing_fields(client, session):
+&gt;       cliente = make_cliente('cli_bel_400')
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\integration\api\test_belongings.py:91: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests\integration\api\helpers.py:48: in make_cliente
+    return _make_user(username=username, user_type='cliente')
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+    def _make_user(*, username, user_type='cliente'):
+        user = User()
+        user.username = username
+        user.password_hash = 'x'
+        user.name = username.title()
+        user.last_name = 'Test'
+        user.email = f'{username}@example.com'
+        user.cellphone = '0000000000'
+        user.type = user_type
+        user.profile_img = 'p.jpg'
+        user.id_img = 'i.jpg'
+        user.driver_license_img = 'l.jpg'
+        user.contract = None
+        user.vehicle_type = 'car' if user_type == 'valet' else None
+        user.created_at = datetime.utcnow()
+        user.is_deleted = False
+        user.is_verified = True
+&gt;       db_session.add(user)
+        ^^^^^^^^^^^^^^
+E       AttributeError: 'NoneType' object has no attribute 'add'
+
+tests\integration\api\helpers.py:36: AttributeError</failure></testcase><testcase classname="tests.integration.api.test_chat_service_thread" name="test_chat_get_or_create_for_accepted_request_creates_thread" time="0.079"><failure message="AttributeError: 'NoneType' object has no attribute 'add'">client = &lt;FlaskClient &lt;Flask 'app'&gt;&gt;, session = &lt;sqlalchemy.orm.scoping.scoped_session object at 0x000002083B350050&gt;
+
+    def test_chat_get_or_create_for_accepted_request_creates_thread(client, session):
+&gt;       cliente = make_cliente('cli_chat_ok')
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\integration\api\test_chat_service_thread.py:23: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests\integration\api\helpers.py:48: in make_cliente
+    return _make_user(username=username, user_type='cliente')
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+    def _make_user(*, username, user_type='cliente'):
+        user = User()
+        user.username = username
+        user.password_hash = 'x'
+        user.name = username.title()
+        user.last_name = 'Test'
+        user.email = f'{username}@example.com'
+        user.cellphone = '0000000000'
+        user.type = user_type
+        user.profile_img = 'p.jpg'
+        user.id_img = 'i.jpg'
+        user.driver_license_img = 'l.jpg'
+        user.contract = None
+        user.vehicle_type = 'car' if user_type == 'valet' else None
+        user.created_at = datetime.utcnow()
+        user.is_deleted = False
+        user.is_verified = True
+&gt;       db_session.add(user)
+        ^^^^^^^^^^^^^^
+E       AttributeError: 'NoneType' object has no attribute 'add'
+
+tests\integration\api\helpers.py:36: AttributeError</failure></testcase><testcase classname="tests.integration.api.test_chat_service_thread" name="test_chat_message_round_trip_between_cliente_and_valet" time="0.092"><failure message="AttributeError: 'NoneType' object has no attribute 'add'">client = &lt;FlaskClient &lt;Flask 'app'&gt;&gt;, session = &lt;sqlalchemy.orm.scoping.scoped_session object at 0x000002083B3A8F50&gt;
+
+    def test_chat_message_round_trip_between_cliente_and_valet(client, session):
+&gt;       cliente = make_cliente('cli_chat_msg')
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\integration\api\test_chat_service_thread.py:52: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests\integration\api\helpers.py:48: in make_cliente
+    return _make_user(username=username, user_type='cliente')
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+    def _make_user(*, username, user_type='cliente'):
+        user = User()
+        user.username = username
+        user.password_hash = 'x'
+        user.name = username.title()
+        user.last_name = 'Test'
+        user.email = f'{username}@example.com'
+        user.cellphone = '0000000000'
+        user.type = user_type
+        user.profile_img = 'p.jpg'
+        user.id_img = 'i.jpg'
+        user.driver_license_img = 'l.jpg'
+        user.contract = None
+        user.vehicle_type = 'car' if user_type == 'valet' else None
+        user.created_at = datetime.utcnow()
+        user.is_deleted = False
+        user.is_verified = True
+&gt;       db_session.add(user)
+        ^^^^^^^^^^^^^^
+E       AttributeError: 'NoneType' object has no attribute 'add'
+
+tests\integration\api\helpers.py:36: AttributeError</failure></testcase><testcase classname="tests.integration.api.test_chat_service_thread" name="test_chat_cannot_open_thread_for_pending_request" time="0.094"><failure message="AttributeError: 'NoneType' object has no attribute 'add'">client = &lt;FlaskClient &lt;Flask 'app'&gt;&gt;, session = &lt;sqlalchemy.orm.scoping.scoped_session object at 0x000002083B0DB950&gt;
+
+    def test_chat_cannot_open_thread_for_pending_request(client, session):
+        """If the request hasn't been accepted yet, the conversation can't be
+        opened — there's no valet to pair with."""
+&gt;       cliente = make_cliente('cli_chat_pending')
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\integration\api\test_chat_service_thread.py:103: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests\integration\api\helpers.py:48: in make_cliente
+    return _make_user(username=username, user_type='cliente')
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+    def _make_user(*, username, user_type='cliente'):
+        user = User()
+        user.username = username
+        user.password_hash = 'x'
+        user.name = username.title()
+        user.last_name = 'Test'
+        user.email = f'{username}@example.com'
+        user.cellphone = '0000000000'
+        user.type = user_type
+        user.profile_img = 'p.jpg'
+        user.id_img = 'i.jpg'
+        user.driver_license_img = 'l.jpg'
+        user.contract = None
+        user.vehicle_type = 'car' if user_type == 'valet' else None
+        user.created_at = datetime.utcnow()
+        user.is_deleted = False
+        user.is_verified = True
+&gt;       db_session.add(user)
+        ^^^^^^^^^^^^^^
+E       AttributeError: 'NoneType' object has no attribute 'add'
+
+tests\integration\api\helpers.py:36: AttributeError</failure></testcase><testcase classname="tests.integration.api.test_chat_service_thread" name="test_chat_stranger_cannot_open_or_read_service_thread" time="0.089"><failure message="AttributeError: 'NoneType' object has no attribute 'add'">client = &lt;FlaskClient &lt;Flask 'app'&gt;&gt;, session = &lt;sqlalchemy.orm.scoping.scoped_session object at 0x000002083AF8FD10&gt;
+
+    def test_chat_stranger_cannot_open_or_read_service_thread(client, session):
+        """A user that's neither the cliente nor the assigned valet is rejected."""
+&gt;       cliente = make_cliente('cli_chat_strg')
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\integration\api\test_chat_service_thread.py:117: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests\integration\api\helpers.py:48: in make_cliente
+    return _make_user(username=username, user_type='cliente')
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+    def _make_user(*, username, user_type='cliente'):
+        user = User()
+        user.username = username
+        user.password_hash = 'x'
+        user.name = username.title()
+        user.last_name = 'Test'
+        user.email = f'{username}@example.com'
+        user.cellphone = '0000000000'
+        user.type = user_type
+        user.profile_img = 'p.jpg'
+        user.id_img = 'i.jpg'
+        user.driver_license_img = 'l.jpg'
+        user.contract = None
+        user.vehicle_type = 'car' if user_type == 'valet' else None
+        user.created_at = datetime.utcnow()
+        user.is_deleted = False
+        user.is_verified = True
+&gt;       db_session.add(user)
+        ^^^^^^^^^^^^^^
+E       AttributeError: 'NoneType' object has no attribute 'add'
+
+tests\integration\api\helpers.py:36: AttributeError</failure></testcase><testcase classname="tests.integration.api.test_inspection" name="test_inspection_before_and_after_are_persisted" time="0.087"><failure message="AttributeError: 'NoneType' object has no attribute 'add'">client = &lt;FlaskClient &lt;Flask 'app'&gt;&gt;, session = &lt;sqlalchemy.orm.scoping.scoped_session object at 0x000002083B21E990&gt;
+
+    def test_inspection_before_and_after_are_persisted(client, session):
+&gt;       cliente = make_cliente('cli_insp_ok')
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\integration\api\test_inspection.py:29: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests\integration\api\helpers.py:48: in make_cliente
+    return _make_user(username=username, user_type='cliente')
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+    def _make_user(*, username, user_type='cliente'):
+        user = User()
+        user.username = username
+        user.password_hash = 'x'
+        user.name = username.title()
+        user.last_name = 'Test'
+        user.email = f'{username}@example.com'
+        user.cellphone = '0000000000'
+        user.type = user_type
+        user.profile_img = 'p.jpg'
+        user.id_img = 'i.jpg'
+        user.driver_license_img = 'l.jpg'
+        user.contract = None
+        user.vehicle_type = 'car' if user_type == 'valet' else None
+        user.created_at = datetime.utcnow()
+        user.is_deleted = False
+        user.is_verified = True
+&gt;       db_session.add(user)
+        ^^^^^^^^^^^^^^
+E       AttributeError: 'NoneType' object has no attribute 'add'
+
+tests\integration\api\helpers.py:36: AttributeError</failure></testcase><testcase classname="tests.integration.api.test_inspection" name="test_speed_alert_above_limit_is_persisted" time="0.087"><failure message="AttributeError: 'NoneType' object has no attribute 'add'">client = &lt;FlaskClient &lt;Flask 'app'&gt;&gt;, session = &lt;sqlalchemy.orm.scoping.scoped_session object at 0x000002083B40D070&gt;
+
+    def test_speed_alert_above_limit_is_persisted(client, session):
+&gt;       cliente = make_cliente('cli_insp_spd')
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\integration\api\test_inspection.py:73: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests\integration\api\helpers.py:48: in make_cliente
+    return _make_user(username=username, user_type='cliente')
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+    def _make_user(*, username, user_type='cliente'):
+        user = User()
+        user.username = username
+        user.password_hash = 'x'
+        user.name = username.title()
+        user.last_name = 'Test'
+        user.email = f'{username}@example.com'
+        user.cellphone = '0000000000'
+        user.type = user_type
+        user.profile_img = 'p.jpg'
+        user.id_img = 'i.jpg'
+        user.driver_license_img = 'l.jpg'
+        user.contract = None
+        user.vehicle_type = 'car' if user_type == 'valet' else None
+        user.created_at = datetime.utcnow()
+        user.is_deleted = False
+        user.is_verified = True
+&gt;       db_session.add(user)
+        ^^^^^^^^^^^^^^
+E       AttributeError: 'NoneType' object has no attribute 'add'
+
+tests\integration\api\helpers.py:36: AttributeError</failure></testcase><testcase classname="tests.integration.api.test_inspection" name="test_inspection_rejects_empty_photos" time="0.088"><failure message="AttributeError: 'NoneType' object has no attribute 'add'">client = &lt;FlaskClient &lt;Flask 'app'&gt;&gt;, session = &lt;sqlalchemy.orm.scoping.scoped_session object at 0x000002083B4552B0&gt;
+
+    def test_inspection_rejects_empty_photos(client, session):
+&gt;       cliente = make_cliente('cli_insp_empty')
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\integration\api\test_inspection.py:98: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests\integration\api\helpers.py:48: in make_cliente
+    return _make_user(username=username, user_type='cliente')
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+    def _make_user(*, username, user_type='cliente'):
+        user = User()
+        user.username = username
+        user.password_hash = 'x'
+        user.name = username.title()
+        user.last_name = 'Test'
+        user.email = f'{username}@example.com'
+        user.cellphone = '0000000000'
+        user.type = user_type
+        user.profile_img = 'p.jpg'
+        user.id_img = 'i.jpg'
+        user.driver_license_img = 'l.jpg'
+        user.contract = None
+        user.vehicle_type = 'car' if user_type == 'valet' else None
+        user.created_at = datetime.utcnow()
+        user.is_deleted = False
+        user.is_verified = True
+&gt;       db_session.add(user)
+        ^^^^^^^^^^^^^^
+E       AttributeError: 'NoneType' object has no attribute 'add'
+
+tests\integration\api\helpers.py:36: AttributeError</failure></testcase><testcase classname="tests.integration.api.test_inspection" name="test_inspection_only_assigned_valet_can_write" time="0.082"><failure message="AttributeError: 'NoneType' object has no attribute 'add'">client = &lt;FlaskClient &lt;Flask 'app'&gt;&gt;, session = &lt;sqlalchemy.orm.scoping.scoped_session object at 0x000002083B21EED0&gt;
+
+    def test_inspection_only_assigned_valet_can_write(client, session):
+        """Another valet (not the one assigned to the service) is rejected."""
+&gt;       cliente = make_cliente('cli_insp_other')
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\integration\api\test_inspection.py:118: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests\integration\api\helpers.py:48: in make_cliente
+    return _make_user(username=username, user_type='cliente')
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+    def _make_user(*, username, user_type='cliente'):
+        user = User()
+        user.username = username
+        user.password_hash = 'x'
+        user.name = username.title()
+        user.last_name = 'Test'
+        user.email = f'{username}@example.com'
+        user.cellphone = '0000000000'
+        user.type = user_type
+        user.profile_img = 'p.jpg'
+        user.id_img = 'i.jpg'
+        user.driver_license_img = 'l.jpg'
+        user.contract = None
+        user.vehicle_type = 'car' if user_type == 'valet' else None
+        user.created_at = datetime.utcnow()
+        user.is_deleted = False
+        user.is_verified = True
+&gt;       db_session.add(user)
+        ^^^^^^^^^^^^^^
+E       AttributeError: 'NoneType' object has no attribute 'add'
+
+tests\integration\api\helpers.py:36: AttributeError</failure></testcase><testcase classname="tests.integration.api.test_inspection" name="test_speed_under_limit_is_silently_ignored" time="0.080"><failure message="AttributeError: 'NoneType' object has no attribute 'add'">client = &lt;FlaskClient &lt;Flask 'app'&gt;&gt;, session = &lt;sqlalchemy.orm.scoping.scoped_session object at 0x000002083A7ABFB0&gt;
+
+    def test_speed_under_limit_is_silently_ignored(client, session):
+        """Speeds at or below 10km/h return 204 and never become alerts."""
+&gt;       cliente = make_cliente('cli_insp_under')
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\integration\api\test_inspection.py:138: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests\integration\api\helpers.py:48: in make_cliente
+    return _make_user(username=username, user_type='cliente')
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+    def _make_user(*, username, user_type='cliente'):
+        user = User()
+        user.username = username
+        user.password_hash = 'x'
+        user.name = username.title()
+        user.last_name = 'Test'
+        user.email = f'{username}@example.com'
+        user.cellphone = '0000000000'
+        user.type = user_type
+        user.profile_img = 'p.jpg'
+        user.id_img = 'i.jpg'
+        user.driver_license_img = 'l.jpg'
+        user.contract = None
+        user.vehicle_type = 'car' if user_type == 'valet' else None
+        user.created_at = datetime.utcnow()
+        user.is_deleted = False
+        user.is_verified = True
+&gt;       db_session.add(user)
+        ^^^^^^^^^^^^^^
+E       AttributeError: 'NoneType' object has no attribute 'add'
+
+tests\integration\api\helpers.py:36: AttributeError</failure></testcase><testcase classname="tests.integration.api.test_key_handover" name="test_key_handover_full_flow" time="0.086"><failure message="AttributeError: 'NoneType' object has no attribute 'add'">client = &lt;FlaskClient &lt;Flask 'app'&gt;&gt;, session = &lt;sqlalchemy.orm.scoping.scoped_session object at 0x000002083B3A9E50&gt;
+
+    def test_key_handover_full_flow(client, session):
+&gt;       cliente = make_cliente('cli_keys_ok')
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\integration\api\test_key_handover.py:28: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests\integration\api\helpers.py:48: in make_cliente
+    return _make_user(username=username, user_type='cliente')
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+    def _make_user(*, username, user_type='cliente'):
+        user = User()
+        user.username = username
+        user.password_hash = 'x'
+        user.name = username.title()
+        user.last_name = 'Test'
+        user.email = f'{username}@example.com'
+        user.cellphone = '0000000000'
+        user.type = user_type
+        user.profile_img = 'p.jpg'
+        user.id_img = 'i.jpg'
+        user.driver_license_img = 'l.jpg'
+        user.contract = None
+        user.vehicle_type = 'car' if user_type == 'valet' else None
+        user.created_at = datetime.utcnow()
+        user.is_deleted = False
+        user.is_verified = True
+&gt;       db_session.add(user)
+        ^^^^^^^^^^^^^^
+E       AttributeError: 'NoneType' object has no attribute 'add'
+
+tests\integration\api\helpers.py:36: AttributeError</failure></testcase><testcase classname="tests.integration.api.test_key_handover" name="test_key_handover_cliente_cannot_register_dropoff" time="0.083"><failure message="AttributeError: 'NoneType' object has no attribute 'add'">client = &lt;FlaskClient &lt;Flask 'app'&gt;&gt;, session = &lt;sqlalchemy.orm.scoping.scoped_session object at 0x000002083B54C230&gt;
+
+    def test_key_handover_cliente_cannot_register_dropoff(client, session):
+&gt;       cliente = make_cliente('cli_keys_forbid')
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\integration\api\test_key_handover.py:73: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests\integration\api\helpers.py:48: in make_cliente
+    return _make_user(username=username, user_type='cliente')
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+    def _make_user(*, username, user_type='cliente'):
+        user = User()
+        user.username = username
+        user.password_hash = 'x'
+        user.name = username.title()
+        user.last_name = 'Test'
+        user.email = f'{username}@example.com'
+        user.cellphone = '0000000000'
+        user.type = user_type
+        user.profile_img = 'p.jpg'
+        user.id_img = 'i.jpg'
+        user.driver_license_img = 'l.jpg'
+        user.contract = None
+        user.vehicle_type = 'car' if user_type == 'valet' else None
+        user.created_at = datetime.utcnow()
+        user.is_deleted = False
+        user.is_verified = True
+&gt;       db_session.add(user)
+        ^^^^^^^^^^^^^^
+E       AttributeError: 'NoneType' object has no attribute 'add'
+
+tests\integration\api\helpers.py:36: AttributeError</failure></testcase><testcase classname="tests.integration.api.test_key_handover" name="test_key_handover_rejects_duplicate_dropoff" time="0.081"><failure message="AttributeError: 'NoneType' object has no attribute 'add'">client = &lt;FlaskClient &lt;Flask 'app'&gt;&gt;, session = &lt;sqlalchemy.orm.scoping.scoped_session object at 0x000002083B5A84D0&gt;
+
+    def test_key_handover_rejects_duplicate_dropoff(client, session):
+&gt;       cliente = make_cliente('cli_keys_dup')
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\integration\api\test_key_handover.py:91: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests\integration\api\helpers.py:48: in make_cliente
+    return _make_user(username=username, user_type='cliente')
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+    def _make_user(*, username, user_type='cliente'):
+        user = User()
+        user.username = username
+        user.password_hash = 'x'
+        user.name = username.title()
+        user.last_name = 'Test'
+        user.email = f'{username}@example.com'
+        user.cellphone = '0000000000'
+        user.type = user_type
+        user.profile_img = 'p.jpg'
+        user.id_img = 'i.jpg'
+        user.driver_license_img = 'l.jpg'
+        user.contract = None
+        user.vehicle_type = 'car' if user_type == 'valet' else None
+        user.created_at = datetime.utcnow()
+        user.is_deleted = False
+        user.is_verified = True
+&gt;       db_session.add(user)
+        ^^^^^^^^^^^^^^
+E       AttributeError: 'NoneType' object has no attribute 'add'
+
+tests\integration\api\helpers.py:36: AttributeError</failure></testcase><testcase classname="tests.integration.test_base" name="test_access_index_url_returning_200_status_code" time="0.085" /><testcase classname="tests.integration.test_base" name="test_acces_an_inexistent_url_returning_404_status_code" time="0.082" /><testcase classname="tests.integration.test_base" name="test_to_access_a_protected_url_returning_200_status_code" time="0.078"><failure message="ValueError: invalid literal for int() with base 10: 'test'">client = &lt;FlaskClient &lt;Flask 'app'&gt;&gt;
+auth = {'access_token': {'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTc3NzQ5Nj...ZjNDhhMTYtZGViYi00NGYzLWFmNGQtOGJkN2ZkNjFiMTQ5IiwiZXhwIjoxNzgwMDg4ODAxfQ.tYWtJkMCgm-EjzMkE6tTPDXmfgVP2JLFdkb7onXE5mA'}}
+
+    def test_to_access_a_protected_url_returning_200_status_code(client, auth):
+        """
+        GIVEN a Flask application
+        WHEN an protected URL is requested (GET) with a valid authentication
+        THEN check the response HTTP 200 response
+        """
+    
+        endpoint = '/account'
+&gt;       response = client.get(endpoint, headers=auth['access_token'])
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\integration\test_base.py:37: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+C:\Users\Alexander\AppData\Local\Programs\Python\Python313\Lib\site-packages\werkzeug\test.py:1162: in get
+    return self.open(*args, **kw)
+           ^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\Alexander\AppData\Local\Programs\Python\Python313\Lib\site-packages\flask\testing.py:235: in open
+    response = super().open(
+C:\Users\Alexander\AppData\Local\Programs\Python\Python313\Lib\site-packages\werkzeug\test.py:1116: in open
+    response_parts = self.run_wsgi_app(request.environ, buffered=buffered)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\Alexander\AppData\Local\Programs\Python\Python313\Lib\site-packages\werkzeug\test.py:988: in run_wsgi_app
+    rv = run_wsgi_app(self.application, environ, buffered=buffered)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\Alexander\AppData\Local\Programs\Python\Python313\Lib\site-packages\werkzeug\test.py:1264: in run_wsgi_app
+    app_rv = app(environ, start_response)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\Alexander\AppData\Local\Programs\Python\Python313\Lib\site-packages\flask\app.py:1536: in __call__
+    return self.wsgi_app(environ, start_response)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\Alexander\AppData\Local\Programs\Python\Python313\Lib\site-packages\flask\app.py:1514: in wsgi_app
+    response = self.handle_exception(e)
+               ^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\Alexander\AppData\Local\Programs\Python\Python313\Lib\site-packages\flask_cors\extension.py:176: in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+                                                ^^^^^^^^^^^^^^^^^^
+C:\Users\Alexander\AppData\Local\Programs\Python\Python313\Lib\site-packages\flask\app.py:1511: in wsgi_app
+    response = self.full_dispatch_request()
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\Alexander\AppData\Local\Programs\Python\Python313\Lib\site-packages\flask\app.py:919: in full_dispatch_request
+    rv = self.handle_user_exception(e)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\Alexander\AppData\Local\Programs\Python\Python313\Lib\site-packages\flask_cors\extension.py:176: in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+                                                ^^^^^^^^^^^^^^^^^^
+C:\Users\Alexander\AppData\Local\Programs\Python\Python313\Lib\site-packages\flask\app.py:917: in full_dispatch_request
+    rv = self.dispatch_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\Alexander\AppData\Local\Programs\Python\Python313\Lib\site-packages\flask\app.py:902: in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\Alexander\AppData\Local\Programs\Python\Python313\Lib\site-packages\flask_jwt_extended\view_decorators.py:170: in decorator
+    return current_app.ensure_sync(fn)(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+    @bp.route('', methods=('GET',))
+    @jwt_required()
+    def get_account():
+        """Retrieves the user account.
+    
+        Returns:
+            response: flask.Response object with the application/json mimetype.
+        """
+    
+&gt;       user_identity = int(get_jwt_identity())
+                        ^^^^^^^^^^^^^^^^^^^^^^^
+E       ValueError: invalid literal for int() with base 10: 'test'
+
+app\blueprint\account.py:27: ValueError</failure></testcase><testcase classname="tests.integration.test_base" name="test_to_access_a_protected_url_returning_200_status_code" time="0.005"><error message="failed on teardown with &quot;PermissionError: [WinError 32] El proceso no tiene acceso al archivo porque está siendo utilizado por otro proceso: 'D:\\ProyectosU\\parkIT\\Backend\\tests\\test.db'&quot;">def teardown():
+        drop_db()
+        ctx.pop()
+        if os.path.exists(TEST_DB_PATH):
+&gt;           os.remove(TEST_DB_PATH)
+E           PermissionError: [WinError 32] El proceso no tiene acceso al archivo porque está siendo utilizado por otro proceso: 'D:\\ProyectosU\\parkIT\\Backend\\tests\\test.db'
+
+tests\conftest.py:100: PermissionError</error></testcase><testcase classname="tests.integration.test_base" name="test_to_access_a_protected_url_with_a_invalid_token_returning_422_status_code" time="0.026"><error message="failed on teardown with &quot;PermissionError: [WinError 32] El proceso no tiene acceso al archivo porque está siendo utilizado por otro proceso: 'D:\\ProyectosU\\parkIT\\Backend\\tests\\test.db'&quot;">def teardown():
+        drop_db()
+        ctx.pop()
+        if os.path.exists(TEST_DB_PATH):
+&gt;           os.remove(TEST_DB_PATH)
+E           PermissionError: [WinError 32] El proceso no tiene acceso al archivo porque está siendo utilizado por otro proceso: 'D:\\ProyectosU\\parkIT\\Backend\\tests\\test.db'
+
+tests\conftest.py:100: PermissionError</error></testcase><testcase classname="tests.integration.test_base" name="test_to_access_a_protected_url_returning_401_status_code" time="0.033"><error message="failed on teardown with &quot;PermissionError: [WinError 32] El proceso no tiene acceso al archivo porque está siendo utilizado por otro proceso: 'D:\\ProyectosU\\parkIT\\Backend\\tests\\test.db'&quot;">def teardown():
+        drop_db()
+        ctx.pop()
+        if os.path.exists(TEST_DB_PATH):
+&gt;           os.remove(TEST_DB_PATH)
+E           PermissionError: [WinError 32] El proceso no tiene acceso al archivo porque está siendo utilizado por otro proceso: 'D:\\ProyectosU\\parkIT\\Backend\\tests\\test.db'
+
+tests\conftest.py:100: PermissionError</error></testcase><testcase classname="tests.integration.test_commands" name="test_add_user_command" time="0.027" /><testcase classname="tests.integration.test_commands" name="test_function_of_add_user_command_with_data_well" time="0.092"><error message="failed on teardown with &quot;PermissionError: [WinError 32] El proceso no tiene acceso al archivo porque está siendo utilizado por otro proceso: 'D:\\ProyectosU\\parkIT\\Backend\\tests\\test.db'&quot;">def teardown():
+        drop_db()
+        ctx.pop()
+        if os.path.exists(TEST_DB_PATH):
+&gt;           os.remove(TEST_DB_PATH)
+E           PermissionError: [WinError 32] El proceso no tiene acceso al archivo porque está siendo utilizado por otro proceso: 'D:\\ProyectosU\\parkIT\\Backend\\tests\\test.db'
+
+tests\conftest.py:100: PermissionError</error></testcase><testcase classname="tests.integration.test_commands" name="test_function_of_add_user_command_with_username_already_used" time="0.032"><error message="failed on teardown with &quot;PermissionError: [WinError 32] El proceso no tiene acceso al archivo porque está siendo utilizado por otro proceso: 'D:\\ProyectosU\\parkIT\\Backend\\tests\\test.db'&quot;">def teardown():
+        drop_db()
+        ctx.pop()
+        if os.path.exists(TEST_DB_PATH):
+&gt;           os.remove(TEST_DB_PATH)
+E           PermissionError: [WinError 32] El proceso no tiene acceso al archivo porque está siendo utilizado por otro proceso: 'D:\\ProyectosU\\parkIT\\Backend\\tests\\test.db'
+
+tests\conftest.py:100: PermissionError</error></testcase><testcase classname="tests.integration.test_db" name="test_sqlalchemy_base" time="0.023"><failure message="AttributeError: module 'sqlalchemy.ext' has no attribute 'declarative'">app = &lt;Flask 'app'&gt;
+
+    def test_sqlalchemy_base(app):
+        """
+        GIVEN a Flask application
+        WHEN the app is initialized
+        THEN check SQLAlchemy initialization
+        """
+    
+        with app.app_context():
+            from app.database import Base
+&gt;           assert Base.__class__ == sqlalchemy.ext.declarative.api.DeclarativeMeta
+                                     ^^^^^^^^^^^^^^^^^^^^^^^^^^
+E           AttributeError: module 'sqlalchemy.ext' has no attribute 'declarative'
+
+tests\integration\test_db.py:16: AttributeError</failure></testcase><testcase classname="tests.integration.test_db" name="test_sqlalchemy_base" time="0.006"><error message="failed on teardown with &quot;PermissionError: [WinError 32] El proceso no tiene acceso al archivo porque está siendo utilizado por otro proceso: 'D:\\ProyectosU\\parkIT\\Backend\\tests\\test.db'&quot;">def teardown():
+        drop_db()
+        ctx.pop()
+        if os.path.exists(TEST_DB_PATH):
+&gt;           os.remove(TEST_DB_PATH)
+E           PermissionError: [WinError 32] El proceso no tiene acceso al archivo porque está siendo utilizado por otro proceso: 'D:\\ProyectosU\\parkIT\\Backend\\tests\\test.db'
+
+tests\conftest.py:100: PermissionError</error></testcase><testcase classname="tests.integration.test_db" name="test_session_is_open" time="0.032"><error message="failed on teardown with &quot;PermissionError: [WinError 32] El proceso no tiene acceso al archivo porque está siendo utilizado por otro proceso: 'D:\\ProyectosU\\parkIT\\Backend\\tests\\test.db'&quot;">def teardown():
+        drop_db()
+        ctx.pop()
+        if os.path.exists(TEST_DB_PATH):
+&gt;           os.remove(TEST_DB_PATH)
+E           PermissionError: [WinError 32] El proceso no tiene acceso al archivo porque está siendo utilizado por otro proceso: 'D:\\ProyectosU\\parkIT\\Backend\\tests\\test.db'
+
+tests\conftest.py:100: PermissionError</error></testcase><testcase classname="tests.integration.test_db" name="test_session_is_close" time="0.028"><error message="failed on teardown with &quot;PermissionError: [WinError 32] El proceso no tiene acceso al archivo porque está siendo utilizado por otro proceso: 'D:\\ProyectosU\\parkIT\\Backend\\tests\\test.db'&quot;">def teardown():
+        drop_db()
+        ctx.pop()
+        if os.path.exists(TEST_DB_PATH):
+&gt;           os.remove(TEST_DB_PATH)
+E           PermissionError: [WinError 32] El proceso no tiene acceso al archivo porque está siendo utilizado por otro proceso: 'D:\\ProyectosU\\parkIT\\Backend\\tests\\test.db'
+
+tests\conftest.py:100: PermissionError</error></testcase><testcase classname="tests.integration.test_factory" name="test_without_config" time="0.039" /><testcase classname="tests.integration.test_factory" name="test_with_test_config_testing" time="0.015" /><testcase classname="tests.integration.test_factory" name="test_with_development_config" time="0.015" /><testcase classname="tests.integration.test_factory" name="test_with_production_config" time="0.014" /><testcase classname="tests.unit.model.test_base_model" name="test_base_model" time="0.028"><error message="failed on teardown with &quot;PermissionError: [WinError 32] El proceso no tiene acceso al archivo porque está siendo utilizado por otro proceso: 'D:\\ProyectosU\\parkIT\\Backend\\tests\\test.db'&quot;">def teardown():
+        drop_db()
+        ctx.pop()
+        if os.path.exists(TEST_DB_PATH):
+&gt;           os.remove(TEST_DB_PATH)
+E           PermissionError: [WinError 32] El proceso no tiene acceso al archivo porque está siendo utilizado por otro proceso: 'D:\\ProyectosU\\parkIT\\Backend\\tests\\test.db'
+
+tests\conftest.py:100: PermissionError</error></testcase><testcase classname="tests.unit.model.test_belonging_model" name="test_belonging_serializes_photos_round_trip" time="0.040"><error message="failed on teardown with &quot;PermissionError: [WinError 32] El proceso no tiene acceso al archivo porque está siendo utilizado por otro proceso: 'D:\\ProyectosU\\parkIT\\Backend\\tests\\test.db'&quot;">def teardown():
+        drop_db()
+        ctx.pop()
+        if os.path.exists(TEST_DB_PATH):
+&gt;           os.remove(TEST_DB_PATH)
+E           PermissionError: [WinError 32] El proceso no tiene acceso al archivo porque está siendo utilizado por otro proceso: 'D:\\ProyectosU\\parkIT\\Backend\\tests\\test.db'
+
+tests\conftest.py:100: PermissionError</error></testcase><testcase classname="tests.unit.model.test_belonging_model" name="test_belonging_to_dict_returns_expected_fields" time="0.025"><error message="failed on teardown with &quot;PermissionError: [WinError 32] El proceso no tiene acceso al archivo porque está siendo utilizado por otro proceso: 'D:\\ProyectosU\\parkIT\\Backend\\tests\\test.db'&quot;">def teardown():
+        drop_db()
+        ctx.pop()
+        if os.path.exists(TEST_DB_PATH):
+&gt;           os.remove(TEST_DB_PATH)
+E           PermissionError: [WinError 32] El proceso no tiene acceso al archivo porque está siendo utilizado por otro proceso: 'D:\\ProyectosU\\parkIT\\Backend\\tests\\test.db'
+
+tests\conftest.py:100: PermissionError</error></testcase><testcase classname="tests.unit.model.test_belonging_model" name="test_belonging_photos_default_to_empty_list" time="0.026"><error message="failed on teardown with &quot;PermissionError: [WinError 32] El proceso no tiene acceso al archivo porque está siendo utilizado por otro proceso: 'D:\\ProyectosU\\parkIT\\Backend\\tests\\test.db'&quot;">def teardown():
+        drop_db()
+        ctx.pop()
+        if os.path.exists(TEST_DB_PATH):
+&gt;           os.remove(TEST_DB_PATH)
+E           PermissionError: [WinError 32] El proceso no tiene acceso al archivo porque está siendo utilizado por otro proceso: 'D:\\ProyectosU\\parkIT\\Backend\\tests\\test.db'
+
+tests\conftest.py:100: PermissionError</error></testcase><testcase classname="tests.unit.model.test_key_handover_model" name="test_key_handover_to_dict_returns_full_payload" time="0.029"><error message="failed on teardown with &quot;PermissionError: [WinError 32] El proceso no tiene acceso al archivo porque está siendo utilizado por otro proceso: 'D:\\ProyectosU\\parkIT\\Backend\\tests\\test.db'&quot;">def teardown():
+        drop_db()
+        ctx.pop()
+        if os.path.exists(TEST_DB_PATH):
+&gt;           os.remove(TEST_DB_PATH)
+E           PermissionError: [WinError 32] El proceso no tiene acceso al archivo porque está siendo utilizado por otro proceso: 'D:\\ProyectosU\\parkIT\\Backend\\tests\\test.db'
+
+tests\conftest.py:100: PermissionError</error></testcase><testcase classname="tests.unit.model.test_key_handover_model" name="test_key_handover_returned_state_is_serialized" time="0.024"><error message="failed on teardown with &quot;PermissionError: [WinError 32] El proceso no tiene acceso al archivo porque está siendo utilizado por otro proceso: 'D:\\ProyectosU\\parkIT\\Backend\\tests\\test.db'&quot;">def teardown():
+        drop_db()
+        ctx.pop()
+        if os.path.exists(TEST_DB_PATH):
+&gt;           os.remove(TEST_DB_PATH)
+E           PermissionError: [WinError 32] El proceso no tiene acceso al archivo porque está siendo utilizado por otro proceso: 'D:\\ProyectosU\\parkIT\\Backend\\tests\\test.db'
+
+tests\conftest.py:100: PermissionError</error></testcase><testcase classname="tests.unit.model.test_respository" name="test_create_new_repository" time="0.030"><error message="failed on teardown with &quot;PermissionError: [WinError 32] El proceso no tiene acceso al archivo porque está siendo utilizado por otro proceso: 'D:\\ProyectosU\\parkIT\\Backend\\tests\\test.db'&quot;">def teardown():
+        drop_db()
+        ctx.pop()
+        if os.path.exists(TEST_DB_PATH):
+&gt;           os.remove(TEST_DB_PATH)
+E           PermissionError: [WinError 32] El proceso no tiene acceso al archivo porque está siendo utilizado por otro proceso: 'D:\\ProyectosU\\parkIT\\Backend\\tests\\test.db'
+
+tests\conftest.py:100: PermissionError</error></testcase><testcase classname="tests.unit.model.test_respository" name="test_the_get_method_of_the_repository" time="0.032"><error message="failed on teardown with &quot;PermissionError: [WinError 32] El proceso no tiene acceso al archivo porque está siendo utilizado por otro proceso: 'D:\\ProyectosU\\parkIT\\Backend\\tests\\test.db'&quot;">def teardown():
+        drop_db()
+        ctx.pop()
+        if os.path.exists(TEST_DB_PATH):
+&gt;           os.remove(TEST_DB_PATH)
+E           PermissionError: [WinError 32] El proceso no tiene acceso al archivo porque está siendo utilizado por otro proceso: 'D:\\ProyectosU\\parkIT\\Backend\\tests\\test.db'
+
+tests\conftest.py:100: PermissionError</error></testcase><testcase classname="tests.unit.model.test_respository" name="test_the_get_all_method_of_the_repository" time="0.028"><error message="failed on setup with &quot;file D:\ProyectosU\parkIT\Backend\tests\unit\model\test_respository.py, line 43&#10;  def test_the_get_all_method_of_the_repository(app, mocker):&#10;E       fixture 'mocker' not found&#10;&gt;       available fixtures: app, auth, cache, capfd, capfdbinary, caplog, capsys, capsysbinary, capteesys, client, doctest_namespace, monkeypatch, pytestconfig, record_property, record_testsuite_property, record_xml_attribute, recwarn, runner, session, subtests, tmp_path, tmp_path_factory, tmpdir, tmpdir_factory&#10;&gt;       use 'pytest --fixtures [testpath]' for help on them.&#10;&#10;D:\ProyectosU\parkIT\Backend\tests\unit\model\test_respository.py:43&quot;">file D:\ProyectosU\parkIT\Backend\tests\unit\model\test_respository.py, line 43
+  def test_the_get_all_method_of_the_repository(app, mocker):
+E       fixture 'mocker' not found
+&gt;       available fixtures: app, auth, cache, capfd, capfdbinary, caplog, capsys, capsysbinary, capteesys, client, doctest_namespace, monkeypatch, pytestconfig, record_property, record_testsuite_property, record_xml_attribute, recwarn, runner, session, subtests, tmp_path, tmp_path_factory, tmpdir, tmpdir_factory
+&gt;       use 'pytest --fixtures [testpath]' for help on them.
+
+D:\ProyectosU\parkIT\Backend\tests\unit\model\test_respository.py:43</error><error message="failed on teardown with &quot;PermissionError: [WinError 32] El proceso no tiene acceso al archivo porque está siendo utilizado por otro proceso: 'D:\\ProyectosU\\parkIT\\Backend\\tests\\test.db'&quot;">def teardown():
+        drop_db()
+        ctx.pop()
+        if os.path.exists(TEST_DB_PATH):
+&gt;           os.remove(TEST_DB_PATH)
+E           PermissionError: [WinError 32] El proceso no tiene acceso al archivo porque está siendo utilizado por otro proceso: 'D:\\ProyectosU\\parkIT\\Backend\\tests\\test.db'
+
+tests\conftest.py:100: PermissionError</error></testcase><testcase classname="tests.unit.model.test_respository" name="test_the_save_method_of_the_repository" time="0.030"><error message="failed on teardown with &quot;PermissionError: [WinError 32] El proceso no tiene acceso al archivo porque está siendo utilizado por otro proceso: 'D:\\ProyectosU\\parkIT\\Backend\\tests\\test.db'&quot;">def teardown():
+        drop_db()
+        ctx.pop()
+        if os.path.exists(TEST_DB_PATH):
+&gt;           os.remove(TEST_DB_PATH)
+E           PermissionError: [WinError 32] El proceso no tiene acceso al archivo porque está siendo utilizado por otro proceso: 'D:\\ProyectosU\\parkIT\\Backend\\tests\\test.db'
+
+tests\conftest.py:100: PermissionError</error></testcase><testcase classname="tests.unit.model.test_respository" name="test_the_update_method_of_the_repository" time="0.001" /><testcase classname="tests.unit.model.test_respository" name="test_the_delete_method_of_the_repository" time="0.001" /><testcase classname="tests.unit.model.test_respository" name="test_the_is_invalid_method_of_the_repository" time="0.000" /><testcase classname="tests.unit.model.test_user_model" name="test_create_new_user" time="0.034"><error message="failed on teardown with &quot;PermissionError: [WinError 32] El proceso no tiene acceso al archivo porque está siendo utilizado por otro proceso: 'D:\\ProyectosU\\parkIT\\Backend\\tests\\test.db'&quot;">def teardown():
+        drop_db()
+        ctx.pop()
+        if os.path.exists(TEST_DB_PATH):
+&gt;           os.remove(TEST_DB_PATH)
+E           PermissionError: [WinError 32] El proceso no tiene acceso al archivo porque está siendo utilizado por otro proceso: 'D:\\ProyectosU\\parkIT\\Backend\\tests\\test.db'
+
+tests\conftest.py:100: PermissionError</error></testcase><testcase classname="tests.unit.model.test_user_repostiory" name="test_create_new_user_repository" time="0.026"><failure message="AssertionError: assert False&#10; +  where False = isinstance(None, &lt;class 'sqlalchemy.orm.scoping.scoped_session'&gt;)&#10; +    where None = &lt;app.model.repository.user_repository.UserRepository object at 0x000002083ACB02F0&gt;.session&#10; +    and   &lt;class 'sqlalchemy.orm.scoping.scoped_session'&gt; = &lt;module 'sqlalchemy.orm.scoping' from 'C:\\Users\\Alexander\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\sqlalchemy\\orm\\scoping.py'&gt;.scoped_session&#10; +      where &lt;module 'sqlalchemy.orm.scoping' from 'C:\\Users\\Alexander\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\sqlalchemy\\orm\\scoping.py'&gt; = &lt;module 'sqlalchemy.orm' from 'C:\\Users\\Alexander\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\sqlalchemy\\orm\\__init__.py'&gt;.scoping&#10; +        where &lt;module 'sqlalchemy.orm' from 'C:\\Users\\Alexander\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\sqlalchemy\\orm\\__init__.py'&gt; = sqlalchemy.orm">app = &lt;Flask 'app'&gt;
+
+    def test_create_new_user_repository(app):
+        """
+        GIVEN the UserRepository class
+        WHEN a new UserRepository is created
+        THEN check the UserRepository and the SQLAlchemy session instances
+        """
+        from app.model import UserRepository
+        user_repository = UserRepository()
+    
+        assert isinstance(user_repository, UserRepository)
+&gt;       assert isinstance(user_repository.session, sqlalchemy.orm.scoping.scoped_session)
+E       AssertionError: assert False
+E        +  where False = isinstance(None, &lt;class 'sqlalchemy.orm.scoping.scoped_session'&gt;)
+E        +    where None = &lt;app.model.repository.user_repository.UserRepository object at 0x000002083ACB02F0&gt;.session
+E        +    and   &lt;class 'sqlalchemy.orm.scoping.scoped_session'&gt; = &lt;module 'sqlalchemy.orm.scoping' from 'C:\\Users\\Alexander\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\sqlalchemy\\orm\\scoping.py'&gt;.scoped_session
+E        +      where &lt;module 'sqlalchemy.orm.scoping' from 'C:\\Users\\Alexander\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\sqlalchemy\\orm\\scoping.py'&gt; = &lt;module 'sqlalchemy.orm' from 'C:\\Users\\Alexander\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\sqlalchemy\\orm\\__init__.py'&gt;.scoping
+E        +        where &lt;module 'sqlalchemy.orm' from 'C:\\Users\\Alexander\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\sqlalchemy\\orm\\__init__.py'&gt; = sqlalchemy.orm
+
+tests\unit\model\test_user_repostiory.py:29: AssertionError</failure></testcase><testcase classname="tests.unit.model.test_user_repostiory" name="test_create_new_user_repository" time="0.005"><error message="failed on teardown with &quot;PermissionError: [WinError 32] El proceso no tiene acceso al archivo porque está siendo utilizado por otro proceso: 'D:\\ProyectosU\\parkIT\\Backend\\tests\\test.db'&quot;">def teardown():
+        drop_db()
+        ctx.pop()
+        if os.path.exists(TEST_DB_PATH):
+&gt;           os.remove(TEST_DB_PATH)
+E           PermissionError: [WinError 32] El proceso no tiene acceso al archivo porque está siendo utilizado por otro proceso: 'D:\\ProyectosU\\parkIT\\Backend\\tests\\test.db'
+
+tests\conftest.py:100: PermissionError</error></testcase><testcase classname="tests.unit.model.test_user_repostiory" name="test_the_get_by_username_method_of_user_repository" time="0.039"><error message="failed on teardown with &quot;PermissionError: [WinError 32] El proceso no tiene acceso al archivo porque está siendo utilizado por otro proceso: 'D:\\ProyectosU\\parkIT\\Backend\\tests\\test.db'&quot;">def teardown():
+        drop_db()
+        ctx.pop()
+        if os.path.exists(TEST_DB_PATH):
+&gt;           os.remove(TEST_DB_PATH)
+E           PermissionError: [WinError 32] El proceso no tiene acceso al archivo porque está siendo utilizado por otro proceso: 'D:\\ProyectosU\\parkIT\\Backend\\tests\\test.db'
+
+tests\conftest.py:100: PermissionError</error></testcase><testcase classname="tests.unit.model.test_user_repostiory" name="test_the_save_method_of_user_repository" time="0.034"><error message="failed on teardown with &quot;PermissionError: [WinError 32] El proceso no tiene acceso al archivo porque está siendo utilizado por otro proceso: 'D:\\ProyectosU\\parkIT\\Backend\\tests\\test.db'&quot;">def teardown():
+        drop_db()
+        ctx.pop()
+        if os.path.exists(TEST_DB_PATH):
+&gt;           os.remove(TEST_DB_PATH)
+E           PermissionError: [WinError 32] El proceso no tiene acceso al archivo porque está siendo utilizado por otro proceso: 'D:\\ProyectosU\\parkIT\\Backend\\tests\\test.db'
+
+tests\conftest.py:100: PermissionError</error></testcase><testcase classname="tests.unit.model.test_user_repostiory" name="test_the_update_method_of_user_repository" time="0.037"><error message="failed on teardown with &quot;PermissionError: [WinError 32] El proceso no tiene acceso al archivo porque está siendo utilizado por otro proceso: 'D:\\ProyectosU\\parkIT\\Backend\\tests\\test.db'&quot;">def teardown():
+        drop_db()
+        ctx.pop()
+        if os.path.exists(TEST_DB_PATH):
+&gt;           os.remove(TEST_DB_PATH)
+E           PermissionError: [WinError 32] El proceso no tiene acceso al archivo porque está siendo utilizado por otro proceso: 'D:\\ProyectosU\\parkIT\\Backend\\tests\\test.db'
+
+tests\conftest.py:100: PermissionError</error></testcase><testcase classname="tests.unit.model.test_user_repostiory" name="test_the_authenticate_method_of_user_repository" time="0.034"><error message="failed on teardown with &quot;PermissionError: [WinError 32] El proceso no tiene acceso al archivo porque está siendo utilizado por otro proceso: 'D:\\ProyectosU\\parkIT\\Backend\\tests\\test.db'&quot;">def teardown():
+        drop_db()
+        ctx.pop()
+        if os.path.exists(TEST_DB_PATH):
+&gt;           os.remove(TEST_DB_PATH)
+E           PermissionError: [WinError 32] El proceso no tiene acceso al archivo porque está siendo utilizado por otro proceso: 'D:\\ProyectosU\\parkIT\\Backend\\tests\\test.db'
+
+tests\conftest.py:100: PermissionError</error></testcase><testcase classname="tests.unit.model.test_user_repostiory" name="test_the_is_invalid_method_of_user_repository_with_correct_data" time="0.028"><error message="failed on teardown with &quot;PermissionError: [WinError 32] El proceso no tiene acceso al archivo porque está siendo utilizado por otro proceso: 'D:\\ProyectosU\\parkIT\\Backend\\tests\\test.db'&quot;">def teardown():
+        drop_db()
+        ctx.pop()
+        if os.path.exists(TEST_DB_PATH):
+&gt;           os.remove(TEST_DB_PATH)
+E           PermissionError: [WinError 32] El proceso no tiene acceso al archivo porque está siendo utilizado por otro proceso: 'D:\\ProyectosU\\parkIT\\Backend\\tests\\test.db'
+
+tests\conftest.py:100: PermissionError</error></testcase><testcase classname="tests.unit.model.test_user_repostiory" name="test_the_is_invalid_method_of_user_repository_with_existent_user" time="0.034"><error message="failed on teardown with &quot;PermissionError: [WinError 32] El proceso no tiene acceso al archivo porque está siendo utilizado por otro proceso: 'D:\\ProyectosU\\parkIT\\Backend\\tests\\test.db'&quot;">def teardown():
+        drop_db()
+        ctx.pop()
+        if os.path.exists(TEST_DB_PATH):
+&gt;           os.remove(TEST_DB_PATH)
+E           PermissionError: [WinError 32] El proceso no tiene acceso al archivo porque está siendo utilizado por otro proceso: 'D:\\ProyectosU\\parkIT\\Backend\\tests\\test.db'
+
+tests\conftest.py:100: PermissionError</error></testcase><testcase classname="tests.unit.model.test_user_repostiory" name="test_the_is_invalid_method_of_user_repository_with_username_already_in_use" time="0.071"><error message="failed on teardown with &quot;PermissionError: [WinError 32] El proceso no tiene acceso al archivo porque está siendo utilizado por otro proceso: 'D:\\ProyectosU\\parkIT\\Backend\\tests\\test.db'&quot;">def teardown():
+        drop_db()
+        ctx.pop()
+        if os.path.exists(TEST_DB_PATH):
+&gt;           os.remove(TEST_DB_PATH)
+E           PermissionError: [WinError 32] El proceso no tiene acceso al archivo porque está siendo utilizado por otro proceso: 'D:\\ProyectosU\\parkIT\\Backend\\tests\\test.db'
+
+tests\conftest.py:100: PermissionError</error></testcase><testcase classname="tests.unit.model.test_user_repostiory" name="test_the_is_invalid_method_of_user_repository_missing_password" time="0.031"><error message="failed on teardown with &quot;PermissionError: [WinError 32] El proceso no tiene acceso al archivo porque está siendo utilizado por otro proceso: 'D:\\ProyectosU\\parkIT\\Backend\\tests\\test.db'&quot;">def teardown():
+        drop_db()
+        ctx.pop()
+        if os.path.exists(TEST_DB_PATH):
+&gt;           os.remove(TEST_DB_PATH)
+E           PermissionError: [WinError 32] El proceso no tiene acceso al archivo porque está siendo utilizado por otro proceso: 'D:\\ProyectosU\\parkIT\\Backend\\tests\\test.db'
+
+tests\conftest.py:100: PermissionError</error></testcase><testcase classname="tests.unit.model.test_user_repostiory" name="test_the_is_invalid_method_of_user_repository_missing_username" time="0.037"><error message="failed on teardown with &quot;PermissionError: [WinError 32] El proceso no tiene acceso al archivo porque está siendo utilizado por otro proceso: 'D:\\ProyectosU\\parkIT\\Backend\\tests\\test.db'&quot;">def teardown():
+        drop_db()
+        ctx.pop()
+        if os.path.exists(TEST_DB_PATH):
+&gt;           os.remove(TEST_DB_PATH)
+E           PermissionError: [WinError 32] El proceso no tiene acceso al archivo porque está siendo utilizado por otro proceso: 'D:\\ProyectosU\\parkIT\\Backend\\tests\\test.db'
+
+tests\conftest.py:100: PermissionError</error></testcase><testcase classname="tests.unit.model.test_vehicle_inspection_model" name="test_inspection_photos_round_trip" time="0.053"><error message="failed on teardown with &quot;PermissionError: [WinError 32] El proceso no tiene acceso al archivo porque está siendo utilizado por otro proceso: 'D:\\ProyectosU\\parkIT\\Backend\\tests\\test.db'&quot;">def teardown():
+        drop_db()
+        ctx.pop()
+        if os.path.exists(TEST_DB_PATH):
+&gt;           os.remove(TEST_DB_PATH)
+E           PermissionError: [WinError 32] El proceso no tiene acceso al archivo porque está siendo utilizado por otro proceso: 'D:\\ProyectosU\\parkIT\\Backend\\tests\\test.db'
+
+tests\conftest.py:100: PermissionError</error></testcase><testcase classname="tests.unit.model.test_vehicle_inspection_model" name="test_inspection_to_dict_returns_expected_payload" time="0.029"><error message="failed on teardown with &quot;PermissionError: [WinError 32] El proceso no tiene acceso al archivo porque está siendo utilizado por otro proceso: 'D:\\ProyectosU\\parkIT\\Backend\\tests\\test.db'&quot;">def teardown():
+        drop_db()
+        ctx.pop()
+        if os.path.exists(TEST_DB_PATH):
+&gt;           os.remove(TEST_DB_PATH)
+E           PermissionError: [WinError 32] El proceso no tiene acceso al archivo porque está siendo utilizado por otro proceso: 'D:\\ProyectosU\\parkIT\\Backend\\tests\\test.db'
+
+tests\conftest.py:100: PermissionError</error></testcase><testcase classname="tests.unit.model.test_vehicle_inspection_model" name="test_inspection_handles_invalid_photos_json" time="0.050"><error message="failed on teardown with &quot;PermissionError: [WinError 32] El proceso no tiene acceso al archivo porque está siendo utilizado por otro proceso: 'D:\\ProyectosU\\parkIT\\Backend\\tests\\test.db'&quot;">def teardown():
+        drop_db()
+        ctx.pop()
+        if os.path.exists(TEST_DB_PATH):
+&gt;           os.remove(TEST_DB_PATH)
+E           PermissionError: [WinError 32] El proceso no tiene acceso al archivo porque está siendo utilizado por otro proceso: 'D:\\ProyectosU\\parkIT\\Backend\\tests\\test.db'
+
+tests\conftest.py:100: PermissionError</error></testcase><testcase classname="tests.unit.model.test_vehicle_inspection_model" name="test_speed_alert_to_dict_includes_speed_and_limit" time="0.027"><error message="failed on teardown with &quot;PermissionError: [WinError 32] El proceso no tiene acceso al archivo porque está siendo utilizado por otro proceso: 'D:\\ProyectosU\\parkIT\\Backend\\tests\\test.db'&quot;">def teardown():
+        drop_db()
+        ctx.pop()
+        if os.path.exists(TEST_DB_PATH):
+&gt;           os.remove(TEST_DB_PATH)
+E           PermissionError: [WinError 32] El proceso no tiene acceso al archivo porque está siendo utilizado por otro proceso: 'D:\\ProyectosU\\parkIT\\Backend\\tests\\test.db'
+
+tests\conftest.py:100: PermissionError</error></testcase><testcase classname="tests.unit.model.test_vehicle_model" name="test_create_new_vehicle" time="0.042"><error message="failed on teardown with &quot;PermissionError: [WinError 32] El proceso no tiene acceso al archivo porque está siendo utilizado por otro proceso: 'D:\\ProyectosU\\parkIT\\Backend\\tests\\test.db'&quot;">def teardown():
+        drop_db()
+        ctx.pop()
+        if os.path.exists(TEST_DB_PATH):
+&gt;           os.remove(TEST_DB_PATH)
+E           PermissionError: [WinError 32] El proceso no tiene acceso al archivo porque está siendo utilizado por otro proceso: 'D:\\ProyectosU\\parkIT\\Backend\\tests\\test.db'
+
+tests\conftest.py:100: PermissionError</error></testcase><testcase classname="tests.unit.test_config" name="test_default_config" time="0.001" /><testcase classname="tests.unit.test_config" name="test_production_config" time="0.001" /><testcase classname="tests.unit.test_config" name="test_Development_config" time="0.000" /><testcase classname="tests.unit.test_database" name="test_database_init" time="0.048"><error message="failed on teardown with &quot;PermissionError: [WinError 32] El proceso no tiene acceso al archivo porque está siendo utilizado por otro proceso: 'D:\\ProyectosU\\parkIT\\Backend\\tests\\test.db'&quot;">def teardown():
+        drop_db()
+        ctx.pop()
+        if os.path.exists(TEST_DB_PATH):
+&gt;           os.remove(TEST_DB_PATH)
+E           PermissionError: [WinError 32] El proceso no tiene acceso al archivo porque está siendo utilizado por otro proceso: 'D:\\ProyectosU\\parkIT\\Backend\\tests\\test.db'
+
+tests\conftest.py:100: PermissionError</error></testcase><testcase classname="tests.unit.test_database" name="test_session_shutdown" time="0.026"><error message="failed on setup with &quot;file D:\ProyectosU\parkIT\Backend\tests\unit\test_database.py, line 20&#10;  def test_session_shutdown(app, mocker):&#10;E       fixture 'mocker' not found&#10;&gt;       available fixtures: app, auth, cache, capfd, capfdbinary, caplog, capsys, capsysbinary, capteesys, client, doctest_namespace, monkeypatch, pytestconfig, record_property, record_testsuite_property, record_xml_attribute, recwarn, runner, session, subtests, tmp_path, tmp_path_factory, tmpdir, tmpdir_factory&#10;&gt;       use 'pytest --fixtures [testpath]' for help on them.&#10;&#10;D:\ProyectosU\parkIT\Backend\tests\unit\test_database.py:20&quot;">file D:\ProyectosU\parkIT\Backend\tests\unit\test_database.py, line 20
+  def test_session_shutdown(app, mocker):
+E       fixture 'mocker' not found
+&gt;       available fixtures: app, auth, cache, capfd, capfdbinary, caplog, capsys, capsysbinary, capteesys, client, doctest_namespace, monkeypatch, pytestconfig, record_property, record_testsuite_property, record_xml_attribute, recwarn, runner, session, subtests, tmp_path, tmp_path_factory, tmpdir, tmpdir_factory
+&gt;       use 'pytest --fixtures [testpath]' for help on them.
+
+D:\ProyectosU\parkIT\Backend\tests\unit\test_database.py:20</error><error message="failed on teardown with &quot;PermissionError: [WinError 32] El proceso no tiene acceso al archivo porque está siendo utilizado por otro proceso: 'D:\\ProyectosU\\parkIT\\Backend\\tests\\test.db'&quot;">def teardown():
+        drop_db()
+        ctx.pop()
+        if os.path.exists(TEST_DB_PATH):
+&gt;           os.remove(TEST_DB_PATH)
+E           PermissionError: [WinError 32] El proceso no tiene acceso al archivo porque está siendo utilizado por otro proceso: 'D:\\ProyectosU\\parkIT\\Backend\\tests\\test.db'
+
+tests\conftest.py:100: PermissionError</error></testcase><testcase classname="tests.unit.test_exceptions" name="test_token_not_found_exception" time="0.002" /></testsuite></testsuites>

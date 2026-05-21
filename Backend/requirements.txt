@@ -20,5 +20,6 @@ flask-cors
 
 # Testing
 pytest
+pytest-mock
 coverage
 alchemy-mock

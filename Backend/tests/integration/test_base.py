@@ -26,15 +26,20 @@ def test_acces_an_inexistent_url_returning_404_status_code(client):
     assert response.json['message'] == 'not Found'
 
 
-def test_to_access_a_protected_url_returning_200_status_code(client, auth):
+def test_to_access_a_protected_url_returning_200_status_code(client, session):
     """
     GIVEN a Flask application
     WHEN an protected URL is requested (GET) with a valid authentication
     THEN check the response HTTP 200 response
     """
 
+    # Protected endpoints resolve int(get_jwt_identity()); the token must
+    # carry a real numeric user id, so build one from an actual user.
+    from tests.integration.api.helpers import auth_header, make_cliente
+
+    user = make_cliente('base_protected')
     endpoint = '/account'
-    response = client.get(endpoint, headers=auth['access_token'])
+    response = client.get(endpoint, headers=auth_header(user))
     assert response.status_code == 200
 
 
