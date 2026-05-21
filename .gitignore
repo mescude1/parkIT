@@ -4,3 +4,4 @@ cpenv/
 venv/
 instance/
 MovApp/.idea
+node_modules/

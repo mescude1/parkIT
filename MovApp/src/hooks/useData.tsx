@@ -104,38 +104,80 @@ export const DataProvider = ({ children }: { children: React.ReactNode }) => {
   );
 
   // Login — calls /autho/login, persists token + user, returns success flag
+  // Login — calls /autho/login, persists token + user, returns success flag
   const handleLogin = useCallback(
     async (
       username: string,
       password: string
     ): Promise<{ success: boolean; message?: string }> => {
       setIsLoading(true);
+
       try {
-        const response = await authService.login({ username, password });
-        const { access_token, user: apiUser } = response.data;
-        await Storage.setItem("access_token", access_token);
-        await Storage.setItem("auth_user", JSON.stringify(apiUser));
+        const response = await authService.login({
+          username,
+          password,
+        });
+
+        console.log("LOGIN RESPONSE:", response.data);
+
+        const {
+          access_token,
+          user: apiUser,
+        } = response.data;
+
+        await Storage.setItem(
+          "access_token",
+          access_token
+        );
+
+        await Storage.setItem(
+          "auth_user",
+          JSON.stringify(apiUser)
+        );
+
         setToken(access_token);
         setAuthUser(apiUser);
         setIsAuthenticated(true);
+
         // Register Expo push token for this session
         if (Device.isDevice) {
-          const { status } = await Notifications.getPermissionsAsync();
+          const { status } =
+            await Notifications.getPermissionsAsync();
+
           const finalStatus =
             status === "granted"
               ? status
-              : (await Notifications.requestPermissionsAsync()).status;
+              : (
+                  await Notifications.requestPermissionsAsync()
+                ).status;
+
           if (finalStatus === "granted") {
-            const pushToken = (await Notifications.getExpoPushTokenAsync()).data;
-            await deviceTokenService.register({ token: pushToken }).catch(() => {});
-            await Storage.setItem("push_token", pushToken);
+            const pushToken = (
+              await Notifications.getExpoPushTokenAsync()
+            ).data;
+
+            await deviceTokenService
+              .register({ token: pushToken })
+              .catch(() => {});
+
+            await Storage.setItem(
+              "push_token",
+              pushToken
+            );
           }
         }
+
         return { success: true };
       } catch (error: unknown) {
         const message =
-          error instanceof Error ? error.message : "Login failed";
-        return { success: false, message };
+          error instanceof Error
+            ? error.message
+            : "Login failed";
+
+        return {
+          success: false,
+          message,
+        };
       } finally {
         setIsLoading(false);
       }

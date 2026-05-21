@@ -1,3 +1,4 @@
+// src/screens/Settings.tsx
 import React, { useCallback, useEffect, useState } from "react";
 import { Platform } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
@@ -16,29 +17,24 @@ const Settings = () => {
   const navigation = useNavigation();
   const { assets, colors, sizes } = useTheme();
 
+  const isValet = authUser?.type === "valet";
+
   const [emailNotifications, setEmailNotifications] = useState(false);
 
-  // Auth guard
   useEffect(() => {
-    if (!authUser) {
-      navigation.navigate("Login" as never);
-    }
+    if (!authUser) navigation.navigate("Login" as never);
   }, [authUser, navigation]);
 
-  // Load persisted notification preference
   useEffect(() => {
     AsyncStorage.getItem(NOTIF_KEY).then((val) => {
       if (val !== null) setEmailNotifications(val === "true");
     });
   }, []);
 
-  const toggleNotifications = useCallback(
-    (value: boolean) => {
-      setEmailNotifications(value);
-      AsyncStorage.setItem(NOTIF_KEY, String(value));
-    },
-    []
-  );
+  const toggleNotifications = useCallback((value: boolean) => {
+    setEmailNotifications(value);
+    AsyncStorage.setItem(NOTIF_KEY, String(value));
+  }, []);
 
   if (!authUser) return null;
 
@@ -85,7 +81,7 @@ const Settings = () => {
           </Image>
         </Block>
 
-        {/* Notifications */}
+        {/* Notificaciones — ambos roles */}
         <Block
           card
           flex={0}
@@ -112,39 +108,41 @@ const Settings = () => {
           />
         </Block>
 
-        {/* My Vehicles */}
-        <Button
-          onPress={() => navigation.navigate("VehicleList" as never)}
-        >
-          <Block
-            card
-            flex={0}
-            row
-            align="center"
-            justify="space-between"
-            marginTop={sizes.s}
-            padding={sizes.sm}
-          >
-            <Block row flex={1} align="center">
-              <Ionicons
-                name="car-outline"
-                size={22}
-                color={colors.text}
-                style={{ marginRight: sizes.s }}
-              />
-              <Text p semibold>
-                {t("settings.myVehicles")}
-              </Text>
+        {/*
+        ========================================
+        SECCIÓN CLIENTE (NO MODIFICAR)
+        Esta parte corresponde a la funcionalidad del cliente.
+        Debe mantenerse intacta y organizada.
+        ========================================
+        */}
+        {!isValet && (
+          <Button onPress={() => navigation.navigate("VehicleList" as never)}>
+            <Block
+              card
+              flex={0}
+              row
+              align="center"
+              justify="space-between"
+              marginTop={sizes.s}
+              padding={sizes.sm}
+            >
+              <Block row flex={1} align="center">
+                <Ionicons
+                  name="car-outline"
+                  size={22}
+                  color={colors.text}
+                  style={{ marginRight: sizes.s }}
+                />
+                <Text p semibold>
+                  {t("settings.myVehicles")}
+                </Text>
+              </Block>
+              <Ionicons name="chevron-forward" size={20} color={colors.gray} />
             </Block>
-            <Ionicons
-              name="chevron-forward"
-              size={20}
-              color={colors.gray}
-            />
-          </Block>
-        </Button>
+          </Button>
+        )}
 
-        {/* Payment Methods */}
+        {/* Métodos de pago — ambos roles (coming soon) */}
         <Block
           card
           flex={0}

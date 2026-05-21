@@ -1,14 +1,13 @@
-import React from "react";
+// src/navigation/Screens.tsx
 import { createStackNavigator } from "@react-navigation/stack";
+import React from "react";
 
 import {
   Home,
-  Components,
-  PastServicesList,
-  Articles,
   Profile,
   Register,
   Login,
+  Articles,
   EmailVerification,
   LookingForDriver,
   Settings,
@@ -33,15 +32,12 @@ export default () => {
 
   return (
     <Stack.Navigator screenOptions={screenOptions.stack}>
+
+      {/* ── GENERALES (ambos roles) ─────────────────────────────────── */}
       <Stack.Screen
         name="Home"
         component={Home}
         options={{ title: t("navigation.home") }}
-      />
-      <Stack.Screen
-        name="Ultimos Servicios"
-        component={Articles}
-        options={{ title: t("navigation.past_services_list") }}
       />
       <Stack.Screen
         name="Profile"
@@ -59,6 +55,18 @@ export default () => {
         options={{ headerShown: false, title: t("screens.history") }}
       />
       <Stack.Screen
+        name="Help"
+        component={Help}
+        options={{ headerShown: false, title: t("screens.help") }}
+      />
+      <Stack.Screen
+        name="Chat"
+        component={Chat}
+        options={{ headerShown: false, title: "Chat" }}
+      />
+
+      {/* ── AUTH (sin sesión) ────────────────────────────────────────── */}
+      <Stack.Screen
         name="Register"
         component={Register}
         options={{ headerShown: false, title: t("navigation.register") }}
@@ -74,10 +82,12 @@ export default () => {
         options={{ headerShown: false, title: "Verificar correo" }}
       />
       <Stack.Screen
-        name="LookingForDriver"
-        component={LookingForDriver}
-        options={{ headerShown: false, title: "Buscando conductor" }}
+        name="Ultimos Servicios"
+        component={Articles}
+        options={{ title: t("navigation.past_services_list") }}
       />
+
+      {/* ── CONDUCTOR (valet) ────────────────────────────────────────── */}
       <Stack.Screen
         name="IncomingRequest"
         component={IncomingRequest}
@@ -89,9 +99,27 @@ export default () => {
         options={{ headerShown: false, title: "Servicio activo" }}
       />
       <Stack.Screen
-        name="Help"
-        component={Help}
-        options={{ headerShown: false, title: t("screens.help") }}
+        name="KeyHandover"
+        component={KeyHandover}
+        options={{ headerShown: false, title: "Entrega de llaves" }}
+      />
+      <Stack.Screen
+        name="VehicleInspection"
+        component={VehicleInspection}
+        options={{ headerShown: false, title: "Inspección del vehículo" }}
+      />
+
+      {/*
+      ========================================
+      SECCIÓN CLIENTE (NO MODIFICAR)
+      Esta parte corresponde a la funcionalidad del cliente.
+      Debe mantenerse intacta y organizada.
+      ========================================
+      */}
+      <Stack.Screen
+        name="LookingForDriver"
+        component={LookingForDriver}
+        options={{ headerShown: false, title: "Buscando conductor" }}
       />
       <Stack.Screen
         name="VehicleList"
@@ -104,25 +132,11 @@ export default () => {
         options={{ headerShown: false, title: t("screens.vehicleForm") }}
       />
       <Stack.Screen
-        name="Chat"
-        component={Chat}
-        options={{ headerShown: false, title: "Chat" }}
-      />
-      <Stack.Screen
         name="Belongings"
         component={Belongings}
         options={{ headerShown: false, title: "Pertenencias" }}
       />
-      <Stack.Screen
-        name="KeyHandover"
-        component={KeyHandover}
-        options={{ headerShown: false, title: "Entrega de llaves" }}
-      />
-      <Stack.Screen
-        name="VehicleInspection"
-        component={VehicleInspection}
-        options={{ headerShown: false, title: "Inspección del vehículo" }}
-      />
+
     </Stack.Navigator>
   );
 };

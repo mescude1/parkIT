@@ -1,3 +1,4 @@
+// src/screens/Help.tsx
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import {
   ActivityIndicator,
@@ -30,14 +31,12 @@ const Help = () => {
   const pollRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const inputRef = useRef<TextInput>(null);
 
-  // Auth guard
   useEffect(() => {
     if (!authUser) {
       navigation.navigate("Login" as never);
     }
   }, [authUser, navigation]);
 
-  // Get or create conversation on mount
   useEffect(() => {
     if (!authUser) return;
     let cancelled = false;
@@ -48,7 +47,6 @@ const Help = () => {
         if (!cancelled) {
           const convId = res.conversation.id;
           setConversationId(convId);
-          // Load initial messages
           return chatService.getMessages(convId).then((msgRes: any) => {
             if (!cancelled) {
               setMessages(msgRes.messages ?? []);
@@ -66,7 +64,6 @@ const Help = () => {
     };
   }, [authUser]);
 
-  // Poll for new messages
   useEffect(() => {
     if (!conversationId) return;
 
@@ -105,13 +102,13 @@ const Help = () => {
     setText("");
     setSending(true);
 
-    // Optimistic update
     const tempMsg: IChatMessage = {
       id: Date.now(),
       conversation_id: conversationId,
       sender_id: authUser!.id,
       sender_role: "user",
       message: messageText,
+      attachment_url: null,      // ← fix: campo requerido por IChatMessage
       created_at: new Date().toISOString(),
     };
     setMessages((prev) => [...prev, tempMsg]);
@@ -121,13 +118,11 @@ const Help = () => {
         conversationId,
         messageText
       )) as any;
-      // Replace temp message with server response
       const serverMsg: IChatMessage = res.message;
       setMessages((prev) =>
         prev.map((m) => (m.id === tempMsg.id ? serverMsg : m))
       );
     } catch {
-      // Remove temp message on failure
       setMessages((prev) => prev.filter((m) => m.id !== tempMsg.id));
       setText(messageText);
     } finally {
