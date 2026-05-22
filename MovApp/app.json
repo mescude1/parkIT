@@ -24,20 +24,19 @@
     },
     "android": {
       "package": "com.campusparking.campusparking",
+      "usesCleartextTraffic": true,
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#223577"
-      }
+      },
+      "permissions": [
+        "android.permission.RECORD_AUDIO"
+      ]
     },
     "web": {
       "favicon": "./assets/favicon.png"
     },
-    "extra": {
-      "eas": {
-        "projectId": "056b3869-1d03-4bb1-a4a5-9ebc1f031330"
-      }
-    },
-    "owner": "latincrow81",
+    "owner": "mescude1",
     "plugins": [
       "expo-localization",
       [
@@ -46,6 +45,11 @@
           "photosPermission": "Allow $(PRODUCT_NAME) to access your photos so you can attach vehicle and insurance pictures."
         }
       ]
-    ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "1f2fe410-51d9-443d-b026-855cfbb9c6b5"
+      }
+    }
   }
 }
